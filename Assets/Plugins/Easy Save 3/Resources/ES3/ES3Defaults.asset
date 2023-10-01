@@ -33,9 +33,11 @@ MonoBehaviour:
     - Assembly-CSharp
     - Cinemachine
     - MoreMountains.NiceVibrations.Haptics
+    - ToonyColorsPro.Editor
     - PPv2URPConverters
     - Boxophobic.Utils.Editor
     - MoreMountains.NiceVibrations.Demos
+    - ToonyColorsPro.Runtime
     - Boxophobic.Utils.Scripts
     - Boxophobic.PolyverseSkies.Editor
     - MoreMountains.NiceVibrations

@@ -40,6 +40,7 @@ public class GameManager : MonoSingleton<GameManager>
     private void OnChangeGameState(GameStates newState)
     {
         States = newState;
+       
     }
 
    

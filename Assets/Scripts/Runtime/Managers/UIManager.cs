@@ -57,8 +57,7 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(1);
-            //CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Throw, 1);
-            //CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.Throw);
+            
         }
 
         private void OnOpenWinPanel()
