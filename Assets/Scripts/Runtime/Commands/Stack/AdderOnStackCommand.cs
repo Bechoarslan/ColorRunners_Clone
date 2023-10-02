@@ -22,7 +22,7 @@ namespace Runtime.Commands.Stack
         {
             if (_collectableList.Count <= 0)
             {
-                Debug.LogWarning("Executed ====> AdderOnStackCommand");
+                
                 _collectableList.Add(collectableGameObject);
                 collectableGameObject.transform.SetParent(_stackManager.transform);
                 collectableGameObject.transform.localPosition = new Vector3(0f, 1f, 0.335f);
@@ -30,7 +30,7 @@ namespace Runtime.Commands.Stack
             }
             else
             {
-                Debug.LogWarning("Executed ====> AdderOnStackCommand2");
+             
                 collectableGameObject.transform.SetParent(_stackManager.transform);
                 Vector3 newPos = _collectableList[_collectableList.Count - 1].transform.localPosition;
                 newPos.z -= _stackData.CollectableOffsetInStack;

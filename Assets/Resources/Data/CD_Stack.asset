@@ -17,5 +17,5 @@ MonoBehaviour:
     LerpSpeed: 0.144
     StackAnimDuration: 0.023
     StackScaleValue: 1.46
-    JumpForce: 3.46
+    JumpForce: 1
     JumpItemsClampX: 1

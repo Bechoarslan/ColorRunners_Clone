@@ -61,11 +61,11 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
             StackSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
-            StackSignals.Instance.onStackFollowPlayer += OnStackMove;
+            StackSignals.Instance.onStackFollowPlayer += OnStackFollowPlayer;
            
         }
 
-        private void OnStackMove(Vector2 direction)
+        private void OnStackFollowPlayer(Vector2 direction)
         {
             transform.position = new Vector3(0, collectableObject.transform.position.y, direction.y - 2f);
             if (collectableList.Count > 0)
@@ -76,7 +76,7 @@ namespace Runtime.Managers
 
         private void OnInteractionWithCollectable(GameObject collectableObject)
         {
-            Debug.LogWarning("Executed =====> OnInteractionWithCollectable");
+            
             _adderOnStackCommand.Execute(collectableObject);
             _stackScoreUpdaterCommand.Execute();
             
@@ -87,7 +87,7 @@ namespace Runtime.Managers
         private void UnSubscribeEvents()
         {
             StackSignals.Instance.onInteractionWithCollectable -= OnInteractionWithCollectable;
-            StackSignals.Instance.onStackFollowPlayer -= OnStackMove;
+            StackSignals.Instance.onStackFollowPlayer -= OnStackFollowPlayer;
            
         }
 

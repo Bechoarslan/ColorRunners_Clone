@@ -27,10 +27,10 @@ namespace Runtime.Managers
 
         private void OnCheckCollectableIsCurrent(GameObject collectableGameObject)
         {
-            Debug.LogWarning("Executed ===> OnCheckCollectableIsCurrent");
+            
             if(collectableGameObject != gameObject)
                 return;
-            Debug.LogWarning("Executed =====> Collectable Animation State Change");
+    
             collectableAnimationController.SetAnimationState(PlayerAnimationStates.Run);
 
 
