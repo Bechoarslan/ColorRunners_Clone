@@ -4,6 +4,6 @@ namespace Runtime.Enums
     {
         Idle,
         Run,
-        Hide,
+        HideWalk,
     }
 }

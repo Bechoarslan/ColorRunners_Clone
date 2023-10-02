@@ -1,6 +1,7 @@
 using System;
 using Runtime.Data.ValueObject;
 using Runtime.Keys;
+using Runtime.Managers;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Runtime.Controllers.Player
         #region Serialized Variables
 
         [SerializeField] private new Rigidbody rigidbody;
+        [SerializeField] private PlayerManager manager;
 
         #endregion
 
@@ -82,6 +84,14 @@ namespace Runtime.Controllers.Player
             else
             {
                 Stop();
+            }
+        }
+
+        private void Update()
+        {
+            if (_isReadyToPlay)
+            {
+                manager.SetStackPosition();
             }
         }
 

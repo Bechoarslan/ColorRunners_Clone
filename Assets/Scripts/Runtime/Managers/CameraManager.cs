@@ -1,6 +1,10 @@
+using System;
+using Cinemachine;
 using Runtime.Enums;
 using Runtime.Signals;
 using Signals;
+using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -9,15 +13,24 @@ namespace Runtime.Managers
     {
         #region Self Variables
 
-        #region Serialized Variables
+        #region Private Variables
 
-        [SerializeField] private Animator animator;
+        [ShowInInspector] private float3 _initialPosition;
+        [SerializeField] private CinemachineStateDrivenCamera stateDrivenCamera;
+        [SerializeField] private Animator cameraAnimator;
 
         #endregion
 
         #endregion
+        private void Awake()
+        {
+            Init();
+        }
 
-        #region Event Subscriptions
+        private void Init()
+        {
+            transform.position = _initialPosition;
+        }
 
         private void OnEnable()
         {
@@ -27,30 +40,39 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
             CoreGameSignals.Instance.onReset += OnReset;
+            CameraSignals.Instance.onSetCinemachineTarget += OnSetCinemachineTarget;
             CameraSignals.Instance.onChangeCameraState += OnChangeCameraState;
         }
 
-        private void UnsubscribeEvents()
-        {
-            CoreGameSignals.Instance.onReset -= OnReset;
-            CameraSignals.Instance.onChangeCameraState -= OnChangeCameraState;
-        }
-
-        private void OnDisable()
-        {
-            UnsubscribeEvents();
-        }
-
-        #endregion
-
         private void OnChangeCameraState(CameraStates state)
         {
-            animator.SetTrigger(state.ToString());
+            cameraAnimator.SetTrigger(state.ToString());
+        }
+
+        private void OnSetCinemachineTarget()
+        {
+            var target = GameObject.FindObjectOfType<PlayerManager>().transform;
+            stateDrivenCamera.Follow = target;
+            Debug.LogWarning("Executed ===> OnSetCinemachineTarget");
+
+        }
+        
+        
+
+        private void UnSubscribeEvents()
+        {
+            CoreGameSignals.Instance.onReset -= OnReset;
         }
 
         private void OnReset()
         {
-            CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.Idle);
+            transform.position = _initialPosition;
+            
+        }
+
+        private void OnDisable()
+        {
+            UnSubscribeEvents();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Runtime.Managers
 
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAnimationController animationController;
+        [SerializeField] private PlayerMeshController meshController;
 
         #endregion
 
@@ -91,10 +92,19 @@ namespace Runtime.Managers
             UnSubscribeEvents();
         }
 
+        internal void SetStackPosition()
+        {
+            var position = transform.position;
+            Vector2 pos = new Vector2(position.x, position.z);
+            StackSignals.Instance.onStackFollowPlayer?.Invoke(pos);
+        }
+
 
         private void OnReset()
         {
             movementController.OnReset();
+            animationController.OnReset();
+            
         }
 
     }

@@ -117,7 +117,7 @@ namespace Runtime.Managers
                 {
                     if (_mousePosition != null)
                     {
-                        Debug.Log("Warning");
+                        
                         Vector2 mouseDeltaPos = (Vector2) Input.mousePosition - _mousePosition.Value;
 
 

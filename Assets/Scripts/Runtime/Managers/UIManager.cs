@@ -51,13 +51,15 @@ namespace Runtime.Managers
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 0);
             UISignals.Instance.onSetNewLevelValue?.Invoke((int)levelValue);
+          
         }
 
         public void OnPlay()
         {
             CoreGameSignals.Instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(1);
-            
+            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Run);
+            CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.Idle);
         }
 
         private void OnOpenWinPanel()
