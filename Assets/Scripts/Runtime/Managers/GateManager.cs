@@ -1,4 +1,6 @@
 
+using System;
+using Runtime.Controllers.Gate;
 using Runtime.Signals;
 using UnityEngine;
 
@@ -10,36 +12,40 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialized Variables
-
-        [SerializeField] private new Renderer renderer;
-        [SerializeField] private Color32 gateColor;
-
-        #endregion
-
+        [SerializeField] private GateMeshController gateMeshController;
+        [SerializeField] private Color gateColor;
+        
         #endregion
         
+        #endregion
+
+        private void Awake()
+        {
+            gateMeshController.SetGateColor(gateColor);
+        }
 
         private void OnEnable()
         {
             SubscribeEvents();
-
         }
 
         private void SubscribeEvents()
         {
-            GateSignals.Instance.onGetGateColor += OnGetGateColor;
-            CoreGameSignals.Instance.onPlay += () => GateSignals.Instance.onSetGateColor?.Invoke(gateColor);
+            CoreGameSignals.Instance.onInteractionWithGate += OnInteractionWithGate;
         }
 
-        private Color32 OnGetGateColor()
+        private void OnInteractionWithGate(GameObject gateObject)
         {
-            return renderer.material.color;
+            if (gateObject.GetInstanceID() == gameObject.GetInstanceID())
+            {
+                GateSignals.Instance.onGetGateColor?.Invoke(gateColor);
+            }
+
         }
 
         private void UnSubscribeEvents()
         {
-            GateSignals.Instance.onGetGateColor -= OnGetGateColor;
-            CoreGameSignals.Instance.onPlay -= () => GateSignals.Instance.onSetGateColor?.Invoke(gateColor);
+            CoreGameSignals.Instance.onInteractionWithGate -= OnInteractionWithGate;
         }
 
         private void OnDisable()

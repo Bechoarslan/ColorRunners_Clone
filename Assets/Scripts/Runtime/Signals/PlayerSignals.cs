@@ -1,6 +1,8 @@
+using System.Drawing;
 using Runtime.Enums;
 using Runtime.Extentions;
 using UnityEngine.Events;
+using Color = UnityEngine.Color;
 
 namespace Runtime.Signals
 {
@@ -11,5 +13,12 @@ namespace Runtime.Signals
         
         public UnityAction<PlayerAnimationStates>  onPlayerAnimationChanged = delegate{  };
         public UnityAction<short> onSendStackScoreToPlayerText = delegate{  };
+        
+        
+        
+     
+        
+        
+        
     }
 }

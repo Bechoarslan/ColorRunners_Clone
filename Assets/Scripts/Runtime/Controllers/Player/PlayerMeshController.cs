@@ -12,7 +12,8 @@ namespace Runtime.Controllers.Player
         #region Serialized Variables
 
         [SerializeField] private TextMeshPro stackText;
-
+        [SerializeField] private Renderer playerRenderer;
+        
         #endregion
 
         #endregion
@@ -25,7 +26,14 @@ namespace Runtime.Controllers.Player
         private void SubscribeEvents()
         {
             PlayerSignals.Instance.onSendStackScoreToPlayerText += OnSendStackScoreToPlayerText;
+            GateSignals.Instance.onGetGateColor += OnGetGateColor;
         }
+
+        private void OnGetGateColor(Color arg0)
+        {
+            playerRenderer.material.color = arg0;
+        }
+
 
         private void OnSendStackScoreToPlayerText(short stackValue)
         {
@@ -35,6 +43,8 @@ namespace Runtime.Controllers.Player
         private void UnSubscribeEvents()
         {
             PlayerSignals.Instance.onSendStackScoreToPlayerText -= OnSendStackScoreToPlayerText;
+            GateSignals.Instance.onGetGateColor -= OnGetGateColor;
+           
         }
 
         private void OnDisable()

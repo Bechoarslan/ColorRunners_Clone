@@ -13,6 +13,16 @@ namespace Runtime.Controllers.Player
                 other.tag = "Collected";
                 StackSignals.Instance.onInteractionWithCollectable?.Invoke(other.transform.parent.gameObject);
             }
+
+            if  (other.CompareTag("Gate"))
+            {
+               CoreGameSignals.Instance.onInteractionWithGate?.Invoke(other.transform.parent.gameObject);
+                
+            }
+
+      
+
+           
             
         }
     }

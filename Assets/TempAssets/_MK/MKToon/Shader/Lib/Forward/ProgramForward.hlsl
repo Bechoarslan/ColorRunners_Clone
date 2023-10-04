@@ -162,7 +162,7 @@
 			LightingIndirect(surface, surfaceData, pbsData, light, lightData);
 
 			#if defined(MK_URP) || defined(MK_LWRP)
-				#if UNITY_VERSION >= 202120
+				#if UNITY_VERSION <= 202120
 					uint meshRenderingLayers = GetMeshRenderingLightLayer();
 					if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 					{
