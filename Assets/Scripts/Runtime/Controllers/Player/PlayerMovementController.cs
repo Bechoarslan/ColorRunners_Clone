@@ -44,15 +44,22 @@ namespace Runtime.Controllers.Player
         {
             PlayerSignals.Instance.onPlayConditionChanged += OnPlayConditionChanged;
             PlayerSignals.Instance.onMoveConditionChanged += OnMoveConditionChanged;
+           
         }
+
+       
+
 
         private void OnMoveConditionChanged(bool condition) => _isReadyToMove = condition;
         private void OnPlayConditionChanged(bool condition) => _isReadyToPlay = condition;
+        
+        
 
         private void UnSubscribeEvents()
         {
             PlayerSignals.Instance.onPlayConditionChanged -= OnPlayConditionChanged;
             PlayerSignals.Instance.onMoveConditionChanged -= OnMoveConditionChanged;
+           
         }
 
         private void OnDisable()
@@ -71,6 +78,7 @@ namespace Runtime.Controllers.Player
         {
             if (_isReadyToPlay)
             {
+                
                 if (_isReadyToMove)
                 {
                     Move();
@@ -79,7 +87,6 @@ namespace Runtime.Controllers.Player
                 {
                     StopSideways();
                 }
-                
             }
             else
             {
@@ -123,6 +130,11 @@ namespace Runtime.Controllers.Player
             Stop();
             _isReadyToMove = false;
             _isReadyToPlay = false;
+        }
+
+        public void SetForwardSpeed(float movementDataForwardSpeed)
+        {
+            _data.ForwardSpeed = movementDataForwardSpeed;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums;
 using Runtime.Keys;
 using Runtime.Signals;
 using UnityEngine;
@@ -59,9 +60,13 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelFailed +=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             CoreGameSignals.Instance.onReset += OnReset;
+            
         }
 
-       
+        
+
+
+
         private void OnPlay()
         {
             PlayerSignals.Instance.onPlayConditionChanged?.Invoke(true);
@@ -72,6 +77,9 @@ namespace Runtime.Managers
         {
             movementController.UpdateInputValue(inputValues);
         }
+        
+       
+
 
         private void UnSubscribeEvents()
         {

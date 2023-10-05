@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15fdaf9bbe114483af7ce0fe40dfe573, type: 3}
-  m_Name: CD_Stack
+  m_Script: {fileID: 11500000, guid: 0e5fd24284e54e55a7def98f7d19d330, type: 3}
+  m_Name: CD_Color
   m_EditorClassIdentifier: 
   Data:
-    CollectableOffsetInStack: 0.8
-    LerpSpeed: 0.144
-    StackAnimDuration: 0.023
-    StackScaleValue: 1.46
-    JumpForce: 1
-    JumpItemsClampX: 1
+  - {material: {fileID: 0}}

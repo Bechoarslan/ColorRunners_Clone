@@ -1,5 +1,7 @@
 
 using System;
+using Runtime.Commands;
+using Runtime.Commands.Gate;
 using Runtime.Controllers.Gate;
 using Runtime.Signals;
 using UnityEngine;
@@ -12,16 +14,29 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialized Variables
-        [SerializeField] private GateMeshController gateMeshController;
+
+        [SerializeField] private Renderer gateRenderer;
         [SerializeField] private Color gateColor;
         
+        #endregion
+
+        #region Private Variables
+
+        private GateChangeColorCommand _gateChangeColorCommand;
+
         #endregion
         
         #endregion
 
         private void Awake()
         {
-            gateMeshController.SetGateColor(gateColor);
+            Init();
+        }
+
+        private void Init()
+        {
+            _gateChangeColorCommand = new GateChangeColorCommand(ref gateRenderer);
+            _gateChangeColorCommand.Execute(gateColor);
         }
 
         private void OnEnable()

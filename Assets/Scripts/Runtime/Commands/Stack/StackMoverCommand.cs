@@ -17,7 +17,7 @@ namespace Runtime.Commands.Stack
         public void Execute(float directionX, List<GameObject> collectableStack)
         {
             float direct = Mathf.Lerp(collectableStack[0].transform.position.x, directionX, _stackData.LerpSpeed);
-            collectableStack[0].transform.localPosition = new Vector3(direct, 1f, 0.335f);
+            collectableStack[0].transform.localPosition = new Vector3(direct, 0.053f, 0.335f);
             StackItemsLerpMove(collectableStack);
             
         }

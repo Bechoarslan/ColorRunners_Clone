@@ -10,6 +10,7 @@ namespace Runtime.Signals
     {
         public UnityAction<bool> onPlayConditionChanged = delegate{  };
         public UnityAction<bool> onMoveConditionChanged = delegate{  };
+        public UnityAction<bool> onAvailableForMovementConditionChanged = delegate{  };
         
         public UnityAction<PlayerAnimationStates>  onPlayerAnimationChanged = delegate{  };
         public UnityAction<short> onSendStackScoreToPlayerText = delegate{  };

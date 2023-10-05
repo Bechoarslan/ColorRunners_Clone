@@ -47,6 +47,7 @@ namespace Runtime.Managers
         private void OnChangeCameraState(CameraStates state)
         {
             cameraAnimator.SetTrigger(state.ToString());
+            Debug.LogWarning("Executed ===>OnChangeCameraState");
         }
 
         private void OnSetCinemachineTarget()
@@ -62,6 +63,8 @@ namespace Runtime.Managers
         private void UnSubscribeEvents()
         {
             CoreGameSignals.Instance.onReset -= OnReset;
+             CameraSignals.Instance.onSetCinemachineTarget -= OnSetCinemachineTarget;
+            CameraSignals.Instance.onChangeCameraState -= OnChangeCameraState;
         }
 
         private void OnReset()

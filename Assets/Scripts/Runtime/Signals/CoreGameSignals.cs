@@ -23,5 +23,8 @@ namespace Runtime.Signals
         
         
         public UnityAction<GameObject> onInteractionWithGate = delegate {  };
+        
+       
+        
     }
 }

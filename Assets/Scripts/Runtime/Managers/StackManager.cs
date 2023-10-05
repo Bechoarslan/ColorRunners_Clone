@@ -62,12 +62,16 @@ namespace Runtime.Managers
         {
             StackSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
             StackSignals.Instance.onStackFollowPlayer += OnStackFollowPlayer;
+            
+           
            
         }
 
+       
+
         private void OnStackFollowPlayer(Vector2 direction)
         {
-            transform.position = new Vector3(0, collectableObject.transform.position.y, direction.y - 2f);
+            transform.position = new Vector3(0, collectableObject.transform.position.y, direction.y - 1.2f);
             if (collectableList.Count > 0)
             {
                 _stackMoverCommand.Execute(direction.x, collectableList);

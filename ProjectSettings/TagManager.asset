@@ -7,12 +7,13 @@ TagManager:
   - Collectable
   - Collected
   - Gate
-  - Gate1
+  - CorrectTurretGround
+  - FalseTurretGround
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - 
