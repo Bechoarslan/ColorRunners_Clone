@@ -47,14 +47,14 @@ namespace Runtime.Managers
         private void OnChangeCameraState(CameraStates state)
         {
             cameraAnimator.SetTrigger(state.ToString());
-            Debug.LogWarning("Executed ===>OnChangeCameraState");
+            
         }
 
         private void OnSetCinemachineTarget()
         {
             var target = GameObject.FindObjectOfType<PlayerManager>().transform;
             stateDrivenCamera.Follow = target;
-            Debug.LogWarning("Executed ===> OnSetCinemachineTarget");
+           
 
         }
         

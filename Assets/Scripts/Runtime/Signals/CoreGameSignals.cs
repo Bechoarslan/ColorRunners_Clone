@@ -24,6 +24,12 @@ namespace Runtime.Signals
         
         public UnityAction<GameObject> onInteractionWithGate = delegate {  };
         
+        public UnityAction<GameObject> onInteractionWithColorCheckArea = delegate {  };
+        public UnityAction<GameObject> onInteractionWithMiniGameArea = delegate {  };
+        public UnityAction onExitInteractionWithMiniGameArea = delegate {  };
+        
+      
+        
        
         
     }

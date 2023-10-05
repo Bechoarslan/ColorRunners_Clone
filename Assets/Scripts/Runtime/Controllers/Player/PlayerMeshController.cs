@@ -1,5 +1,6 @@
 using System;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
@@ -27,11 +28,19 @@ namespace Runtime.Controllers.Player
         {
             PlayerSignals.Instance.onSendStackScoreToPlayerText += OnSendStackScoreToPlayerText;
             GateSignals.Instance.onGetGateColor += OnGetGateColor;
+            PlayerSignals.Instance.onGetPlayerColor += OnGetPlayerColor;
         }
 
-        private void OnGetGateColor(Color arg0)
+        
+        private Color OnGetPlayerColor()
         {
-            playerRenderer.material.color = arg0;
+            return playerRenderer.material.color;
+        }
+
+        
+        private void OnGetGateColor(Color value)
+        {
+            playerRenderer.material.color = value;
         }
 
 
@@ -44,12 +53,16 @@ namespace Runtime.Controllers.Player
         {
             PlayerSignals.Instance.onSendStackScoreToPlayerText -= OnSendStackScoreToPlayerText;
             GateSignals.Instance.onGetGateColor -= OnGetGateColor;
-           
+            PlayerSignals.Instance.onGetPlayerColor -= OnGetPlayerColor;
+
         }
 
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
+
+
+        
     }
 }

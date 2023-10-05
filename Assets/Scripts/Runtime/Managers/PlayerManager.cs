@@ -60,11 +60,35 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelFailed +=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             CoreGameSignals.Instance.onReset += OnReset;
-            
+            MiniGameSignals.Instance.onGetMiniGameType += OnGetMiniGameType;
+            CoreGameSignals.Instance.onExitInteractionWithMiniGameArea += OnExitInteractionWithMiniGameArea;
+
+
         }
 
-        
+        private void OnExitInteractionWithMiniGameArea()
+        {
+            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Run);
+            movementController.SetForwardSpeed(_data.MovementData.NormalSpeed);
+        }
 
+        private void OnGetMiniGameType(MiniGameType miniGameType)
+        {
+            if (miniGameType == MiniGameType.Turret)
+            {
+               
+                PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.HideWalk);
+                movementController.SetForwardSpeed(_data.MovementData.SlowSpeed);
+
+
+
+            }
+
+            if (miniGameType == MiniGameType.Drone)
+            {
+                PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.HideWalk);
+            }
+        }
 
 
         private void OnPlay()
@@ -92,7 +116,9 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelFailed -=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             CoreGameSignals.Instance.onReset -= OnReset;
-            
+            MiniGameSignals.Instance.onGetMiniGameType -= OnGetMiniGameType;
+            CoreGameSignals.Instance.onExitInteractionWithMiniGameArea -= OnExitInteractionWithMiniGameArea;
+
         }
 
         private void OnDisable()

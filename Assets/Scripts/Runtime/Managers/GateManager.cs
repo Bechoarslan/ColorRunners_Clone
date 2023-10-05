@@ -1,8 +1,11 @@
 
 using System;
+using System.Collections.Generic;
 using Runtime.Commands;
 using Runtime.Commands.Gate;
 using Runtime.Controllers.Gate;
+using Runtime.Data.UnityObject;
+using Runtime.Data.ValueObject;
 using Runtime.Signals;
 using UnityEngine;
 
@@ -16,27 +19,33 @@ namespace Runtime.Managers
         #region Serialized Variables
 
         [SerializeField] private Renderer gateRenderer;
-        [SerializeField] private Color gateColor;
+        [SerializeField] private int gateId;
         
         #endregion
 
         #region Private Variables
 
         private GateChangeColorCommand _gateChangeColorCommand;
-
+        private ColorData _colorData;
+        private readonly string _colorDataPath = "Data/CD_Color";
+        
         #endregion
         
         #endregion
 
         private void Awake()
         {
+            _colorData = GetColorData();
             Init();
         }
+
+        private ColorData GetColorData() => Resources.Load<CD_Color>(_colorDataPath).gateColors[gateId];
+       
 
         private void Init()
         {
             _gateChangeColorCommand = new GateChangeColorCommand(ref gateRenderer);
-            _gateChangeColorCommand.Execute(gateColor);
+            _gateChangeColorCommand.Execute(_colorData.material);
         }
 
         private void OnEnable()
@@ -53,7 +62,7 @@ namespace Runtime.Managers
         {
             if (gateObject.GetInstanceID() == gameObject.GetInstanceID())
             {
-                GateSignals.Instance.onGetGateColor?.Invoke(gateColor);
+                GateSignals.Instance.onGetGateColor?.Invoke(_colorData.material.color);
             }
 
         }

@@ -10,9 +10,10 @@ namespace Runtime.Commands.Gate
             _gateRenderer = gateRenderer;
         }
 
-        public void Execute(Color gateColor)
+
+        public void Execute(Material colorDataMaterial)
         {
-            _gateRenderer.material.color = gateColor;
+            _gateRenderer.material = colorDataMaterial;
         }
     }
 }

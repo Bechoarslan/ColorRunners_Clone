@@ -1,6 +1,9 @@
 
 using System.Collections;
 using Runtime.Commands.Collectable;
+using Runtime.Controllers;
+using Runtime.Data.UnityObject;
+using Runtime.Data.ValueObject;
 using Runtime.Enums;
 using Runtime.Signals;
 using UnityEngine;
@@ -13,17 +16,22 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialized Variables
-
-
-
-        [SerializeField] private Renderer collectableRenderer;
+        private Color _collectableRenderer;
         [SerializeField] private Animator collectableAnimator;
-
+        [SerializeField] private int collectableColorId;
         #endregion
 
         #region Serialized Variables
 
-        private CollectableChangeColorCommand _collectableChangeColorCommand;
+        [SerializeField] private CollectableMeshController collectableMeshController;
+        
+
+        #endregion
+
+        #region Private Variables
+
+        private ColorData _colorData;
+        private readonly string _colorDataPath = "Data/CD_Color";
         private CollectableAnimationCommand _collectableAnimationCommand;
 
         #endregion
@@ -32,12 +40,20 @@ namespace Runtime.Managers
 
         private void Awake()
         {
+            _colorData = GetColorData();
+            SendDataToMesh();
             Init();
         }
 
+        private ColorData GetColorData() =>
+            Resources.Load<CD_Color>("Data/CD_Color").collectableColors[collectableColorId];
+        private void SendDataToMesh()
+        {
+            collectableMeshController.GetColorData(_colorData);
+        }
+        
         private void Init()
         {
-            _collectableChangeColorCommand = new CollectableChangeColorCommand(ref collectableRenderer);
             _collectableAnimationCommand = new CollectableAnimationCommand(ref collectableAnimator);
         }
 
@@ -50,23 +66,31 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
             CollectableSignals.Instance.onCheckCollectableIsCurrent += OnCheckCollectableIsCurrent;
-            GateSignals.Instance.onGetGateColor += SetCollactableColor;
+            GateSignals.Instance.onGetGateColor += collectableMeshController.SetGateColorForCollectable;
+            MiniGameSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
+            MiniGameSignals.Instance.onExitInteractionWithCollectable += OnExitInteractionWithCollectable;
             
             
+            
         }
-        
 
-        private void SetCollactableColor(Color value)
+        private void OnExitInteractionWithCollectable(GameObject collectableObject)
         {
-            _collectableChangeColorCommand.Execute(value);
+            if (collectableObject.GetInstanceID() == gameObject.GetInstanceID())
+            {
+                _collectableAnimationCommand.Execute(PlayerAnimationStates.Run);
+                
+            }
         }
 
-        private void UnSubscribeEvents()
+        private void OnInteractionWithCollectable(GameObject collectableObject)
         {
-            CollectableSignals.Instance.onCheckCollectableIsCurrent -= OnCheckCollectableIsCurrent;
-            GateSignals.Instance.onGetGateColor -= SetCollactableColor;
+            if (collectableObject.GetInstanceID() == gameObject.GetInstanceID())
+            {
+                _collectableAnimationCommand.Execute(PlayerAnimationStates.HideWalk);
+                
+            }
         }
-
         private void OnCheckCollectableIsCurrent(GameObject collectableGameObject)
         {
 
@@ -78,6 +102,19 @@ namespace Runtime.Managers
 
         }
 
+        
+
+        
+
+        private void UnSubscribeEvents()
+        {
+            CollectableSignals.Instance.onCheckCollectableIsCurrent -= OnCheckCollectableIsCurrent;
+            GateSignals.Instance.onGetGateColor -= collectableMeshController.SetGateColorForCollectable;
+            MiniGameSignals.Instance.onInteractionWithCollectable -= OnInteractionWithCollectable;
+            MiniGameSignals.Instance.onExitInteractionWithCollectable -= OnExitInteractionWithCollectable;
+        }
+
+        
         
 
         private void OnDisable()

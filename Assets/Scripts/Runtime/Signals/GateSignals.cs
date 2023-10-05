@@ -12,6 +12,7 @@ namespace Runtime.Signals
     {
         
        public UnityAction<Color> onGetGateColor = delegate {  };
+       
         
     }
 }

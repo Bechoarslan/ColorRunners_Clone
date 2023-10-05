@@ -9,8 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e5fd24284e54e55a7def98f7d19d330, type: 3}
+  m_Script: {fileID: 11500000, guid: 07bca388e45e488c9c49c298abfea7f6, type: 3}
   m_Name: CD_Color
   m_EditorClassIdentifier: 
-  Data:
-  - {material: {fileID: 0}}
+  gateColors:
+  - material: {fileID: 2100000, guid: 5435902ea14a8cc42b7caf4d834e74f1, type: 2}
+  - material: {fileID: 2100000, guid: c0edc414db85cd347bb2e7230993b2cb, type: 2}
+  - material: {fileID: 2100000, guid: c45f618e85725434699a65046abfaa83, type: 2}
+  - material: {fileID: 2100000, guid: 219ea57648b76ef408cc351538e9e6b6, type: 2}
+  groundAreaColors:
+  - material: {fileID: 2100000, guid: 1510e39a0a97d1145b931555baaccfea, type: 2}
+  - material: {fileID: 2100000, guid: 00c1c6c85bd92d44ba90da9cafa83634, type: 2}
+  - material: {fileID: 2100000, guid: 20df2feea9d8ee945a1a13f5cd4fe937, type: 2}
+  - material: {fileID: 2100000, guid: 00315601d90b65648931ad07c5f966a6, type: 2}
+  collectableColors:
+  - material: {fileID: 2100000, guid: 00315601d90b65648931ad07c5f966a6, type: 2}

@@ -132,9 +132,10 @@ namespace Runtime.Controllers.Player
             _isReadyToPlay = false;
         }
 
-        public void SetForwardSpeed(float movementDataForwardSpeed)
+
+        public void SetForwardSpeed(float movementDataSlowSpeed)
         {
-            _data.ForwardSpeed = movementDataForwardSpeed;
+            _data.ForwardSpeed = movementDataSlowSpeed;
         }
     }
 }
