@@ -17,7 +17,12 @@ namespace Runtime.Signals
         public UnityAction<short> onSendStackScoreToPlayerText = delegate{  };
         
         
+        
         public Func<Color> onGetPlayerColor = delegate{ return Color.white; };
+        public UnityAction onPlayerSettledToMiniGameArea = delegate {  };
+        public UnityAction onPlayerExitMiniGameArea = delegate {  };
+        
+        
         
         
         

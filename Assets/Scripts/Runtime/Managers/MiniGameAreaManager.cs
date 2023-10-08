@@ -1,22 +1,19 @@
-﻿using System;
-using Runtime.Enums;
+﻿using Runtime.Enums;
 using Runtime.Signals;
 using UnityEngine;
 
-namespace Runtime.Controllers.MiniGame
+namespace Runtime.Managers
 {
     public class MiniGameAreaManager : MonoBehaviour
     {
         #region Self Variables
 
         #region Serialized Variables
-
         [SerializeField] private MiniGameType miniGameType;
         [SerializeField] private GameObject turret;
         [SerializeField] private GameObject drone;
-
         #endregion
-
+        
         #endregion
 
         private void Awake()
@@ -48,7 +45,7 @@ namespace Runtime.Controllers.MiniGame
         {
             CoreGameSignals.Instance.onInteractionWithMiniGameArea += OnInteractionWithMiniGameArea;
         }
-
+        
         private void OnInteractionWithMiniGameArea(GameObject miniGameArea)
         {
             if (miniGameArea.GetInstanceID() == gameObject.GetInstanceID())

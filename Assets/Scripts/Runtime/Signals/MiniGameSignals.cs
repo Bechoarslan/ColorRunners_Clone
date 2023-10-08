@@ -1,4 +1,5 @@
-﻿using Runtime.Enums;
+﻿using System;
+using Runtime.Enums;
 using Runtime.Extentions;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,5 +11,6 @@ namespace Runtime.Signals
         public UnityAction<MiniGameType> onGetMiniGameType = delegate{  };
         public UnityAction<GameObject> onInteractionWithCollectable = delegate {  };
         public UnityAction<GameObject> onExitInteractionWithCollectable = delegate {  };
+        
     }
 }

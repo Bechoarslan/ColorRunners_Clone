@@ -4,9 +4,11 @@ using Runtime.Commands.ColorCheck;
 using Runtime.Controllers.ColorArea;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.Managers
 {
@@ -15,17 +17,15 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialize Variables
-        [SerializeField] private int colorCheckAreaId;
-        [SerializeField] private ColorAreaMeshController _colorAreaMeshController;
-
+        [SerializeField] private int colorCheckAreaId; 
+        [SerializeField] private ColorAreaMeshController colorAreaMeshController;
+        [SerializeField] private Transform miniGameHolder;
         #endregion
 
         #region Private Variables
         private ColorData _colorData;
         private readonly string _colorDataPath = "Data/CD_Color";
         [ShowInInspector] private bool _isPlayerColorCorrect;
-        
-        
         #endregion
 
         #endregion
@@ -40,8 +40,7 @@ namespace Runtime.Managers
 
         private void SendColorDataToMesh()
         {
-            _colorAreaMeshController.GetColorData(_colorData);
-            
+            colorAreaMeshController.GetColorData(_colorData);
         }
 
         private void OnEnable()
@@ -53,8 +52,10 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onInteractionWithColorCheckArea += OnInteractionWithColorCheckArea;
             ColorAreaSignals.Instance.onIsPlayerColorCorrect += OnIsPlayerColorCorrect;
+           
         }
 
+        
         private void OnIsPlayerColorCorrect(bool condition)
         {
             _isPlayerColorCorrect = condition;
@@ -65,7 +66,8 @@ namespace Runtime.Managers
         {
             if (colorCheckObject.GetInstanceID() == gameObject.GetInstanceID())
             {
-                _colorAreaMeshController.CheckPlayerColor(PlayerSignals.Instance.onGetPlayerColor.Invoke());
+                colorAreaMeshController.CheckPlayerColor(PlayerSignals.Instance.onGetPlayerColor.Invoke());
+                ColorAreaSignals.Instance.onSendMiniGameHolder?.Invoke(miniGameHolder);
             }
         }
         private void UnSubscribeEvents()
@@ -78,6 +80,7 @@ namespace Runtime.Managers
         {
             UnSubscribeEvents();
         }
+
 
         
     }

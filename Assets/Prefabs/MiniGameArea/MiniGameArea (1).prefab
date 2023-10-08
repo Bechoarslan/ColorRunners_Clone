@@ -32,6 +32,7 @@ Transform:
   m_Children:
   - {fileID: 8177994496562302561}
   - {fileID: 1849858337156008163}
+  - {fileID: 1618515881220727176}
   m_Father: {fileID: 7899158116134879824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4880595408643881397
@@ -47,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorCheckAreaId: 1
-  _colorAreaMeshController: {fileID: 5230160353349174931}
+  colorAreaMeshController: {fileID: 5230160353349174931}
+  miniGameHolder: {fileID: 1618515881220727176}
 --- !u!1 &2023907506711088201
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,8 +101,39 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 0.6373313, z: 6.420889}
-  m_Center: {x: 0, y: -0.13366565, z: 0}
+  m_Size: {x: 3, y: 0.6373313, z: 6.550702}
+  m_Center: {x: 0, y: -0.13366565, z: -0.06490648}
+--- !u!1 &2178818930637785334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2315885221110282747}
+  m_Layer: 0
+  m_Name: MiniGameHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2315885221110282747
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2178818930637785334}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6268664540930090821}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5139901805706721697
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +239,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 0.6373313, z: 6.420889}
   m_Center: {x: 0, y: -0.13366565, z: 0}
+--- !u!1 &5221546946525569199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1618515881220727176}
+  m_Layer: 0
+  m_Name: MiniGameHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1618515881220727176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5221546946525569199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.05}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 218227366592278452}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5892338168543408667
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,8 +419,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.561216, y: 5.766393, z: 6.4895}
-  m_Center: {x: -0.041425705, y: 2.3831966, z: 0.088409424}
+  m_Size: {x: 9.561216, y: 5.766393, z: 6.485985}
+  m_Center: {x: -0.041425705, y: 2.3831966, z: -0.17258346}
 --- !u!114 &6324535123123031145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +562,7 @@ Transform:
   m_Children:
   - {fileID: 5086446833341005433}
   - {fileID: 4501971028874388705}
+  - {fileID: 2315885221110282747}
   m_Father: {fileID: 7899158116134879824}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1572784894380223458
@@ -513,7 +578,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   colorCheckAreaId: 0
-  _colorAreaMeshController: {fileID: 768556350569796742}
+  colorAreaMeshController: {fileID: 768556350569796742}
+  miniGameHolder: {fileID: 2315885221110282747}
 --- !u!1001 &3015652556710544239
 PrefabInstance:
   m_ObjectHideFlags: 0

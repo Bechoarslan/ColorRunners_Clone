@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
@@ -25,6 +26,7 @@ namespace Runtime.Managers
 
         private PlayerData _data;
         private readonly string _dataPath = "Data/CD_Player";
+        private Transform _miniGameHolder;
 
         #endregion
 
@@ -62,9 +64,17 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset += OnReset;
             MiniGameSignals.Instance.onGetMiniGameType += OnGetMiniGameType;
             CoreGameSignals.Instance.onExitInteractionWithMiniGameArea += OnExitInteractionWithMiniGameArea;
+            ColorAreaSignals.Instance.onSendMiniGameHolder += OnSendMiniGameHolder;
 
 
         }
+
+        private void OnSendMiniGameHolder(Transform miniGameHolder)
+        {
+            _miniGameHolder = miniGameHolder;
+            
+        }
+
 
         private void OnExitInteractionWithMiniGameArea()
         {
@@ -79,14 +89,15 @@ namespace Runtime.Managers
                
                 PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.HideWalk);
                 movementController.SetForwardSpeed(_data.MovementData.SlowSpeed);
-
-
-
+                
             }
 
             if (miniGameType == MiniGameType.Drone)
             {
-                PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.HideWalk);
+                PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
+                movementController.SetPositionToMiniGameHolder(_miniGameHolder);
+                
+                
             }
         }
 
@@ -115,10 +126,10 @@ namespace Runtime.Managers
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(true);
             CoreGameSignals.Instance.onLevelFailed -=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
-            CoreGameSignals.Instance.onReset -= OnReset;
-            MiniGameSignals.Instance.onGetMiniGameType -= OnGetMiniGameType;
             CoreGameSignals.Instance.onExitInteractionWithMiniGameArea -= OnExitInteractionWithMiniGameArea;
-
+            MiniGameSignals.Instance.onGetMiniGameType -= OnGetMiniGameType;
+            CoreGameSignals.Instance.onReset -= OnReset;
+            
         }
 
         private void OnDisable()

@@ -7,6 +7,8 @@ using Runtime.Data.ValueObject;
 using Runtime.Enums;
 using Runtime.Signals;
 using UnityEngine;
+using UnityEngine.Rendering;
+using Random = System.Random;
 
 namespace Runtime.Managers
 {
@@ -19,6 +21,7 @@ namespace Runtime.Managers
         private Color _collectableRenderer;
         [SerializeField] private Animator collectableAnimator;
         [SerializeField] private int collectableColorId;
+        [SerializeField] private float waitForSeconds;
         #endregion
 
         #region Serialized Variables
@@ -72,7 +75,11 @@ namespace Runtime.Managers
             
             
             
+            
         }
+
+        
+
 
         private void OnExitInteractionWithCollectable(GameObject collectableObject)
         {
@@ -112,6 +119,7 @@ namespace Runtime.Managers
             GateSignals.Instance.onGetGateColor -= collectableMeshController.SetGateColorForCollectable;
             MiniGameSignals.Instance.onInteractionWithCollectable -= OnInteractionWithCollectable;
             MiniGameSignals.Instance.onExitInteractionWithCollectable -= OnExitInteractionWithCollectable;
+
         }
 
         

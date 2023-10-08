@@ -1,12 +1,16 @@
-using System;
+
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Runtime.Commands.Stack;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
 using Runtime.Signals;
-using Sirenix.OdinValidator.Editor;
+using Sirenix.OdinInspector;
 using UnityEngine;
+
+
 
 namespace Runtime.Managers
 {
@@ -17,20 +21,22 @@ namespace Runtime.Managers
         #region Serialize Variables
 
         [SerializeField] private GameObject collectableObject;
+        [SerializeField] private float waitForSecond;
 
         #endregion
 
         #region Private Variables
 
-        private List<GameObject> collectableList = new List<GameObject>();
+        [ShowInInspector]private List<GameObject> collectableList = new List<GameObject>();
         private StackData _stackData;
         private readonly string _stackDataPath = "Data/CD_Stack";
 
         private StackMoverCommand _stackMoverCommand;
         private AdderOnStackCommand _adderOnStackCommand;
         private StackScoreUpdaterCommand _stackScoreUpdaterCommand;
+        [ShowInInspector] private int _stackScore;
+        private Transform _miniGameHolder;
         
-      
 
         #endregion
 
@@ -62,12 +68,59 @@ namespace Runtime.Managers
         {
             StackSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
             StackSignals.Instance.onStackFollowPlayer += OnStackFollowPlayer;
+            ColorAreaSignals.Instance.onSendMiniGameHolder += OnSendMiniGameHolder;
+            PlayerSignals.Instance.onPlayerSettledToMiniGameArea += OnPlayerSettledToMiniGameArea;
+            PlayerSignals.Instance.onPlayerExitMiniGameArea += OnPlayerExitMiniGameArea;
             
-           
-           
         }
 
-       
+        private void OnPlayerExitMiniGameArea()
+        {
+            StartCoroutine(SetPosition());
+        }
+
+        private void OnPlayerSettledToMiniGameArea()
+        {
+            StartCoroutine(MoveToMiniGameHolder(1f));
+        }
+
+        private void OnSendMiniGameHolder(Transform miniGameHolder) => _miniGameHolder = miniGameHolder;
+        
+        private IEnumerator MoveToMiniGameHolder(float f)
+        {
+            for (int i = 6; i < collectableList.Count; i++)
+            {
+                var playerPos = collectableList[i].transform.position;
+                var holderPos = collectableList[Random.Range(1, 4)].transform.position;
+                var targetPosition = new Vector3(holderPos.x, playerPos.y, holderPos.z);
+                Tweener tweener = collectableList[i].transform.DOMove(targetPosition, f);
+                yield return tweener.WaitForCompletion();
+                
+
+
+
+            }
+           
+           
+
+
+        }
+
+        [Button]
+        private IEnumerator SetPosition()
+        {
+            for (int i = 6; i < collectableList.Count; i++)
+            {
+                Vector3 newPos = collectableList[i - 1].transform.localPosition;
+                newPos.z -= 0.8f;
+               Tweener tween = collectableList[i].transform.DOLocalMove(newPos, 0.2f);
+               yield return tween.WaitForCompletion();
+               
+            }
+            
+            
+            
+        }
 
         private void OnStackFollowPlayer(Vector2 direction)
         {
