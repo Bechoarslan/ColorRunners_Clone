@@ -2,6 +2,7 @@ using System;
 using Runtime.Enums;
 using Runtime.Extentions;
 using Runtime.Keys;
+using Runtime.Managers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -22,6 +23,7 @@ namespace Runtime.Signals
         public Func<int> onGetLevelID = delegate { return 0; };
         
         public UnityAction<GameObject> onPlayerInteractionWithGate = delegate{  };
+        public UnityAction<GameObject> onPlayerInteractionWithColorCheckArea = delegate {  };
         
       
         

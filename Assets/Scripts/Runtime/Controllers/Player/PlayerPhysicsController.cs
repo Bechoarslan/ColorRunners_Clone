@@ -32,6 +32,11 @@ namespace Runtime.Controllers.Player
             {
                 CoreGameSignals.Instance.onPlayerInteractionWithGate?.Invoke(other.transform.parent.gameObject);
             }
+
+            if (other.CompareTag(_colorCheckArea))
+            {
+                CoreGameSignals.Instance.onPlayerInteractionWithColorCheckArea?.Invoke(other.transform.parent.gameObject);
+            }
         }
     }
 }

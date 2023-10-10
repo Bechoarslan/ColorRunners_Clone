@@ -25,16 +25,16 @@ namespace Runtime.Commands.Stack
             }
             else
             {
-                collectableGameObject.SetActive(false);
                 var destroyedObject= _stackList[^1];
                 _stackList.Remove(destroyedObject);
-                _stackList.TrimExcess();
+                collectableGameObject.SetActive(false);
                 collectableAnimationCommand.Execute(ref destroyedObject, PlayerAnimationStates.Died);
                 destroyedObject.transform.SetParent(_levelHolder.transform);
                 DOVirtual.DelayedCall(1.5f, () =>
                 {
                     destroyedObject.SetActive(false);
                 });
+                _stackList.TrimExcess();
             }
         }
     }

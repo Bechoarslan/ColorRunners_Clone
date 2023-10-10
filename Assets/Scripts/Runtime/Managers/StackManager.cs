@@ -43,6 +43,7 @@ namespace Runtime.Managers
          
          [ShowInInspector] private int _stackScore;
          [ShowInInspector] private bool _isColorSame;
+         [ShowInInspector] private short _collectableAddScore = 1;
         
         
 
@@ -102,12 +103,13 @@ namespace Runtime.Managers
                 {
                     StartCoroutine(_stackAdderAnimationCommand.Execute());
                     _adderOnStackCommand.Execute(collectableGameObject);
-                    _stackScoreUpdaterCommand.Execute();
+                    _stackScoreUpdaterCommand.Execute(_collectableAddScore);
                     _collectableAnimationCommand.Execute(ref collectableGameObject,PlayerAnimationStates.Run);
                 }
                 else
                 {
                     _removerOnStackCommand.Execute(collectableGameObject, _collectableAnimationCommand);
+                    _stackScoreUpdaterCommand.Execute(_collectableAddScore);
 
                 }
                
