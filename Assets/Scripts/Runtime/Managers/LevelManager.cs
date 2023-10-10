@@ -1,10 +1,9 @@
 ﻿using _Modules.SaveModule.Scripts.Data;
 using DG.Tweening;
 using Managers;
-using Runtime.Commands;
+using Runtime.Commands.Level;
 using Runtime.Enums;
 using Runtime.Signals;
-using Signals;
 using UnityEngine;
 
 namespace Runtime.Managers
