@@ -7,21 +7,15 @@ namespace Runtime.Commands.ColorCheckArea
     public class ColorCheckAreaCheckColor
     {
         
-        public void Execute(GameObject colorAreaGameObject)
+        public void Execute(GameObject colorAreaGameObject, Transform colorCheckHolder)
         {
             var colorAreaManager = colorAreaGameObject.GetComponent<ColorCheckAreaManager>();
-            if (colorAreaManager.SendColorType() == PlayerSignals.Instance.onGetPlayerColor?.Invoke())
-            {
-                CollectableSignals.Instance.onIsPlayerColorSame?.Invoke(true);
-                Debug.LogWarning("Execute ==> Color are Same");
-            }
-            else
-            {
-                CollectableSignals.Instance.onIsPlayerColorSame?.Invoke(false);
-                Debug.LogWarning("Execute ===> Color  are not same ");
-            }
-            
-
+            CollectableSignals.Instance.onIsPlayerColorSame?.Invoke(colorAreaManager.SendColorType() ==
+                                                                    PlayerSignals.Instance.onGetPlayerColor?.Invoke());
+            Debug.LogWarning(colorCheckHolder);
+            ColorCheckSignals.Instance.onSendCheckAreaHolderTransform?.Invoke(colorAreaManager.SendHolderTransform());
         }
+
+        
     }
 }

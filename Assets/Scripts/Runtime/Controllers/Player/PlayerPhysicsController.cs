@@ -38,5 +38,7 @@ namespace Runtime.Controllers.Player
                 CoreGameSignals.Instance.onPlayerInteractionWithColorCheckArea?.Invoke(other.transform.parent.gameObject);
             }
         }
+
+        
     }
 }

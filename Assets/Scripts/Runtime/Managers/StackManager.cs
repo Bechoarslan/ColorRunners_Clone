@@ -82,6 +82,23 @@ namespace Runtime.Managers
             StackSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
             StackSignals.Instance.onStackFollowPlayer += OnStackFollowPlayer;
             CollectableSignals.Instance.onIsPlayerColorSame += OnIsPlayerColorSame;
+            ColorCheckSignals.Instance.onSendCheckAreaHolderTransform += OnSendCheckAreaHolderTransform;
+            
+        }
+
+        private void OnSendCheckAreaHolderTransform(Transform colorCheckHolder)
+        {
+            if (colorCheckHolder == null) return;
+            for (var i = 0; i < collectableList.Count; i++)
+            {var randomPos = Random.Range(-1.2f, 1.2f);
+                var playerPos = collectableList[i].transform.position;
+                var holderPos = colorCheckHolder.position;
+                var movePos = new Vector3(holderPos.x, playerPos.y, holderPos.z + randomPos);
+                collectableList[i].transform.DOMove(movePos, 1f);
+                
+            }
+                
+            
             
         }
 
@@ -112,8 +129,6 @@ namespace Runtime.Managers
                     _stackScoreUpdaterCommand.Execute(_collectableAddScore);
 
                 }
-               
-                
             
         }
 

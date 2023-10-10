@@ -1,13 +1,13 @@
 using System;
-using System.Collections;
 using DG.Tweening;
 using Runtime.Data.ValueObject;
-using Runtime.Enums;
 using Runtime.Keys;
 using Runtime.Managers;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 namespace Runtime.Controllers.Player
 {
@@ -128,7 +128,15 @@ namespace Runtime.Controllers.Player
             _data.ForwardSpeed = movementDataSlowSpeed;
         }
         
-
+        internal void OnSendPlayerToCheckAreaHolder(Transform holderTransform)
+        {
+            if (holderTransform == null) return;
+            var randomPos = Random.Range(-1.2f, 1.2f);
+            var playerPos = rigidbody.position;
+            var holderPos = holderTransform.position;
+            var movePos = new Vector3(holderPos.x, playerPos.y, holderPos.z + randomPos);
+            transform.DOMove(movePos, 1f);
+        }
     }
     }
     

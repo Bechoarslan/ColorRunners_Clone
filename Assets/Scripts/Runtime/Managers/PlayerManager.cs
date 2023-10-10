@@ -71,9 +71,16 @@ namespace Runtime.Managers
             PlayerSignals.Instance.onGetPlayerColor += () => meshController.OnGetPlayerColor(colorType);
             PlayerSignals.Instance.onSendStackScoreToPlayerText += meshController.OnSendStackScoreToPlayerText;
             PlayerSignals.Instance.onSetPlayerColor += OnSetPlayerColor;
+            ColorCheckSignals.Instance.onSendCheckAreaHolderTransform += OnSendCheckAreaHolderTransform;
 
 
         }
+
+        private void OnSendCheckAreaHolderTransform(Transform holderTransform)
+        {
+            movementController.OnSendPlayerToCheckAreaHolder(holderTransform);
+        }
+
 
         private void OnSetPlayerColor(ColorType gateColor)
         {

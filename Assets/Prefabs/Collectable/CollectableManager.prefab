@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2917108934131510875}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.98, y: 0.554, z: 47.095707}
+  m_LocalPosition: {x: -2.98, y: 0.5310078, z: 47.095707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -49,7 +49,7 @@ MonoBehaviour:
   collectablePhysicsController: {fileID: 3797210845013172693}
   collectableMeshController: {fileID: 3009776183883893595}
   collectableAnimationController: {fileID: 193159145712925929}
-  collectableColorId: 0
+  colorType: 0
 --- !u!1 &7031266012568309104
 GameObject:
   m_ObjectHideFlags: 0

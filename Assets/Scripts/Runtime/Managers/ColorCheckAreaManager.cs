@@ -18,6 +18,7 @@ namespace Runtime.Managers
 
         [SerializeField] private ColorCheckAreaMeshController colorCheckAreaMeshController;
         [SerializeField] private ColorType colorType;
+        [SerializeField] private Transform colorCheckHolder;
 
         #endregion
 
@@ -58,7 +59,7 @@ namespace Runtime.Managers
 
         private void OnPlayerInteractionWithColorCheckArea(GameObject colorAreaGameObject)
         {
-            _colorCheckAreaCheckColor.Execute(colorAreaGameObject);
+            _colorCheckAreaCheckColor.Execute(colorAreaGameObject,colorCheckHolder);
         }
 
         private void UnSubscribeEvents()
@@ -72,5 +73,7 @@ namespace Runtime.Managers
         }
         
         internal ColorType SendColorType() => colorType;
+
+        internal Transform SendHolderTransform() => colorCheckHolder;
     }
 }
