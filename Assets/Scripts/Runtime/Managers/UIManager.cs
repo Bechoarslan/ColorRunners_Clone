@@ -59,7 +59,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlay?.Invoke();
             CoreUISignals.Instance.onClosePanel?.Invoke(1);
             CameraSignals.Instance.onSetCinemachineTarget?.Invoke();
-            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Run);
+            PlayerSignals.Instance.onSetPlayerAnimationState?.Invoke(PlayerAnimationStates.Run);
             CameraSignals.Instance.onChangeCameraState?.Invoke(CameraStates.Idle);
         }
 

@@ -49,7 +49,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorCheckAreaId: 1
   colorAreaMeshController: {fileID: 5230160353349174931}
-  miniGameHolder: {fileID: 1618515881220727176}
 --- !u!1 &2023907506711088201
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,6 +59,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1849858337156008163}
   - component: {fileID: 6965691479010714534}
+  - component: {fileID: 2188043191521125273}
   m_Layer: 0
   m_Name: PhysicsController
   m_TagString: ColorCheckArea
@@ -103,6 +103,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 0.6373313, z: 6.550702}
   m_Center: {x: 0, y: -0.13366565, z: -0.06490648}
+--- !u!114 &2188043191521125273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023907506711088201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20ec154b56943ba871e97a48e823deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniGameHolder: {fileID: 1618515881220727176}
 --- !u!1 &2178818930637785334
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4501971028874388705}
   - component: {fileID: 6702463157574907681}
+  - component: {fileID: 8033383806593188014}
   m_Layer: 0
   m_Name: PhysicsController
   m_TagString: ColorCheckArea
@@ -239,6 +253,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 0.6373313, z: 6.420889}
   m_Center: {x: 0, y: -0.13366565, z: 0}
+--- !u!114 &8033383806593188014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5204193410229347032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d20ec154b56943ba871e97a48e823deb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniGameHolder: {fileID: 2315885221110282747}
 --- !u!1 &5221546946525569199
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +404,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4063245313234532359}
   - component: {fileID: 5434823952740506731}
-  - component: {fileID: 6324535123123031145}
   m_Layer: 0
   m_Name: PhysicsController
   m_TagString: MiniGameArea
@@ -419,20 +445,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 9.561216, y: 5.766393, z: 6.485985}
-  m_Center: {x: -0.041425705, y: 2.3831966, z: -0.17258346}
---- !u!114 &6324535123123031145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7225652695780545490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d859ece9800b4136874dc46985dbee17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Size: {x: 9.561216, y: 5.766393, z: 6.2267494}
+  m_Center: {x: -0.041425705, y: 2.3831966, z: -0.04296589}
 --- !u!1 &7626081004388735412
 GameObject:
   m_ObjectHideFlags: 0
@@ -579,7 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorCheckAreaId: 0
   colorAreaMeshController: {fileID: 768556350569796742}
-  miniGameHolder: {fileID: 2315885221110282747}
 --- !u!1001 &3015652556710544239
 PrefabInstance:
   m_ObjectHideFlags: 0

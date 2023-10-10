@@ -1,4 +1,6 @@
 ﻿using System;
+using Runtime.Data.ValueObject;
+using Runtime.Enums.Color;
 using Runtime.Signals;
 using UnityEngine;
 
@@ -11,17 +13,16 @@ namespace Runtime.Controllers.Gate
         #region Serialize Variables
 
         [SerializeField] private Renderer gateRenderer;
-
-       
-
+        
         #endregion
 
         #endregion
 
-
-        public void SetGateColor(Color gateColor)
+        public void GetColorData(ColorData colorData)
         {
-            gateRenderer.material.color = gateColor;
+            gateRenderer.material.color = colorData.material.color;
         }
+
+        
     }
 }

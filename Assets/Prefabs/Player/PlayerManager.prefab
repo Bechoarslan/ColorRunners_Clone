@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83b03a1c77d146ea847de52d81ef0c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 1517451379659520889}
+  animator: {fileID: 1517451379659520889}
 --- !u!114 &3757292538009367462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,6 +568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 4789878742945869705}
   manager: {fileID: 5814290303277103169}
+  waitForSecond: 0
 --- !u!1001 &6375960150756581673
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ namespace Runtime.Data.ValueObject
         [Range(0.1f, 0.8f)] public float LerpSpeed;
         [Range(0, 0.2f)] public float StackAnimDuration;
         [Range(1f, 3f)] public float StackScaleValue;
+        [Range(1f, 3f)] public float StackScaleDelay;
         [Range(1f, 10f)] public float JumpForce;
         public float JumpItemsClampX;
     }

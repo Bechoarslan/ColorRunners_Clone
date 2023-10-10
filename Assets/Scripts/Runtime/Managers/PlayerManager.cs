@@ -4,6 +4,7 @@ using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
+using Runtime.Enums.Color;
 using Runtime.Keys;
 using Runtime.Signals;
 using UnityEngine;
@@ -19,15 +20,16 @@ namespace Runtime.Managers
         [SerializeField] private PlayerMovementController movementController;
         [SerializeField] private PlayerAnimationController animationController;
         [SerializeField] private PlayerMeshController meshController;
+        [SerializeField] private ColorType colorType;
+       
 
         #endregion
 
         #region Private Variables
-
         private PlayerData _data;
+        private CD_Color _colorData;
         private readonly string _dataPath = "Data/CD_Player";
-        private Transform _miniGameHolder;
-
+        private readonly string _colorDataPath = "Data/CD_Color";
         #endregion
 
         #endregion
@@ -36,15 +38,18 @@ namespace Runtime.Managers
         private void Awake()
         {
             _data = GetPlayerData();
+            _colorData = GetColorData();
             SendPlayerDataToControllers();
         }
 
         private void SendPlayerDataToControllers()
         {
             movementController.SetMovementData(_data.MovementData);
+            meshController.SetColorData(_colorData, colorType);
         }
 
         private PlayerData GetPlayerData() => Resources.Load<CD_Player>(_dataPath).Data;
+        private CD_Color GetColorData() => Resources.Load<CD_Color>(_colorDataPath);
 
         private void OnEnable()
         {
@@ -62,45 +67,18 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onLevelFailed +=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
             CoreGameSignals.Instance.onReset += OnReset;
-            MiniGameSignals.Instance.onGetMiniGameType += OnGetMiniGameType;
-            CoreGameSignals.Instance.onExitInteractionWithMiniGameArea += OnExitInteractionWithMiniGameArea;
-            ColorAreaSignals.Instance.onSendMiniGameHolder += OnSendMiniGameHolder;
+            PlayerSignals.Instance.onSetPlayerAnimationState += animationController.SetAnimationState;
+            PlayerSignals.Instance.onGetPlayerColor += () => meshController.OnGetPlayerColor(colorType);
+            PlayerSignals.Instance.onSendStackScoreToPlayerText += meshController.OnSendStackScoreToPlayerText;
+            PlayerSignals.Instance.onSetPlayerColor += OnSetPlayerColor;
 
 
         }
 
-        private void OnSendMiniGameHolder(Transform miniGameHolder)
+        private void OnSetPlayerColor(ColorType gateColor)
         {
-            _miniGameHolder = miniGameHolder;
-            
+            meshController.SetColorData(_colorData, gateColor);
         }
-
-
-        private void OnExitInteractionWithMiniGameArea()
-        {
-            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Run);
-            movementController.SetForwardSpeed(_data.MovementData.NormalSpeed);
-        }
-
-        private void OnGetMiniGameType(MiniGameType miniGameType)
-        {
-            if (miniGameType == MiniGameType.Turret)
-            {
-               
-                PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.HideWalk);
-                movementController.SetForwardSpeed(_data.MovementData.SlowSpeed);
-                
-            }
-
-            if (miniGameType == MiniGameType.Drone)
-            {
-                PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
-                movementController.SetPositionToMiniGameHolder(_miniGameHolder);
-                
-                
-            }
-        }
-
 
         private void OnPlay()
         {
@@ -112,9 +90,6 @@ namespace Runtime.Managers
         {
             movementController.UpdateInputValue(inputValues);
         }
-        
-       
-
 
         private void UnSubscribeEvents()
         {
@@ -126,9 +101,12 @@ namespace Runtime.Managers
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(true);
             CoreGameSignals.Instance.onLevelFailed -=
                 () => PlayerSignals.Instance.onPlayConditionChanged?.Invoke(false);
-            CoreGameSignals.Instance.onExitInteractionWithMiniGameArea -= OnExitInteractionWithMiniGameArea;
-            MiniGameSignals.Instance.onGetMiniGameType -= OnGetMiniGameType;
             CoreGameSignals.Instance.onReset -= OnReset;
+            PlayerSignals.Instance.onSetPlayerAnimationState -= animationController.SetAnimationState;
+            PlayerSignals.Instance.onGetPlayerColor -= () => meshController.OnGetPlayerColor(colorType);
+            PlayerSignals.Instance.onSendStackScoreToPlayerText -= meshController.OnSendStackScoreToPlayerText;
+            PlayerSignals.Instance.onSetPlayerColor -= OnSetPlayerColor;
+
             
         }
 
@@ -149,7 +127,6 @@ namespace Runtime.Managers
         {
             movementController.OnReset();
             animationController.OnReset();
-            
         }
 
     }

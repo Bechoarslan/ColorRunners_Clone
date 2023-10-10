@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1683538616005039602}
-  - component: {fileID: 4816985193848720188}
+  - component: {fileID: 1235358094386971068}
   m_Layer: 0
   m_Name: CollectableManager
   m_TagString: Untagged
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2917108934131510875}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.554, z: 0}
+  m_LocalPosition: {x: -2.98, y: 0.554, z: 47.095707}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 9152883948670670546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4816985193848720188
+--- !u!114 &1235358094386971068
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,12 +43,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2917108934131510875}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6b5ee5fefba456a9ba5a0eff5552ff1, type: 3}
+  m_Script: {fileID: 11500000, guid: 04d9d50340e948158bd91484ad7fe6f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectableAnimator: {fileID: 6018024156764079320}
+  collectablePhysicsController: {fileID: 3797210845013172693}
+  collectableMeshController: {fileID: 3009776183883893595}
+  collectableAnimationController: {fileID: 193159145712925929}
   collectableColorId: 0
-  collectableMeshController: {fileID: 1731606077604668689}
 --- !u!1 &7031266012568309104
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +61,8 @@ GameObject:
   - component: {fileID: 1603756145297073416}
   - component: {fileID: 6018024156764079320}
   - component: {fileID: 5769624974338994157}
-  - component: {fileID: 1731606077604668689}
+  - component: {fileID: 3009776183883893595}
+  - component: {fileID: 193159145712925929}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -209,7 +211,7 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0000013904646, y: 0.0010352493, z: 0.0001624336}
     m_Extent: {x: 0.0072081303, y: 0.0077151875, z: 0.0036584255}
   m_DirtyAABB: 0
---- !u!114 &1731606077604668689
+--- !u!114 &3009776183883893595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -218,9 +220,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 7031266012568309104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4cee101de54815acda85a9f4d2b6ae, type: 3}
+  m_Script: {fileID: 11500000, guid: a4aac7175da0461297e0df3105f47f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meshRenderer: {fileID: 5769624974338994157}
+--- !u!114 &193159145712925929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7031266012568309104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8001590f37a4e3da8f04d966efef32e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6018024156764079320}
 --- !u!1 &8215351110802739930
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +248,7 @@ GameObject:
   - component: {fileID: 9152883948670670546}
   - component: {fileID: 7492507015491264438}
   - component: {fileID: 6574485719578096124}
+  - component: {fileID: 3797210845013172693}
   m_Layer: 0
   m_Name: Physics
   m_TagString: Collectable
@@ -302,6 +319,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3797210845013172693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8215351110802739930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 864bb13ccdcd4f048c2d767db257d942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7662661434990130856
 PrefabInstance:
   m_ObjectHideFlags: 0

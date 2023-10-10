@@ -21,12 +21,7 @@ namespace Runtime.Signals
         public UnityAction onReset = delegate { };
         public Func<int> onGetLevelID = delegate { return 0; };
         
-        
-        public UnityAction<GameObject> onInteractionWithGate = delegate {  };
-        
-        public UnityAction<GameObject> onInteractionWithColorCheckArea = delegate {  };
-        public UnityAction<GameObject> onInteractionWithMiniGameArea = delegate {  };
-        public UnityAction onExitInteractionWithMiniGameArea = delegate {  };
+        public UnityAction<GameObject> onPlayerInteractionWithGate = delegate{  };
         
       
         

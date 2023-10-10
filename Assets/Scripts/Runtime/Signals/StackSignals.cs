@@ -11,7 +11,7 @@ namespace Runtime.Signals
         public UnityAction<GameObject> onInteractionWithCollectable = delegate{ };
         public UnityAction<Vector2> onStackFollowPlayer = delegate{  };
         
-        public Func<Vector3> onSendMiniGameHolder = delegate { return Vector3.zero; };
+        
       
         
     }

@@ -26,7 +26,7 @@ namespace Runtime.Controllers.Player
         #region Private Variables
 
         private PlayerMovementData _data;
-        [ShowInInspector] private bool _isReadyToMove, _isReadyToPlay;
+        [ShowInInspector] private bool _isReadyToMove, _isReadyToPlay,_isReadyToStack;
         [ShowInInspector] private float _inputValue;
         [ShowInInspector] private Vector2 _clampValues;
         [ShowInInspector] private bool _onExitMiniGame;
@@ -34,7 +34,7 @@ namespace Runtime.Controllers.Player
         #endregion
 
         #endregion
-        public void SetMovementData(PlayerMovementData dataMovementData)
+        internal void SetMovementData(PlayerMovementData dataMovementData)
         {
             _data = dataMovementData;
 
@@ -96,7 +96,6 @@ namespace Runtime.Controllers.Player
         private void Update()
         {
             manager.SetStackPosition();
-            
         }
         private void Move()
         {
@@ -128,34 +127,7 @@ namespace Runtime.Controllers.Player
         {
             _data.ForwardSpeed = movementDataSlowSpeed;
         }
-        public void SetPositionToMiniGameHolder(Transform miniGameHolder)
-        {
-           StartCoroutine(MoveToMiniGameHolder(miniGameHolder, waitForSecond));
-        }
-
-        private IEnumerator MoveToMiniGameHolder(Transform miniGameHolder, float f)
-        {
-            var playerPos = rigidbody.position;
-            var holderPos = miniGameHolder.position;
-            var targetPosition = new Vector3(holderPos.x, playerPos.y, holderPos.z);
-            Tweener tweener = rigidbody.DOMove(targetPosition, f);
-            yield return tweener.WaitForCompletion();
-            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Idle);
-            PlayerSignals.Instance.onPlayerSettledToMiniGameArea?.Invoke();
-            DOVirtual.DelayedCall(6, (() =>
-            {
-                PlayerSignals.Instance.onPlayerExitMiniGameArea?.Invoke();
-                PlayerSignals.Instance.onPlayConditionChanged?.Invoke(true);
-            }));
-                  
-
-
-
-
-
-        }
-
-
+        
 
     }
     }

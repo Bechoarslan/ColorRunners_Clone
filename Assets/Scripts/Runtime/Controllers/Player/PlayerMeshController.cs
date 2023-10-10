@@ -1,8 +1,10 @@
-using System;
-using Runtime.Signals;
-using Sirenix.OdinInspector;
+
+using Runtime.Data.UnityObject;
+using Runtime.Enums.Color;
 using TMPro;
 using UnityEngine;
+
+
 
 namespace Runtime.Controllers.Player
 {
@@ -18,50 +20,20 @@ namespace Runtime.Controllers.Player
         #endregion
 
         #endregion
-
-        private void OnEnable()
-        {
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            PlayerSignals.Instance.onSendStackScoreToPlayerText += OnSendStackScoreToPlayerText;
-            GateSignals.Instance.onGetGateColor += OnGetGateColor;
-            PlayerSignals.Instance.onGetPlayerColor += OnGetPlayerColor;
-        }
-
         
-        private Color OnGetPlayerColor()
+        internal void SetColorData(CD_Color colorData, ColorType colorType)
         {
-            return playerRenderer.material.color;
+            playerRenderer.material.color = colorData.PlayerColors[(int)colorType].material.color;
         }
-
         
-        private void OnGetGateColor(Color value)
-        {
-            playerRenderer.material.color = value;
-        }
-
-
-        private void OnSendStackScoreToPlayerText(short stackValue)
+        internal void OnSendStackScoreToPlayerText(short stackValue)
         {
             stackText.text = stackValue.ToString();
         }
-
-        private void UnSubscribeEvents()
+        internal ColorType OnGetPlayerColor(ColorType colorType)
         {
-            PlayerSignals.Instance.onSendStackScoreToPlayerText -= OnSendStackScoreToPlayerText;
-            GateSignals.Instance.onGetGateColor -= OnGetGateColor;
-            PlayerSignals.Instance.onGetPlayerColor -= OnGetPlayerColor;
-
+            return colorType;
         }
-
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
-        }
-
 
         
     }

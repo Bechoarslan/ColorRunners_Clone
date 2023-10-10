@@ -16,51 +16,22 @@ namespace Runtime.Controllers.Player
         private readonly string _collected = "Collected";
         private readonly string _colorCheckArea = "ColorCheckArea";
         private readonly string _miniGameArea = "MiniGameArea";
-       
-        
-     
-        
-
+        #endregion
         #endregion
 
-        #endregion
         private void OnTriggerEnter(Collider other)
         {
+          
             if (other.CompareTag(_collectable))
-            {
+            { 
                 other.tag = _collected;
                 StackSignals.Instance.onInteractionWithCollectable?.Invoke(other.transform.parent.gameObject);
             }
 
-            if  (other.CompareTag(_gate))
+            if (other.CompareTag(_gate))
             {
-               CoreGameSignals.Instance.onInteractionWithGate?.Invoke(other.transform.parent.gameObject);
-                
-            }
-
-            if (other.CompareTag(_colorCheckArea))
-            {
-                CoreGameSignals.Instance.onInteractionWithColorCheckArea?.Invoke(other.transform.parent.gameObject);
-          
-                
-            }
-
-            if (other.CompareTag(_miniGameArea))
-            {
-                CoreGameSignals.Instance.onInteractionWithMiniGameArea?.Invoke(other.transform.parent.gameObject);
-            }
-            
-            
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            if (other.CompareTag(_miniGameArea))
-            {
-                CoreGameSignals.Instance.onExitInteractionWithMiniGameArea?.Invoke();
+                CoreGameSignals.Instance.onPlayerInteractionWithGate?.Invoke(other.transform.parent.gameObject);
             }
         }
     }
-    
-    
 }

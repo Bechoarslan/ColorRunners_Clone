@@ -515,7 +515,7 @@ Material:
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SColor: {r: 1, g: 0.3726415, b: 0.3726415, a: 1}
+    - _SColor: {r: 1, g: 1, b: 1, a: 1}
     - _SkyColor: {r: 0.49803913, g: 0.7450981, b: 1, a: 1}
     - _SkyboxRotationAxix: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

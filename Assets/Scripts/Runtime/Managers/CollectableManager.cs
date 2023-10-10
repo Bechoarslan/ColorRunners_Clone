@@ -1,42 +1,35 @@
-
-using System.Collections;
+﻿using System;
 using Runtime.Commands.Collectable;
-using Runtime.Controllers;
+using Runtime.Controllers.Collectable;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
+using Runtime.Enums.Color;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Rendering;
-using Random = System.Random;
 
 namespace Runtime.Managers
 {
-
     public class CollectableManager : MonoBehaviour
     {
         #region Self Variables
 
-        #region Serialized Variables
-        private Color _collectableRenderer;
-        [SerializeField] private Animator collectableAnimator;
-        [SerializeField] private int collectableColorId;
-        [SerializeField] private float waitForSeconds;
-        #endregion
+        #region Self Variables
 
-        #region Serialized Variables
-
+        [SerializeField] private CollectablePhysicsController collectablePhysicsController;
         [SerializeField] private CollectableMeshController collectableMeshController;
-        
-
+        [SerializeField] private CollectableAnimationController collectableAnimationController;
+        [SerializeField] private ColorType colorType;
         #endregion
 
         #region Private Variables
 
-        private ColorData _colorData;
+        [ShowInInspector] private CD_Color _colorData;
+        
         private readonly string _colorDataPath = "Data/CD_Color";
-        private CollectableAnimationCommand _collectableAnimationCommand;
-
+        private readonly string _collected = "Collected";
+        
         #endregion
 
         #endregion
@@ -44,22 +37,15 @@ namespace Runtime.Managers
         private void Awake()
         {
             _colorData = GetColorData();
-            SendDataToMesh();
-            Init();
-        }
-
-        private ColorData GetColorData() =>
-            Resources.Load<CD_Color>("Data/CD_Color").collectableColors[collectableColorId];
-        private void SendDataToMesh()
-        {
-            collectableMeshController.GetColorData(_colorData);
+            SendDataToControllers();
         }
         
-        private void Init()
+        private void SendDataToControllers()
         {
-            _collectableAnimationCommand = new CollectableAnimationCommand(ref collectableAnimator);
+            collectableMeshController.GetColorData(_colorData,colorType);
         }
 
+        private CD_Color GetColorData() => Resources.Load<CD_Color>(_colorDataPath);
 
         private void OnEnable()
         {
@@ -68,69 +54,39 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            CollectableSignals.Instance.onCheckCollectableIsCurrent += OnCheckCollectableIsCurrent;
-            GateSignals.Instance.onGetGateColor += collectableMeshController.SetGateColorForCollectable;
-            MiniGameSignals.Instance.onInteractionWithCollectable += OnInteractionWithCollectable;
-            MiniGameSignals.Instance.onExitInteractionWithCollectable += OnExitInteractionWithCollectable;
-            
-            
-            
-            
+            CollectableSignals.Instance.onSetCollectableAnimationState += OnSetCollectableAnimationState;
+            PlayerSignals.Instance.onSetPlayerColor += OnSetPlayerColor;
         }
 
-        
-
-
-        private void OnExitInteractionWithCollectable(GameObject collectableObject)
+        private void OnSetPlayerColor(ColorType gateColorType)
         {
-            if (collectableObject.GetInstanceID() == gameObject.GetInstanceID())
+            if (collectablePhysicsController.CompareTag(_collected))
             {
-                _collectableAnimationCommand.Execute(PlayerAnimationStates.Run);
-                
+                collectableMeshController.GetColorData(_colorData,gateColorType);
             }
+            
         }
 
-        private void OnInteractionWithCollectable(GameObject collectableObject)
+        internal void OnGetCollectableColor(ColorType playerColor)
         {
-            if (collectableObject.GetInstanceID() == gameObject.GetInstanceID())
-            {
-                _collectableAnimationCommand.Execute(PlayerAnimationStates.HideWalk);
-                
-            }
+            collectableMeshController.OnGetColorCollectable(playerColor,colorType);
         }
-        private void OnCheckCollectableIsCurrent(GameObject collectableGameObject)
-        {
-
-            if (collectableGameObject != gameObject)
-                return;
-
-            _collectableAnimationCommand.Execute(PlayerAnimationStates.Run);
-
-
-        }
-
         
-
+        internal void OnSetCollectableAnimationState(PlayerAnimationStates state)
+        {
+            collectableAnimationController.SetAnimationState(state);
+        }
         
 
         private void UnSubscribeEvents()
         {
-            CollectableSignals.Instance.onCheckCollectableIsCurrent -= OnCheckCollectableIsCurrent;
-            GateSignals.Instance.onGetGateColor -= collectableMeshController.SetGateColorForCollectable;
-            MiniGameSignals.Instance.onInteractionWithCollectable -= OnInteractionWithCollectable;
-            MiniGameSignals.Instance.onExitInteractionWithCollectable -= OnExitInteractionWithCollectable;
-
+            CollectableSignals.Instance.onSetCollectableAnimationState -= OnSetCollectableAnimationState;
+            PlayerSignals.Instance.onSetPlayerColor -= OnSetPlayerColor;
         }
-
-        
-        
 
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
-
-     
-
     }
 }

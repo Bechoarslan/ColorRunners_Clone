@@ -1,8 +1,6 @@
-using System;
-using Runtime.Enums;
-using Runtime.Signals;
-using UnityEngine;
 
+using Runtime.Enums;
+using UnityEngine;
 namespace Runtime.Controllers.Player
 {
     public class PlayerAnimationController : MonoBehaviour
@@ -11,40 +9,20 @@ namespace Runtime.Controllers.Player
 
         #region Serialized Variables
 
-        [SerializeField] private Animator playerAnimator;
+        [SerializeField] private Animator animator;
 
         #endregion
 
         #endregion
 
-        private void OnEnable()
+        public void SetAnimationState(PlayerAnimationStates animState)
         {
-            SubscribeEvents();
-        }
-
-        private void SubscribeEvents()
-        {
-            PlayerSignals.Instance.onPlayerAnimationChanged += OnPlayerAnimationChanged;
-        }
-
-        private void OnPlayerAnimationChanged(PlayerAnimationStates state)
-        {
-           playerAnimator.SetTrigger(state.ToString());
-        }
-
-        private void UnSubscribeEvents()
-        {
-            PlayerSignals.Instance.onPlayerAnimationChanged -= OnPlayerAnimationChanged;
-        }
-
-        private void OnDisable()
-        {
-            UnSubscribeEvents();
+            animator.SetTrigger(animState.ToString());
         }
 
         public void OnReset()
         {
-            PlayerSignals.Instance.onPlayerAnimationChanged?.Invoke(PlayerAnimationStates.Idle);
+            animator.SetTrigger(PlayerAnimationStates.Idle.ToString());
         }
     }
 }

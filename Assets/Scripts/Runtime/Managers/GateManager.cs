@@ -1,14 +1,13 @@
-
+﻿
 using System;
-using System.Collections.Generic;
-using Runtime.Commands;
 using Runtime.Commands.Gate;
 using Runtime.Controllers.Gate;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums.Color;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
-
 
 namespace Runtime.Managers
 {
@@ -18,34 +17,38 @@ namespace Runtime.Managers
 
         #region Serialized Variables
 
-        [SerializeField] private Renderer gateRenderer;
-        [SerializeField] private int gateId;
-        
+        [SerializeField] private ColorType colorType;
+        [SerializeField] private GateMeshController gateMeshController;
+
         #endregion
 
         #region Private Variables
 
-        private GateChangeColorCommand _gateChangeColorCommand;
-        private ColorData _colorData;
-        private readonly string _colorDataPath = "Data/CD_Color";
-        
+        [ShowInInspector] private ColorData _colorData;
+        private readonly string _dataPath = "Data/CD_Color";
+        private SendGateColorDataCommand _sendGateColorDataCommand;
+
         #endregion
-        
+
         #endregion
 
         private void Awake()
         {
             _colorData = GetColorData();
+            SendDataToControllers();
             Init();
+
         }
-
-        private ColorData GetColorData() => Resources.Load<CD_Color>(_colorDataPath).gateColors[gateId];
-       
-
+        
+        private ColorData GetColorData() => Resources.Load<CD_Color>(_dataPath).GateColors[(int) colorType];
         private void Init()
         {
-            _gateChangeColorCommand = new GateChangeColorCommand(ref gateRenderer);
-            _gateChangeColorCommand.Execute(_colorData.material);
+            _sendGateColorDataCommand = new SendGateColorDataCommand();
+        }
+
+        private void SendDataToControllers()
+        {
+            gateMeshController.GetColorData(_colorData);
         }
 
         private void OnEnable()
@@ -55,26 +58,29 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onInteractionWithGate += OnInteractionWithGate;
+            CoreGameSignals.Instance.onPlayerInteractionWithGate += OnPlayerInteractionWithGate;
         }
 
-        private void OnInteractionWithGate(GameObject gateObject)
+        internal ColorType OnGetGateColorType()
         {
-            if (gateObject.GetInstanceID() == gameObject.GetInstanceID())
-            {
-                GateSignals.Instance.onGetGateColor?.Invoke(_colorData.material.color);
-            }
+            return colorType;
+        }
 
+        private void OnPlayerInteractionWithGate(GameObject gateGameObject)
+        {
+            _sendGateColorDataCommand.Execute(gateGameObject);
         }
 
         private void UnSubscribeEvents()
         {
-            CoreGameSignals.Instance.onInteractionWithGate -= OnInteractionWithGate;
+            CoreGameSignals.Instance.onPlayerInteractionWithGate -= OnPlayerInteractionWithGate;
         }
 
         private void OnDisable()
         {
-            UnSubscribeEvents();
+           UnSubscribeEvents();
         }
     }
+
+   
 }
