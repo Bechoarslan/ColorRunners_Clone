@@ -6,12 +6,18 @@ namespace Runtime.Data.ValueObject
     [Serializable]
     public struct StackData
     {
-        public float CollectableOffsetInStack;
-        [Range(0.1f, 0.8f)] public float LerpSpeed;
-        [Range(0, 0.2f)] public float StackAnimDuration;
-        [Range(1f, 3f)] public float StackScaleValue;
-        [Range(1f, 3f)] public float StackScaleDelay;
-        [Range(1f, 10f)] public float JumpForce;
-        public float JumpItemsClampX;
+        [Header("StacData"), Space(10)] 
+        public int StackLimit;
+        
+        [Header("Animation Value"), Space(10)]
+        public float StackAnimDuration;
+        public float StackScaleValue;
+        
+        [Header("Lerp Value"), Space(10)]
+        public float StackScaleDelay;
+        public float StackLerpXDelay;
+        public float StackLerpYDelay;
+        public float StackLerpZDelay;
+        public float StackOffset;
     }
 }

@@ -39,7 +39,7 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onReset += OnReset;    
             CameraSignals.Instance.onSetCinemachineTarget += OnSetCinemachineTarget;
             CameraSignals.Instance.onChangeCameraState += OnChangeCameraState;
         }

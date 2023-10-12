@@ -1,5 +1,6 @@
 ﻿//using Tabtale.TTPlugins;
 
+using System;
 using _Modules.SaveModule.Scripts.Data;
 
 using Managers;
@@ -7,6 +8,7 @@ using Runtime.Enums;
 using Runtime.Extentions;
 using Runtime.Signals;
 using Signals;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -15,7 +17,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     #region Public Variables
 
-    public GameStates States;
+    [SerializeField] private GameStates gameStates;
 
     #endregion
     
@@ -25,6 +27,11 @@ public class GameManager : MonoSingleton<GameManager>
     {
         Application.targetFrameRate = 60;
         //TTPCore.Setup();
+    }
+
+    private void Start()
+    {
+        gameStates = GameStates.Run;
     }
 
     private void OnEnable()
@@ -39,7 +46,7 @@ public class GameManager : MonoSingleton<GameManager>
     
     private void OnChangeGameState(GameStates newState)
     {
-        States = newState;
+        gameStates = newState;
        
     }
 

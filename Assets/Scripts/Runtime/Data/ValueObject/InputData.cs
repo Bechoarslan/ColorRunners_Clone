@@ -1,5 +1,7 @@
 using System;
+using System.Numerics;
 using Unity.Mathematics;
+using Vector3 = UnityEngine.Vector3;
 
 namespace Runtime.Data.ValueObject
 {

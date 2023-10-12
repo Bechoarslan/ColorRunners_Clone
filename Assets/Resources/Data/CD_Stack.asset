@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: CD_Stack
   m_EditorClassIdentifier: 
   Data:
-    CollectableOffsetInStack: 0
-    LerpSpeed: 0
-    StackAnimDuration: 0
-    StackScaleValue: 0
+    StackLimit: 10
+    StackAnimDuration: 0.05
+    StackScaleValue: 1.1
     StackScaleDelay: 0.25
-    JumpForce: 0
-    JumpItemsClampX: 0
+    StackLerpXDelay: 0.18
+    StackLerpYDelay: 0.08
+    StackLerpZDelay: 0.25
+    StackOffset: 0.15

@@ -14,8 +14,7 @@ namespace Runtime.Data.ValueObject
     {
         public float ForwardSpeed;
         public float SidewaysSpeed;
-        public float SlowSpeed;
-        public float NormalSpeed;
+      
 
     }
 }

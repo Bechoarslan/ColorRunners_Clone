@@ -1,10 +1,11 @@
 using Unity.Mathematics;
+using UnityEngine;
 
 namespace Runtime.Keys
 {
-    public struct HorizontalnputParams
+    public struct HorizontalInputParams
     {
-        public float HorizontalInputValue;
-        public float2 HorizontalInputClampSides;
+        public Vector3 Values;
+        public Vector2 HorizontalInputClampSides;
     }
 }
