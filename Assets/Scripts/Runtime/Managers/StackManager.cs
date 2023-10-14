@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Runtime.Commands.Collectable;
+using Runtime.Commands.Stack;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Signals;
@@ -16,7 +17,8 @@ namespace Runtime.Managers
         #region Serialized Variables
 
         [SerializeField] private GameObject collectableGameObject;
-        private Transform playerManager;
+        private Transform playerManagerTransform;
+        [SerializeField] private int collectableStackNumber;
         
         
 
@@ -30,6 +32,8 @@ namespace Runtime.Managers
         private readonly string _stackDataPath = "Data/CD_Stack";
         private CollectableAdderCommand _collectableAdderCommand;
         private CollectableLerpMovementCommand _collectableLerpMovementCommand;
+        private CollectableCheckColorCommand _collectableCheckColorCommand;
+        [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
 
@@ -46,6 +50,7 @@ namespace Runtime.Managers
         {
             _collectableAdderCommand = new CollectableAdderCommand(ref _stackData, ref _collectableList,this);
             _collectableLerpMovementCommand = new CollectableLerpMovementCommand(ref _stackData, ref _collectableList);
+            _collectableCheckColorCommand = new CollectableCheckColorCommand();
         }
 
         private StackData GetStackData() => Resources.Load<CD_Stack>(_stackDataPath).Data;
@@ -60,21 +65,36 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
             CollectableSignals.Instance.onCollectableInteractWithCollectable += OnCollectableInteractWithCollectable;
+            CollectableSignals.Instance.onSendIsSameColorCondition += OnSendIsSameColorCondition;
+           
             
+        }
+
+        private void OnSendIsSameColorCondition(bool condition)
+        {
+            _isCollectableColorSame = condition;
         }
 
         private void OnCollectableInteractWithCollectable(GameObject collectableObject)
         {
-            _collectableAdderCommand.Execute(collectableGameObject);
+            if (_isCollectableColorSame)
+            {
+                _collectableAdderCommand.Execute(collectableObject);
+            }
+            
         }
-
+        
 
         private void UnSubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
             CollectableSignals.Instance.onCollectableInteractWithCollectable -= OnCollectableInteractWithCollectable;
+            CollectableSignals.Instance.onSendIsSameColorCondition -= OnSendIsSameColorCondition;
+       
         }
+
+       
 
         private void OnDisable()
         {
@@ -89,13 +109,13 @@ namespace Runtime.Managers
         
         private void GetPlayerTransform()
         { 
-            if(!playerManager) playerManager = FindObjectOfType<PlayerManager>().transform;
+            if(!playerManagerTransform) playerManagerTransform = FindObjectOfType<PlayerManager>().transform;
         }
         
         private void Update()
         {
-            if (!playerManager) return;
-            _collectableLerpMovementCommand.Execute(ref playerManager);
+            if (!playerManagerTransform) return;
+            _collectableLerpMovementCommand.Execute(ref playerManagerTransform);
         }
 
         private void OnReset()

@@ -1,15 +1,16 @@
 using System.Collections.Generic;
+using Runtime.Controllers.Collectable;
 using Runtime.Data.ValueObject;
 using Runtime.Managers;
 using UnityEngine;
 
-namespace Runtime.Commands.Collectable
+namespace Runtime.Commands.Stack
 {
     public class CollectableAdderCommand
     {
-        private  StackData _stackData;
-        private  List<GameObject> _collectableList;
-        private  StackManager _stackManager;
+        private readonly StackData _stackData;
+        private readonly List<GameObject> _collectableList;
+        private readonly StackManager _stackManager;
         public CollectableAdderCommand(ref StackData stackData, ref List<GameObject> collectableList, StackManager stackManager)
         {
             _stackData = stackData;
@@ -19,9 +20,10 @@ namespace Runtime.Commands.Collectable
 
         public void Execute(GameObject collectableGameObject)
         {
-            collectableGameObject.transform.SetParent(_stackManager.transform);
+            collectableGameObject.tag = "Collected";
+            collectableGameObject.transform.parent = _stackManager.transform;
             _collectableList.Add(collectableGameObject);
-            if (_collectableList.Count > _stackData.StackLimit) collectableGameObject.SetActive(true);
+            if (_collectableList.Count > _stackData.StackLimit) { collectableGameObject.SetActive(false);}
             
             var newCollectablePos = _collectableList[^1].transform.position;
             

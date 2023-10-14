@@ -9,6 +9,9 @@ TagManager:
   - Gate
   - ColorCheckArea
   - MiniGameArea
+  - Character 1
+  - Character 2
+  - Building
   layers:
   - Default
   - TransparentFX

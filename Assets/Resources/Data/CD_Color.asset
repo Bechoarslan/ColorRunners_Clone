@@ -12,27 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07bca388e45e488c9c49c298abfea7f6, type: 3}
   m_Name: CD_Color
   m_EditorClassIdentifier: 
-  PlayerColors:
-  - material: {fileID: 2100000, guid: c1481ffdd3ee20644840d93f56bfba7a, type: 2}
-  - material: {fileID: 2100000, guid: 8f30236401d1b38458de578a60389b81, type: 2}
-  - material: {fileID: 2100000, guid: 2e6f52cdf12c4cc4282c50299cb538d2, type: 2}
-  - material: {fileID: 2100000, guid: 29616d70bd6143d45ac828133d2caf2b, type: 2}
-  - material: {fileID: 2100000, guid: 84c544c6177aa504b981ae3b52480410, type: 2}
-  - material: {fileID: 2100000, guid: 3ea10a304366c4447b5af3ca2dafec01, type: 2}
-  - material: {fileID: 2100000, guid: 3ea10a304366c4447b5af3ca2dafec01, type: 2}
-  GroundColors:
-  - material: {fileID: 2100000, guid: 00c1c6c85bd92d44ba90da9cafa83634, type: 2}
-  - material: {fileID: 2100000, guid: 20df2feea9d8ee945a1a13f5cd4fe937, type: 2}
-  - material: {fileID: 2100000, guid: 00315601d90b65648931ad07c5f966a6, type: 2}
-  - material: {fileID: 2100000, guid: 1510e39a0a97d1145b931555baaccfea, type: 2}
-  - material: {fileID: 2100000, guid: 54cccdfabbd5ff04fb9c21727141fee6, type: 2}
-  - material: {fileID: 2100000, guid: 2f7fb88093f6e9d438a7218c6606a15b, type: 2}
-  - material: {fileID: 2100000, guid: b9cd6ae3d213f4b4f84cf63ea5573037, type: 2}
-  GateColors:
+  collectableColor:
+  - material: {fileID: 2100000, guid: c1bf27c4265bf4a309732694f0dc173b, type: 2}
+  - material: {fileID: 2100000, guid: 3159f0bbc9af8b745a80c33a17180c1a, type: 2}
+  gateColor:
   - material: {fileID: 2100000, guid: c7c62f931ed7e384db51565fca795be7, type: 2}
-  - material: {fileID: 2100000, guid: 09829967816807d4d8ea602e259a4df7, type: 2}
-  - material: {fileID: 2100000, guid: e1ff8df8e90439344b7eb3fb26aaeb2f, type: 2}
-  - material: {fileID: 2100000, guid: f434fb0899b16ab46b952a0730a0546e, type: 2}
-  - material: {fileID: 2100000, guid: c0edc414db85cd347bb2e7230993b2cb, type: 2}
-  - material: {fileID: 2100000, guid: 02cb5d6cd5fd35640b126c71ea0af7dc, type: 2}
   - material: {fileID: 2100000, guid: e5cc3e17a7d72bb45a9c920596171b43, type: 2}
+  groundColor: []
