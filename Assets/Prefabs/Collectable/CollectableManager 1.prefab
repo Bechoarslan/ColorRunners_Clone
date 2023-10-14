@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 2849889165812731825}
   - component: {fileID: 4074373268850825116}
   m_Layer: 0
-  m_Name: CollectableManager
+  m_Name: CollectableManager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 9162679510494592839}
   m_Layer: 0
   m_Name: PhysicsController
-  m_TagString: Collectable
+  m_TagString: Collected
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

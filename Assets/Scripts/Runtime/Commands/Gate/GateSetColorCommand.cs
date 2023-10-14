@@ -1,4 +1,3 @@
-using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace Runtime.Commands.Gate
 {
     public class GateSetColorCommand
     {
-        private readonly Renderer _gateRenderer;
+        private Renderer _gateRenderer;
         public GateSetColorCommand(ref Renderer gateRenderer)
         {
             _gateRenderer = gateRenderer;

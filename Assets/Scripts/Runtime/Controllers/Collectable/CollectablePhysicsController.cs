@@ -1,4 +1,5 @@
 
+using Runtime.Enums.Collectable;
 using Runtime.Signals;
 using UnityEngine;
 
@@ -30,7 +31,6 @@ namespace Runtime.Controllers.Collectable
                 
             }
         }
-        
         
     }
 }

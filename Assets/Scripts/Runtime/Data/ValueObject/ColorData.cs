@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using Runtime.Enums.Color;
 using UnityEngine;
 namespace Runtime.Data.ValueObject
 {
@@ -7,5 +8,14 @@ namespace Runtime.Data.ValueObject
     public struct ColorData
     {
         public Material material;
+
     }
+
+    
+   
+    
+    
+    
+    
+    
 }

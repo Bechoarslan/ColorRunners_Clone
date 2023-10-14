@@ -1,4 +1,5 @@
 using System;
+using Runtime.Enums.Collectable;
 using Runtime.Enums.Color;
 using Runtime.Extentions;
 using UnityEngine;
@@ -21,6 +22,9 @@ namespace Runtime.Signals
         
         public UnityAction<GameObject,GameObject> onCheckCollectablesColors = delegate { };
         public UnityAction<bool> onSendIsSameColorCondition = delegate {  };
+        
+        
+        public UnityAction<CollectableAnimationStates> onSetCollectableAnimation = delegate{  };
         
         
         

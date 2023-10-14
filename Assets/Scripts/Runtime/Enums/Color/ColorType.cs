@@ -9,6 +9,6 @@ namespace Runtime.Enums.Color
         Green = 4,
         Yellow = 5,
         Orange = 6,
-        Pink = 7,
+        
     }
 }

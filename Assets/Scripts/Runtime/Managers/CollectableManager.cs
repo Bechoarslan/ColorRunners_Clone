@@ -4,6 +4,7 @@ using Runtime.Controllers;
 using Runtime.Controllers.Collectable;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums.Collectable;
 using Runtime.Enums.Color;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
@@ -19,6 +20,8 @@ namespace Runtime.Managers
 
         [SerializeField] private ColorType colorType;
         [SerializeField] private CollectableMeshController collectableMeshController;
+        [SerializeField] private CollectablePhysicsController collectablePhysicsController;
+        [SerializeField] private Animator collectableAnimator;
 
         #endregion
 
@@ -26,8 +29,9 @@ namespace Runtime.Managers
 
         [ShowInInspector] private CD_Color _collectableColorData;
         private CollectableCheckColorCommand _collectableCheckColorCommand;
+        private CollectableSetAnimationCommand _collectableSetAnimationCommand;
 
-        private bool isSame;
+        private bool _isSame;
         
 
         #endregion
@@ -50,6 +54,7 @@ namespace Runtime.Managers
         private void Init()
         {
             _collectableCheckColorCommand = new CollectableCheckColorCommand();
+            _collectableSetAnimationCommand = new CollectableSetAnimationCommand(ref collectableAnimator);
         }
 
         private CD_Color GetColorData() => Resources.Load<CD_Color>("Data/CD_Color");
@@ -66,14 +71,20 @@ namespace Runtime.Managers
         {
             CollectableSignals.Instance.onCheckCollectablesColors += OnCheckCollectablesColors;
             CollectableSignals.Instance.onSendGateColorType += OnSendGateColorType;
+            CollectableSignals.Instance.onSetCollectableAnimation += OnSetCollectableAnimation;
         }
+        
+
+        internal void OnSetCollectableAnimation(CollectableAnimationStates animState)
+        {
+            _collectableSetAnimationCommand.Execute(animState);
+        }
+
 
         [Button]
         private void OnSendGateColorType(ColorType gateColorType)
         {
-            Debug.LogWarning("Executed ===> Returned");
             if (gateColorType == colorType) return;
-            Debug.LogWarning("Executed ===> OnSendGateColorType");
             SendColorDataToController(_collectableColorData.collectableColor[(int)gateColorType]);
         }
 
@@ -91,6 +102,8 @@ namespace Runtime.Managers
         private void UnSubscribeEvents()
         {
             CollectableSignals.Instance.onCheckCollectablesColors -= OnCheckCollectablesColors;
+            CollectableSignals.Instance.onSendGateColorType -= OnSendGateColorType;
+            CollectableSignals.Instance.onSetCollectableAnimation -= OnSetCollectableAnimation;
         }
 
         private void OnDisable()

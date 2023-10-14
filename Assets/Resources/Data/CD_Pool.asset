@@ -9,21 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b72d49f8c74741b2a707010a5744ecb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6967810415c045c780b6719e44f7c321, type: 3}
   m_Name: CD_Pool
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
   PoolList:
-    m_Keys: 00000000
-    m_Values:
-    - Amount: 0
-      Prefab: {fileID: 0}
-      Type: 0
+  - ObjName: Collectable
+    Pref: {fileID: 4702318736743930533, guid: 9c74486b963034eeea4107864b801031, type: 3}
+    ObjectCount: 50

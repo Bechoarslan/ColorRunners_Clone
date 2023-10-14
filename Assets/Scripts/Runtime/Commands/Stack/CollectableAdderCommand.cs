@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Runtime.Controllers.Collectable;
 using Runtime.Data.ValueObject;
+using Runtime.Enums.Collectable;
 using Runtime.Managers;
+using Runtime.Signals;
 using UnityEngine;
 
 namespace Runtime.Commands.Stack
@@ -29,9 +31,6 @@ namespace Runtime.Commands.Stack
             
             collectableGameObject.transform.localPosition = new Vector3(newCollectablePos.x
                 ,newCollectablePos.y,newCollectablePos.z - _stackData.StackOffset * _collectableList.Count * 2);
-            
-                
-            
             
         }
     }

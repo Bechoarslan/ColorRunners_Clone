@@ -4,6 +4,8 @@ using Runtime.Commands.Collectable;
 using Runtime.Commands.Stack;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums.Collectable;
+using Runtime.Enums.Pool;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -32,7 +34,7 @@ namespace Runtime.Managers
         private readonly string _stackDataPath = "Data/CD_Stack";
         private CollectableAdderCommand _collectableAdderCommand;
         private CollectableLerpMovementCommand _collectableLerpMovementCommand;
-        private CollectableCheckColorCommand _collectableCheckColorCommand;
+        private CollectableSetAnimationStateCommand _collectableSetAnimationStateCommand;
         [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
@@ -45,12 +47,14 @@ namespace Runtime.Managers
             _stackData = GetStackData();
             Init();
         }
+        
+        
 
         private void Init()
         {
             _collectableAdderCommand = new CollectableAdderCommand(ref _stackData, ref _collectableList,this);
             _collectableLerpMovementCommand = new CollectableLerpMovementCommand(ref _stackData, ref _collectableList);
-            _collectableCheckColorCommand = new CollectableCheckColorCommand();
+            _collectableSetAnimationStateCommand = new CollectableSetAnimationStateCommand();
         }
 
         private StackData GetStackData() => Resources.Load<CD_Stack>(_stackDataPath).Data;
@@ -70,16 +74,16 @@ namespace Runtime.Managers
             
         }
 
-        private void OnSendIsSameColorCondition(bool condition)
-        {
-            _isCollectableColorSame = condition;
-        }
+        private void OnSendIsSameColorCondition(bool condition) => _isCollectableColorSame = condition;
+        
 
         private void OnCollectableInteractWithCollectable(GameObject collectableObject)
         {
             if (_isCollectableColorSame)
             {
                 _collectableAdderCommand.Execute(collectableObject);
+                _collectableSetAnimationStateCommand.Execute(collectableObject,CollectableAnimationStates.Run);
+
             }
             
         }
@@ -94,17 +98,36 @@ namespace Runtime.Managers
        
         }
 
-       
+
+      
 
         private void OnDisable()
         {
             UnSubscribeEvents();
         }
+
+        private void Start()
+        {
+            InitiliazedObject();
+        }
         
+        private void InitiliazedObject()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
+                obj.SetActive(true);
+                _collectableAdderCommand.Execute(obj);
+                _collectableSetAnimationStateCommand.Execute(obj,CollectableAnimationStates.Run);
+
+            }
+        }
+
         private void OnPlay()
         {
-            _collectableAdderCommand.Execute(collectableGameObject);
             GetPlayerTransform();
+           
+            
         }
         
         private void GetPlayerTransform()
