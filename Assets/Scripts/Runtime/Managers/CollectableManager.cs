@@ -30,6 +30,7 @@ namespace Runtime.Managers
         [ShowInInspector] private CD_Color _collectableColorData;
         private CollectableCheckColorCommand _collectableCheckColorCommand;
         private CollectableSetAnimationCommand _collectableSetAnimationCommand;
+      
 
         private bool _isSame;
         
@@ -55,6 +56,7 @@ namespace Runtime.Managers
         {
             _collectableCheckColorCommand = new CollectableCheckColorCommand();
             _collectableSetAnimationCommand = new CollectableSetAnimationCommand(ref collectableAnimator);
+            
         }
 
         private CD_Color GetColorData() => Resources.Load<CD_Color>("Data/CD_Color");
@@ -72,16 +74,17 @@ namespace Runtime.Managers
             CollectableSignals.Instance.onCheckCollectablesColors += OnCheckCollectablesColors;
             CollectableSignals.Instance.onSendGateColorType += OnSendGateColorType;
             CollectableSignals.Instance.onSetCollectableAnimation += OnSetCollectableAnimation;
+            
         }
-        
 
+        
         internal void OnSetCollectableAnimation(CollectableAnimationStates animState)
         {
             _collectableSetAnimationCommand.Execute(animState);
         }
 
 
-        [Button]
+        
         private void OnSendGateColorType(ColorType gateColorType)
         {
             if (gateColorType == colorType) return;

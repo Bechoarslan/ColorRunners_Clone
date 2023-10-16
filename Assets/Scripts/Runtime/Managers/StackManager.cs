@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using Runtime.Commands.Collectable;
 using Runtime.Commands.Stack;
+using Runtime.Controllers.Collectable;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums.Collectable;
+using Runtime.Enums.MiniGame;
 using Runtime.Enums.Pool;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
@@ -29,12 +31,14 @@ namespace Runtime.Managers
         #region Private Variables
 
         [ShowInInspector] private List<GameObject> _collectableList = new List<GameObject>();
+        private MiniGameType _miniGameType;
        
         [ShowInInspector] private StackData _stackData;
         private readonly string _stackDataPath = "Data/CD_Stack";
         private CollectableAdderCommand _collectableAdderCommand;
         private CollectableLerpMovementCommand _collectableLerpMovementCommand;
         private CollectableSetAnimationStateCommand _collectableSetAnimationStateCommand;
+        private CollectableSetAnimationOnPlayCommand _collectableSetAnimationOnPlayCommand;
         [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
@@ -55,6 +59,8 @@ namespace Runtime.Managers
             _collectableAdderCommand = new CollectableAdderCommand(ref _stackData, ref _collectableList,this);
             _collectableLerpMovementCommand = new CollectableLerpMovementCommand(ref _stackData, ref _collectableList);
             _collectableSetAnimationStateCommand = new CollectableSetAnimationStateCommand();
+            _collectableSetAnimationOnPlayCommand = new CollectableSetAnimationOnPlayCommand(ref _collectableSetAnimationStateCommand);
+            
         }
 
         private StackData GetStackData() => Resources.Load<CD_Stack>(_stackDataPath).Data;
@@ -70,13 +76,23 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset += OnReset;
             CollectableSignals.Instance.onCollectableInteractWithCollectable += OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition += OnSendIsSameColorCondition;
+            CollectableSignals.Instance.onDestroyCollectableObject += OnDestroyCollectableObject;
+            MiniGameSignals.Instance.onSendMiniGameAreaType += OnSendMiniGameAreaType;
+            MiniGameSignals.Instance.onCollectableInteractWithColorCheckArea += OnCollectableInteractWithColorCheckArea;
+            MiniGameSignals.Instance.onCollectableExitFromColorCheckArea += OnCollectableExitFromColorCheckArea;
            
             
         }
 
+        private void OnDestroyCollectableObject(GameObject collectableObject)
+        {
+            Debug.LogWarning("Executed ====> Destroyed Collectable Object " + collectableObject.gameObject.name);
+            Destroy(collectableObject);
+        }
+
+
         private void OnSendIsSameColorCondition(bool condition) => _isCollectableColorSame = condition;
         
-
         private void OnCollectableInteractWithCollectable(GameObject collectableObject)
         {
             if (_isCollectableColorSame)
@@ -87,20 +103,37 @@ namespace Runtime.Managers
             }
             
         }
-        
+        private void OnSendMiniGameAreaType(MiniGameType miniGameType) => _miniGameType = miniGameType;
+        private void OnCollectableInteractWithColorCheckArea(GameObject collectableObject)
+        {
+            if (_miniGameType == MiniGameType.Turret)
+            {
+                
+                _collectableSetAnimationStateCommand.Execute(collectableObject,CollectableAnimationStates.HideWalk);
+            }
+            else
+            {
+               
+            }
+        }
+        private void OnCollectableExitFromColorCheckArea(GameObject collectableObject)
+        {
+            _collectableSetAnimationStateCommand.Execute(collectableObject,CollectableAnimationStates.Run);
+        }
 
+        
         private void UnSubscribeEvents()
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
             CollectableSignals.Instance.onCollectableInteractWithCollectable -= OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition -= OnSendIsSameColorCondition;
+            MiniGameSignals.Instance.onSendMiniGameAreaType -= OnSendMiniGameAreaType;
+            MiniGameSignals.Instance.onCollectableInteractWithColorCheckArea -= OnCollectableInteractWithColorCheckArea;
+            MiniGameSignals.Instance.onCollectableExitFromColorCheckArea -= OnCollectableExitFromColorCheckArea;
        
         }
-
-
-      
-
+        
         private void OnDisable()
         {
             UnSubscribeEvents();
@@ -118,16 +151,16 @@ namespace Runtime.Managers
                 var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
                 obj.SetActive(true);
                 _collectableAdderCommand.Execute(obj);
-                _collectableSetAnimationStateCommand.Execute(obj,CollectableAnimationStates.Run);
-
+                
             }
         }
 
         private void OnPlay()
         {
             GetPlayerTransform();
-           
-            
+            _collectableSetAnimationOnPlayCommand.Execute(_collectableList);
+
+
         }
         
         private void GetPlayerTransform()
