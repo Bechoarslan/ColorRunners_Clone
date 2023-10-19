@@ -22,6 +22,9 @@ namespace Runtime.Signals
         public UnityAction onReset = delegate { };
         public Func<int> onGetLevelID = delegate { return 0; };
         
+        
+      
+        
        
       
         

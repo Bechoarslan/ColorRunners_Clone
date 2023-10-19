@@ -6,6 +6,7 @@ using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums.Collectable;
 using Runtime.Enums.Color;
+using Runtime.Enums.MiniGame;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -30,6 +31,8 @@ namespace Runtime.Managers
         [ShowInInspector] private CD_Color _collectableColorData;
         private CollectableCheckColorCommand _collectableCheckColorCommand;
         private CollectableSetAnimationCommand _collectableSetAnimationCommand;
+        private MiniGameType _miniGameType;
+       
       
 
         private bool _isSame;
@@ -56,6 +59,7 @@ namespace Runtime.Managers
         {
             _collectableCheckColorCommand = new CollectableCheckColorCommand();
             _collectableSetAnimationCommand = new CollectableSetAnimationCommand(ref collectableAnimator);
+           
             
         }
 
@@ -74,15 +78,16 @@ namespace Runtime.Managers
             CollectableSignals.Instance.onCheckCollectablesColors += OnCheckCollectablesColors;
             CollectableSignals.Instance.onSendGateColorType += OnSendGateColorType;
             CollectableSignals.Instance.onSetCollectableAnimation += OnSetCollectableAnimation;
+           
             
         }
-
         
-        internal void OnSetCollectableAnimation(CollectableAnimationStates animState)
+        
+        internal void OnSetCollectableAnimation(GameObject collectableObject,CollectableAnimationStates animState)
         {
+            if(collectableObject.GetInstanceID() != gameObject.GetInstanceID()) return;
             _collectableSetAnimationCommand.Execute(animState);
         }
-
 
         
         private void OnSendGateColorType(ColorType gateColorType)

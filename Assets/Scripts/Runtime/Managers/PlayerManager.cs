@@ -53,6 +53,7 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased += playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay += OnPlay;
+            MiniGameSignals.Instance.onColorAreaInteractWithPlayerManager += playerMovementController.OnColorAreaInteractWithPlayerManager;
 
         }
 

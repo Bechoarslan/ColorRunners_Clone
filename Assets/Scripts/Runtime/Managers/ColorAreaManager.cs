@@ -1,9 +1,10 @@
-using System;
+
+using System.Collections.Generic;
 using Runtime.Commands.ColorCheck;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums.Color;
-using Runtime.Signals;
+
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -12,11 +13,12 @@ namespace Runtime.Managers
     {
         #region Self Variables
 
+        
         #region Serialized Variables
 
         [SerializeField] private Renderer colorAreaRenderer;
         [SerializeField] private ColorType colorType;
-        [SerializeField] private Transform colorCheckHolder;
+        
         
 
         #endregion
@@ -25,7 +27,6 @@ namespace Runtime.Managers
         private readonly string _colorDataPath = "Data/CD_Color";
 
         private ColorCheckSetColorCommand _colorCheckSetColorCommand;
-        private ColorCheckColorIsSameCommand _colorCheckCheckColorIsSameCommand;
 
         #endregion
 
@@ -40,7 +41,6 @@ namespace Runtime.Managers
         private void Init()
         {
             _colorCheckSetColorCommand = new ColorCheckSetColorCommand(ref colorAreaRenderer, _colorData);
-            _colorCheckCheckColorIsSameCommand = new ColorCheckColorIsSameCommand();
             _colorCheckSetColorCommand.Execute();
         }
         
@@ -53,13 +53,9 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            MiniGameSignals.Instance.onCheckColorTypes += OnCheckColorTypes;
+           
         }
-
-        private void OnCheckColorTypes(GameObject collectableObject, GameObject colorAreaManager)
-        {
-            _colorCheckCheckColorIsSameCommand.Execute(collectableObject, colorAreaManager);
-        }
+        
 
         private void UnSubscribeEvents()
         {

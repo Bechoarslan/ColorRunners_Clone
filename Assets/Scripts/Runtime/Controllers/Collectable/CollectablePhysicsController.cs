@@ -8,6 +8,7 @@ namespace Runtime.Controllers.Collectable
 {
     public class CollectablePhysicsController : MonoBehaviour
     {
+        
         #region Private Variables
 
         private readonly string _collectable = "Collectable";
@@ -35,11 +36,7 @@ namespace Runtime.Controllers.Collectable
                 
             }
 
-            if (other.CompareTag(_miniGameArea))
-            {
-                CollectableSignals.Instance.onCollectableInteractWithMiniGameArea?.Invoke(other.transform.parent.gameObject);
-                
-            }
+          
             
         }
 

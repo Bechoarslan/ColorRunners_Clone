@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 2849889165812731825}
   - component: {fileID: 4074373268850825116}
   m_Layer: 0
-  m_Name: CollectableManager 1
+  m_Name: InisiatedCollectableManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -234,7 +234,7 @@ GameObject:
   - component: {fileID: 3465203735943273815}
   - component: {fileID: 7595129023445246195}
   - component: {fileID: 9162679510494592839}
-  - component: {fileID: 930149106243172972}
+  - component: {fileID: 8819138560950471975}
   m_Layer: 0
   m_Name: PhysicsController
   m_TagString: Collected
@@ -296,8 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fb6a283948241c88c52ada75596c32a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &930149106243172972
-BoxCollider:
+--- !u!136 &8819138560950471975
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -314,9 +314,11 @@ BoxCollider:
   m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.524701, y: 1.4913852, z: 1}
-  m_Center: {x: -0.0023416132, y: 0.7727405, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.40037012
+  m_Height: 2.0950515
+  m_Direction: 1
+  m_Center: {x: 0.02000001, y: 0.6999999, z: 0.043839455}
 --- !u!1001 &1297671915821311071
 PrefabInstance:
   m_ObjectHideFlags: 0

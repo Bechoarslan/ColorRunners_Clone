@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
@@ -75,6 +76,12 @@ namespace Runtime.Controllers.Player
         {
             playerRigidbody.velocity = Vector3.zero;
             playerRigidbody.angularVelocity = Vector3.zero;
+        }
+
+        public void OnColorAreaInteractWithPlayerManager()
+        {
+            Stop();
+            _colorAreaSpeed = 0;
         }
     }
 }
