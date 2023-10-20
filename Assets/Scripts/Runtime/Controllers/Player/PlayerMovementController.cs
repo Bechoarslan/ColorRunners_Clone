@@ -2,7 +2,9 @@ using DG.Tweening;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
+using Runtime.Enums.MiniGame;
 using Runtime.Keys;
+using Runtime.Signals;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -27,6 +29,7 @@ namespace Runtime.Controllers.Player
         private float2 _clampValues;
         private GameStates _gameStates;
         private float _colorAreaSpeed = 1;
+        private MiniGameType _miniGameType;
         
         #endregion
 
@@ -59,7 +62,6 @@ namespace Runtime.Controllers.Player
 
         private void FixedUpdate()
         {
-            
             if (_isReadyToPlay)
             {
                 movementList.MoveTypeList[(int)_gameStates].DoMovement(ref _colorAreaSpeed, ref _isReadyToMove,
@@ -78,10 +80,40 @@ namespace Runtime.Controllers.Player
             playerRigidbody.angularVelocity = Vector3.zero;
         }
 
-        public void OnColorAreaInteractWithPlayerManager()
+        internal void OnColorAreaInteractWithPlayerManager()
         {
-            Stop();
-            _colorAreaSpeed = 0;
+            switch (_miniGameType)
+            {
+                case MiniGameType.Drone:
+                    
+                    CollectableSignals.Instance.onSetUnVisibleCollectableToVisible?.Invoke(true);
+                    DOVirtual.DelayedCall(0.08f, () =>
+                    {
+                        Stop();
+                        _colorAreaSpeed = 0;
+                
+                
+                    });
+                    break;
+                case MiniGameType.Turret:
+                    _colorAreaSpeed = 0.5f;
+                    break;
+                    
+            }
+            
+            
+            
+        }
+        internal void OnSendMiniGameAreaTypeToListeners(MiniGameType miniGameType)
+        {
+            _miniGameType = miniGameType;
+        }
+
+       
+
+        internal void OnSetPlayerMovementReady()
+        {
+            _colorAreaSpeed = 1;
         }
     }
 }

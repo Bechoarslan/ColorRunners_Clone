@@ -23,6 +23,11 @@ namespace Runtime.Signals
         public Func<int> onGetLevelID = delegate { return 0; };
         
         
+        public UnityAction<short> onSetCollectableScore = delegate {  };
+        
+        public Func<short> onSendCollectableScore = delegate { return 0; };
+        
+        
       
         
        

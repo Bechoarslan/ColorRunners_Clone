@@ -8,46 +8,51 @@ namespace Runtime.Data.UnityObject
     [CreateAssetMenu(fileName = "CD_MoveType_Run", menuName = "ColorRunners/CD_MoveType_Run", order = 0)]
     public class CD_MoveType_Run : CD_Move
     {
-        public override void DoMovement(ref float colorAreaSpeed, ref bool isReadyToMove, ref Rigidbody rigidbody,
-            ref HorizontalInputParams inputParams, ref PlayerMovementData playerMovementData)
+        public override void DoMovement(ref float _colorAreaSpeed,
+            ref bool _isReadyToMove,
+            ref Rigidbody _rigidbody,
+            ref HorizontalInputParams _inputParams,
+            ref PlayerMovementData _playerMovementData)
         {
-            if (isReadyToMove)
-            {
-                RunMove(ref colorAreaSpeed, ref rigidbody, ref inputParams, ref playerMovementData);
-            }
+            if (_isReadyToMove)
+                SwerveMove(ref _colorAreaSpeed,
+                    ref _rigidbody,
+                    ref _playerMovementData,
+                    ref _inputParams);
             else
-            {
-                StopSideWays(ref colorAreaSpeed, ref rigidbody, ref playerMovementData);
-            }
+                StopSideways(ref _colorAreaSpeed,
+                    ref _rigidbody,
+                    ref _playerMovementData);
         }
 
-        private void RunMove(ref float colorAreaSpeed, ref Rigidbody rigidbody, ref HorizontalInputParams inputParams, ref PlayerMovementData playerMovementData)
+        private void SwerveMove(ref float _colorAreaSpeed,
+            ref Rigidbody _rigidbody,
+            ref PlayerMovementData _playerMovementData,
+            ref HorizontalInputParams _inputParams)
         {
-            rigidbody.velocity = new Vector3(
-                inputParams.Values.x * playerMovementData.SidewaysSpeed,
-                Mathf.Clamp(rigidbody.velocity.y,
-                    -inputParams.HorizontalInputClampSides.y,
-                    inputParams.HorizontalInputClampSides.y),
-                playerMovementData.ForwardSpeed * colorAreaSpeed);
+            _rigidbody.velocity = new Vector3(
+                _inputParams.Values.x * _playerMovementData.SidewaysSpeed,
+                _rigidbody.velocity.y,
+                _playerMovementData.ForwardSpeed * _colorAreaSpeed);
 
 
-            
-            rigidbody.position = new Vector3(
-                Mathf.Clamp(rigidbody.position.x,
-                    -inputParams.HorizontalInputClampSides.x,
-                    inputParams.HorizontalInputClampSides.x),
-                rigidbody.position.y,
-                rigidbody.position.z);
-         
+            _rigidbody.position = new Vector3(
+                Mathf.Clamp(_rigidbody.position.x,
+                    -_inputParams.HorizontalInputClampSides.x,
+                    _inputParams.HorizontalInputClampSides.x),
+                _rigidbody.position.y,
+                _rigidbody.position.z);
         }
 
-        private void StopSideWays(ref float colorAreaSpeed, ref Rigidbody rigidbody, ref PlayerMovementData playerMovementData)
+        private void StopSideways(ref float _colorAreaSpeed,
+            ref Rigidbody _rigidbody,
+            ref PlayerMovementData _playerMovementData)
         {
-            rigidbody.velocity =
+            _rigidbody.velocity =
                 new Vector3(0,
-                    rigidbody.velocity.y,
-                    playerMovementData.ForwardSpeed * colorAreaSpeed);
-            rigidbody.angularVelocity = Vector3.zero;
+                    _rigidbody.velocity.y,
+                    _playerMovementData.ForwardSpeed * _colorAreaSpeed);
+            _rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

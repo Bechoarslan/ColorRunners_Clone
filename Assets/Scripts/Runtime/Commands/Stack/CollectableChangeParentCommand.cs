@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Runtime.Signals;
 using UnityEngine;
 
 namespace Runtime.Commands.Stack
@@ -17,6 +18,12 @@ namespace Runtime.Commands.Stack
             newCollectableList.Add(collectableObject);
             collectableObject.transform.parent = colorAreaTransform.transform;
             _collectableList.TrimExcess();
+            if (_collectableList.Count <= 1)
+            {
+                MiniGameSignals.Instance.onMiniGameAreaStartDroneRoutine?.Invoke(colorAreaTransform.transform.parent.gameObject.transform.parent.gameObject);
+                
+                
+            }
         }
     }
 }

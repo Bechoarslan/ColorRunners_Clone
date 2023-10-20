@@ -72,7 +72,7 @@ namespace Runtime.Managers
 
         private void UnSubscribeEvents()
         {
-            
+            CollectableSignals.Instance.onCollectableInteractWithGate -= OnCollectableInteractWithCollectable;
         }
 
         private void OnDisable()

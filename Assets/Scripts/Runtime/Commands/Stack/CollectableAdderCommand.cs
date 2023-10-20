@@ -31,6 +31,7 @@ namespace Runtime.Commands.Stack
             
             collectableGameObject.transform.localPosition = new Vector3(newCollectablePos.x
                 ,newCollectablePos.y,newCollectablePos.z - _stackData.StackOffset * _collectableList.Count * 2);
+            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)_collectableList.Count);
             
         }
     }

@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Runtime.Enums.Collectable;
+using Runtime.Enums.MiniGame;
 using Runtime.Managers;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Runtime.Controllers.ColorCheck
 {
@@ -12,7 +16,7 @@ namespace Runtime.Controllers.ColorCheck
 
         #region Public Variables
 
-        public List<GameObject> newListOfCollectables = new List<GameObject>();
+         
 
         #endregion
 
@@ -24,6 +28,7 @@ namespace Runtime.Controllers.ColorCheck
 
         private readonly string _collected = "Collected";
         private readonly string _player = "Player";
+        [ShowInInspector]private MiniGameType _miniGameType;
 
         #endregion
         #endregion
@@ -37,10 +42,48 @@ namespace Runtime.Controllers.ColorCheck
 
             if (other.CompareTag(_collected))
             {
-                MiniGameSignals.Instance.onColorAreaInteractWithCollectable?.Invoke(other.transform.parent.gameObject, newListOfCollectables,gameObject.transform);
-                MiniGameSignals.Instance.onColorAreaSendCollectableToHolder?.Invoke(other.transform.parent.gameObject, colorCheckHolder);
+                var parent = other.transform.parent;
+                var collectableManager = parent.gameObject.GetComponent<CollectableManager>().SendColorType();
+
+                switch (_miniGameType)
+                {
+                    case MiniGameType.Drone:
+                        var collision = other.gameObject.GetComponent<CapsuleCollider>();
+                       MiniGameSignals.Instance.onCheckColorCollectableForColorArea?.Invoke(collectableManager,transform.parent.gameObject,parent.gameObject);
+                        MiniGameSignals.Instance.onDroneColorAreaSendCollectableToHolder?.Invoke(parent.gameObject, colorCheckHolder);
+                        collision.enabled = false;
+                        
+                        
+                        
+                        break;
+                    case MiniGameType.Turret:
+                        
+                        CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(parent.gameObject,CollectableAnimationStates.HideWalk);
+                        MiniGameSignals.Instance.onCheckColorCollectableForColorArea?.Invoke(collectableManager,transform.parent.gameObject,parent.gameObject);
+                        
+                        break;
+                        
+                        
+                }
+                
+              
+                
             }
             
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag(_collected))
+            {
+                CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(other.transform.parent.gameObject,CollectableAnimationStates.Run);
+            }
+        }
+
+
+        public void GetMiniGameType(MiniGameType miniGameType)
+        {
+            _miniGameType = miniGameType;
         }
     }
 }

@@ -33,6 +33,7 @@ namespace Runtime.Managers
         private CollectableSetAnimationCommand _collectableSetAnimationCommand;
         private MiniGameType _miniGameType;
        
+       
       
 
         private bool _isSame;

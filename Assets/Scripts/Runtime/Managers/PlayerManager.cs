@@ -19,6 +19,7 @@ namespace Runtime.Managers
         #region Serialized Variables
 
         [SerializeField] private PlayerMovementController playerMovementController;
+        [SerializeField] private PlayerMeshController playerMeshController;
 
         #endregion
 
@@ -53,7 +54,10 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased += playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay += OnPlay;
+            CoreGameSignals.Instance.onSetCollectableScore += playerMeshController.SetCollectableScore;
             MiniGameSignals.Instance.onColorAreaInteractWithPlayerManager += playerMovementController.OnColorAreaInteractWithPlayerManager;
+            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners += playerMovementController.OnSendMiniGameAreaTypeToListeners;
+            MiniGameSignals.Instance.onSetPlayerMovementReady += playerMovementController.OnSetPlayerMovementReady;
 
         }
 
@@ -73,6 +77,9 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased -= playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken -= playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay -= OnPlay;
+            MiniGameSignals.Instance.onColorAreaInteractWithPlayerManager -= playerMovementController.OnColorAreaInteractWithPlayerManager;
+            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners -= playerMovementController.OnSendMiniGameAreaTypeToListeners;
+            MiniGameSignals.Instance.onSetPlayerMovementReady += playerMovementController.OnSetPlayerMovementReady;
         }
 
         private void OnDisable()

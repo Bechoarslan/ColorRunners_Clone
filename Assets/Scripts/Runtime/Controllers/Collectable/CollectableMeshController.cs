@@ -17,6 +17,9 @@ namespace Runtime.Controllers.Collectable
         public void GetColorDataFromManager(ColorData collectableColorData)
         {
             collectableRenderer.material.color = collectableColorData.material.color;
+            
         }
     }
+    
+    
 }

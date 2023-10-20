@@ -1,7 +1,5 @@
 
-using Runtime.Enums.Collectable;
 using Runtime.Signals;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Controllers.Collectable
@@ -35,6 +33,7 @@ namespace Runtime.Controllers.Collectable
                 CollectableSignals.Instance.onCollectableInteractWithGate?.Invoke(other.transform.parent.gameObject);
                 
             }
+            
 
           
             

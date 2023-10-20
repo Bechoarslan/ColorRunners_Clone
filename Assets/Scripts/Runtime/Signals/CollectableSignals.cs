@@ -14,6 +14,7 @@ namespace Runtime.Signals
         public UnityAction<bool> onSendIsSameColorCondition = delegate {  };
         public UnityAction<GameObject> onCollectableInteractWithGate = delegate{  };
         public UnityAction<ColorType> onSendGateColorType = delegate {  };
+        public UnityAction<bool> onSetUnVisibleCollectableToVisible = delegate {  };
         
         
         
