@@ -47,9 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e60b55645fa4880b9c2c63b1e1587bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  correctColorList: []
+  falseColorList: []
   colorAreaRenderer: {fileID: 8974121101648598269}
   colorType: 0
-  colorAreaPhysicsController: {fileID: 5883069539364278054}
+  holder: {fileID: 522612790181350881}
 --- !u!1 &2320318762440960857
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,8 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be6b3ce4dbd446b92479d40e366e6ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newListOfCollectables: []
-  colorCheckHolder: {fileID: 522612790181350881}
+  holder: {fileID: 522612790181350881}
 --- !u!1 &8970884171398978359
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using DG.Tweening;
+using Runtime.Managers;
 using Runtime.Signals;
 using UnityEngine;
 
@@ -12,16 +14,29 @@ namespace Runtime.Commands.Stack
             _collectableList = collectableList;
         }
 
-        public void Execute(GameObject collectableObject, List<GameObject> newCollectableList, Transform colorAreaTransform)
+        public void Execute(GameObject collectableObject, Transform colorAreaObj, bool isColorsSame)
         {
+            var colorAreaManager = colorAreaObj.GetComponentInParent<ColorAreaManager>();
+            var miniGameManager = colorAreaManager.GetComponentInParent<MiniGameManager>();
             _collectableList.Remove(collectableObject);
-            newCollectableList.Add(collectableObject);
-            collectableObject.transform.parent = colorAreaTransform.transform;
+            if (isColorsSame)
+            {
+                colorAreaManager.correctColorList.Add(collectableObject);
+            }
+            else
+            {
+                colorAreaManager.falseColorList.Add(collectableObject);
+            }
+            collectableObject.transform.parent = colorAreaObj;
             _collectableList.TrimExcess();
             if (_collectableList.Count <= 1)
             {
-                MiniGameSignals.Instance.onMiniGameAreaStartDroneRoutine?.Invoke(colorAreaTransform.transform.parent.gameObject.transform.parent.gameObject);
-                
+                DOVirtual.DelayedCall(1f,() =>
+                { 
+                    miniGameManager.PlayDrone();
+
+                });
+               
                 
             }
         }

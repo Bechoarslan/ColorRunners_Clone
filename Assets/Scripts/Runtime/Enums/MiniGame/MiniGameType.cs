@@ -4,6 +4,7 @@ namespace Runtime.Enums.MiniGame
     {
         Turret,
         Drone,
+        None,
         
     }
 }

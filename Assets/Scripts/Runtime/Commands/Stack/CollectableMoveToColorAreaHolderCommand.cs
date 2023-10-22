@@ -9,27 +9,28 @@ namespace Runtime.Commands.Stack
 {
     public class CollectableMoveToColorAreaHolderCommand
     {
-        private List<GameObject> _collectableList;
-        public CollectableMoveToColorAreaHolderCommand(ref List<GameObject> collectableList)
-        {
-            _collectableList = collectableList;
-        }
+        
 
-        public void Execute(GameObject collectableObject, Transform colorAreaHolder)
+       
+
+        public void Execute(GameObject collectableObj, Transform colorAreaObj)
         {
-            var collectableRenderer = collectableObject.GetComponentInChildren<SkinnedMeshRenderer>();
+            
+            var collectableRenderer = collectableObj.GetComponentInChildren<SkinnedMeshRenderer>();
+            collectableObj.GetComponentInChildren<CapsuleCollider>().enabled = false;
             var randomNumber = Random.Range(-1.2f, 1.2f);
-            var newPos = new Vector3(colorAreaHolder.position.x,collectableObject.transform.position.y,colorAreaHolder.position.z + randomNumber);
-            collectableObject.transform.DOMove(newPos, 1f).SetEase(Ease.Linear).OnComplete(() =>
-                {
-                    collectableRenderer.material.DOFloat(0,"_OutlineWidth",1f);
-                    CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObject, CollectableAnimationStates.Idle);
+            
+                var newPos = new Vector3(colorAreaObj.position.x,collectableObj.transform.position.y, colorAreaObj.position.z+ randomNumber);
+                
+                collectableObj.transform.DOMove(newPos, 1f).SetEase(Ease.Linear).OnComplete(() =>
+                    {
+                        collectableRenderer.material.DOFloat(0,"_OutlineWidth",1f);
+                        CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObj, CollectableAnimationStates.Idle);
                      
                     
-                }
-                    );
+                    }
+                );
+            
         }
-
-        
     }
 }

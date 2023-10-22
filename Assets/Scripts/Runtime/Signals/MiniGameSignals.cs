@@ -11,21 +11,18 @@ namespace Runtime.Signals
 {
     public class MiniGameSignals : MonoSingleton<MiniGameSignals>
     {
-        
-        public UnityAction<GameObject,List<GameObject>,Transform> onDroneColorAreaInteractWithCollectable = delegate {  };
-        public UnityAction<GameObject,Transform> onDroneColorAreaSendCollectableToHolder = delegate {  };
-        public UnityAction onColorAreaInteractWithPlayerManager = delegate {  };
-        public UnityAction<GameObject> onMiniGameAreaStartDroneRoutine = delegate {  };
-        
-        public UnityAction<GameObject> onMiniGameAreaInteractWithCollectable = delegate {};
-        public UnityAction<MiniGameType> onSendMiniGameAreaTypeToListeners = delegate {  };
-        public UnityAction onDroneAreaControlPatrolEnd = delegate {  };
+        public UnityAction<GameObject> onPlayerInteractWithMiniGameArea = delegate {  };
+        public UnityAction onPlayerExitInteractWithMiniGameArea = delegate {  };
+        public UnityAction<MiniGameType> onMiniGameAreaSendToMiniGameTypeToListeners = delegate {  }; 
+        public UnityAction<GameObject,Transform> onCollectableInteractWithCollectableArea = delegate {  };
         
         
-        public UnityAction<ColorType,GameObject,GameObject> onCheckColorCollectableForColorArea = delegate {  };
         
-        public UnityAction<List<GameObject>,Transform>  onSetCollectableListToStackManager = delegate {  };
-        public UnityAction onSetPlayerMovementReady = delegate {  };
+        
+        
+        
+        
+      
 
         
         

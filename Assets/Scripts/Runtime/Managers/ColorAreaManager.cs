@@ -20,8 +20,8 @@ namespace Runtime.Managers
 
         #region Public Variables
 
-        [ShowInInspector]private List<GameObject> correctColorList = new List<GameObject>();
-        [ShowInInspector]private List<GameObject> falseColorList = new List<GameObject>();
+        [ShowInInspector]public List<GameObject> correctColorList = new List<GameObject>();
+        [ShowInInspector]public List<GameObject> falseColorList = new List<GameObject>();
 
         #endregion
         
@@ -29,11 +29,6 @@ namespace Runtime.Managers
 
         [SerializeField] private Renderer colorAreaRenderer;
         [SerializeField] private ColorType colorType;
-        [SerializeField] private ColorAreaPhysicsController colorAreaPhysicsController;
-        [SerializeField] private Transform correctCollectableHolder;
-        [SerializeField] private Transform falseCollectableHolder;
-        
-        
 
         #endregion
         
@@ -57,9 +52,10 @@ namespace Runtime.Managers
         private void Init()
         {
             _colorCheckSetColorCommand = new ColorCheckSetColorCommand(ref colorAreaRenderer, _colorData);
-            _colorAreaSetListOfCollectableCommand =
-                new ColorAreaSetListOfCollectableCommand(ref correctColorList, ref falseColorList,ref correctCollectableHolder,ref falseCollectableHolder);
-            _colorCheckSetColorCommand.Execute();
+            // _colorAreaSetListOfCollectableCommand =
+            //     new ColorAreaSetListOfCollectableCommand(ref correctColorList, ref falseColorList,ref correctCollectableHolder,ref falseCollectableHolder);
+             _colorCheckSetColorCommand.Execute();
+            
         }
         
 
@@ -70,51 +66,20 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-           MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners += OnSendMiniGameAreaTypeToListeners;
-           MiniGameSignals.Instance.onCheckColorCollectableForColorArea += OnCheckColorCollectableForColorArea;
-           MiniGameSignals.Instance.onSetCollectableListToStackManager += OnSetCollectableListToStackManager;
-        }
-
-        private void OnSetCollectableListToStackManager(List<GameObject> collectableList, Transform stackManagerTransform)
-        {
-            for (var i = correctCollectableHolder.childCount; i > 0  ; i--)
-            {
-                var collectableObject = correctCollectableHolder.GetChild(i - 1).gameObject;
-                collectableObject.transform.parent = stackManagerTransform;
-                correctColorList.Remove(collectableObject);
-                collectableList.Add(collectableObject);
-                correctColorList.TrimExcess();
-                CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObject,CollectableAnimationStates.Run);
-            } 
-            MiniGameSignals.Instance.onSetPlayerMovementReady?.Invoke();
-            
-        }
-        
-
-
-        private void OnCheckColorCollectableForColorArea(ColorType collectableType, GameObject colorAreaObject,GameObject collectableObject)
-        {
-            if(colorAreaObject.GetInstanceID() != gameObject.GetInstanceID()) return;
-            _colorAreaSetListOfCollectableCommand.Execute(colorType, collectableType, collectableObject);
-          
            
-            
         }
 
-        private void OnSendMiniGameAreaTypeToListeners(MiniGameType miniGameType)
-        {
-            _miniGameType = miniGameType;
-            colorAreaPhysicsController.GetMiniGameType(miniGameType);
-        }
+      
+
+        
+        
 
         
 
 
         private void UnSubscribeEvents()
         {
-            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners -= OnSendMiniGameAreaTypeToListeners;
-            MiniGameSignals.Instance.onCheckColorCollectableForColorArea -= OnCheckColorCollectableForColorArea;
-            MiniGameSignals.Instance.onSetCollectableListToStackManager -= OnSetCollectableListToStackManager;
+            
            
         }
 
@@ -122,5 +87,9 @@ namespace Runtime.Managers
         {
             UnSubscribeEvents();
         }
+
+        internal ColorType SendColorType() => colorType;
+
+        
     }
 }

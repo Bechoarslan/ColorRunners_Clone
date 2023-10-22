@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
@@ -80,9 +81,11 @@ namespace Runtime.Controllers.Player
             playerRigidbody.angularVelocity = Vector3.zero;
         }
 
-        internal void OnColorAreaInteractWithPlayerManager()
+        
+
+        public void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
-            switch (_miniGameType)
+            switch (miniGameType)
             {
                 case MiniGameType.Drone:
                     
@@ -100,18 +103,9 @@ namespace Runtime.Controllers.Player
                     break;
                     
             }
-            
-            
-            
-        }
-        internal void OnSendMiniGameAreaTypeToListeners(MiniGameType miniGameType)
-        {
-            _miniGameType = miniGameType;
         }
 
-       
-
-        internal void OnSetPlayerMovementReady()
+        public void OnPlayerExitInteractWithMiniGameArea()
         {
             _colorAreaSpeed = 1;
         }

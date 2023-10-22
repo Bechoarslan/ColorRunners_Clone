@@ -25,11 +25,12 @@ namespace Runtime.Commands.ColorCheck
         {
             if (collectableType == colorType)
             {
-                MiniGameSignals.Instance.onDroneColorAreaInteractWithCollectable?.Invoke(collectableObject, _correctColorList,_correctCollectableHolder);
+                
+                
             }
             else
             {
-                MiniGameSignals.Instance.onDroneColorAreaInteractWithCollectable?.Invoke(collectableObject, _falseColorList,_falseCollectableHolder);
+               
             };
             
                 

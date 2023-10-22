@@ -24,12 +24,16 @@ namespace Runtime.Commands.MiniGame
                 {
                     _dronePrefab.transform.DOMove(droneThirdPosition, 3f).OnComplete((() =>
                     {
-                       
-                        MiniGameSignals.Instance.onDroneAreaControlPatrolEnd?.Invoke();
+                        
+                        
 
                     }));
                 }));
             } ));
+
+           
+            
+
         }
     }
 }

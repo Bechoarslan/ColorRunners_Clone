@@ -45,38 +45,30 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-           MiniGameSignals.Instance.onMiniGameAreaInteractWithCollectable += OnMiniGameAreaInteractWithCollectable;
-           MiniGameSignals.Instance.onMiniGameAreaStartDroneRoutine += OnMiniGameAreaStartDroneRoutine;
-            
+            MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea += OnPlayerInteractWithMiniGameArea;
         }
 
-        private void OnMiniGameAreaStartDroneRoutine(GameObject miniGameObject)
+        private void OnPlayerInteractWithMiniGameArea(GameObject miniGameAreaObject)
         {
-            if(miniGameObject.GetInstanceID() != gameObject.GetInstanceID()) return;
-            _miniGamePlayDroneCommand.Execute();
-
-
-
-        }
-
-        private void OnMiniGameAreaInteractWithCollectable(GameObject miniGameObject)
-        {
-            Debug.LogWarning("Executed ===> OnMiniGameAreaInteractWithCollectable");
-            if (miniGameObject.GetInstanceID() != gameObject.GetInstanceID()) return;
-            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners?.Invoke(miniGameType); 
-            
+            if (miniGameAreaObject.GetInstanceID() != gameObject.GetInstanceID()) return;
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners.Invoke(miniGameType);
         }
 
 
         private void UnSubscribeEvents()
         {
-            MiniGameSignals.Instance.onMiniGameAreaInteractWithCollectable -= OnMiniGameAreaInteractWithCollectable;
-            MiniGameSignals.Instance.onMiniGameAreaStartDroneRoutine -= OnMiniGameAreaStartDroneRoutine;
+            MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea -= OnPlayerInteractWithMiniGameArea;
         }
 
         private void OnDisable()
         {
             UnSubscribeEvents();
+        }
+
+        internal void PlayDrone()
+        {
+             _miniGamePlayDroneCommand.Execute();
+             
         }
     }
 }

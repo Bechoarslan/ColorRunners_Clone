@@ -55,9 +55,10 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onSetCollectableScore += playerMeshController.SetCollectableScore;
-            MiniGameSignals.Instance.onColorAreaInteractWithPlayerManager += playerMovementController.OnColorAreaInteractWithPlayerManager;
-            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners += playerMovementController.OnSendMiniGameAreaTypeToListeners;
-            MiniGameSignals.Instance.onSetPlayerMovementReady += playerMovementController.OnSetPlayerMovementReady;
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
+                playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+
 
         }
 
@@ -77,9 +78,10 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased -= playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken -= playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay -= OnPlay;
-            MiniGameSignals.Instance.onColorAreaInteractWithPlayerManager -= playerMovementController.OnColorAreaInteractWithPlayerManager;
-            MiniGameSignals.Instance.onSendMiniGameAreaTypeToListeners -= playerMovementController.OnSendMiniGameAreaTypeToListeners;
-            MiniGameSignals.Instance.onSetPlayerMovementReady += playerMovementController.OnSetPlayerMovementReady;
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -=
+                playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+           
         }
 
         private void OnDisable()

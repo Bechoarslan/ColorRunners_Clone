@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Runtime.Commands.Collectable;
 using Runtime.Commands.Stack;
 using Runtime.Controllers.Collectable;
@@ -28,8 +29,8 @@ namespace Runtime.Managers
 
         #region Private Variables
 
+        [ShowInInspector] private MiniGameType _miniGameType;
         [ShowInInspector] private List<GameObject> _collectableList = new List<GameObject>();
-        private MiniGameType _miniGameType;
         [ShowInInspector] private StackData _stackData;
         private readonly string _stackDataPath = "Data/CD_Stack";
         private Transform _playerManagerTransform;
@@ -40,6 +41,8 @@ namespace Runtime.Managers
         private CollectableMoveToColorAreaHolderCommand _collectableMoveToColorAreaHolderCommand;
         private CollectableSetVisibleUnVisibleCollectableCommand _collectableSetVisibleUnVisibleCollectableCommand;
         private CollectableSetStackManagerCommand _collectableSetStackManagerCommand;
+        private CollectableDestroyCommand _collectableDestroyCommand;
+        private CollectableCheckColorIsSameWithColorArea _collectableCheckColorIsSameWithColorArea;
         [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
@@ -59,9 +62,12 @@ namespace Runtime.Managers
             _collectableLerpMovementCommand = new CollectableLerpMovementCommand(ref _stackData, ref _collectableList);
             _collectableSetAnimationOnPlayCommand = new CollectableSetAnimationOnPlayCommand();
             _collectableChangeParentCommand = new CollectableChangeParentCommand(ref _collectableList);
-            _collectableMoveToColorAreaHolderCommand = new CollectableMoveToColorAreaHolderCommand(ref _collectableList);
+            _collectableMoveToColorAreaHolderCommand = new CollectableMoveToColorAreaHolderCommand();
+            _collectableSetStackManagerCommand = new CollectableSetStackManagerCommand(ref _collectableList, this.transform);
             _collectableSetVisibleUnVisibleCollectableCommand = new CollectableSetVisibleUnVisibleCollectableCommand(ref _collectableList, ref _stackData);
-           
+            _collectableDestroyCommand = new CollectableDestroyCommand(ref _collectableList);
+            _collectableCheckColorIsSameWithColorArea = new CollectableCheckColorIsSameWithColorArea();
+
 
 
         }
@@ -80,14 +86,41 @@ namespace Runtime.Managers
             CollectableSignals.Instance.onCollectableInteractWithCollectable += OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition += OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible += _collectableSetVisibleUnVisibleCollectableCommand.Execute;
-            MiniGameSignals.Instance.onDroneColorAreaInteractWithCollectable += _collectableChangeParentCommand.Execute;
-            MiniGameSignals.Instance.onDroneColorAreaSendCollectableToHolder += _collectableMoveToColorAreaHolderCommand.Execute;
-            MiniGameSignals.Instance.onDroneAreaControlPatrolEnd += () 
-                => MiniGameSignals.Instance.onSetCollectableListToStackManager?.Invoke(_collectableList,transform);
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners += OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onCollectableInteractWithCollectableArea +=
+                OnCollectableInteractWithCollectableArea;
+
 
         }
 
-      
+        private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType) =>  _miniGameType = miniGameType;
+           
+       
+
+        private void OnCollectableInteractWithCollectableArea(GameObject collectableObj, Transform colorAreaObj)
+        {
+            switch (_miniGameType)
+            {
+                case MiniGameType.Drone:
+                   var isColorsSame = _collectableCheckColorIsSameWithColorArea.Execute(collectableObj, colorAreaObj);
+                    _collectableMoveToColorAreaHolderCommand.Execute(collectableObj,colorAreaObj);
+                    _collectableChangeParentCommand.Execute(collectableObj,colorAreaObj,isColorsSame);
+                   DOVirtual.DelayedCall(6f, () =>
+                   {
+                       _collectableSetStackManagerCommand.Execute(colorAreaObj);
+
+                   });
+                   
+                    
+                    break;
+                
+                
+                case MiniGameType.Turret:
+                    CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObj,CollectableAnimationStates.HideWalk);
+                    break;
+                
+            }
+        }
 
 
         private void OnSendIsSameColorCondition(bool condition) => _isCollectableColorSame = condition;
@@ -109,12 +142,16 @@ namespace Runtime.Managers
             CollectableSignals.Instance.onCollectableInteractWithCollectable -= OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition -= OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible -= _collectableSetVisibleUnVisibleCollectableCommand.Execute;
-            MiniGameSignals.Instance.onDroneColorAreaInteractWithCollectable -= _collectableChangeParentCommand.Execute;
-            MiniGameSignals.Instance.onDroneColorAreaSendCollectableToHolder -= _collectableMoveToColorAreaHolderCommand.Execute;
-            MiniGameSignals.Instance.onDroneAreaControlPatrolEnd -= () 
-                => MiniGameSignals.Instance.onSetCollectableListToStackManager?.Invoke(_collectableList,transform);
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -= OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onCollectableInteractWithCollectableArea -=
+                OnCollectableInteractWithCollectableArea;
+           
+           
+
+
 
         }
+        
 
         private void OnDisable()
         {
@@ -128,7 +165,7 @@ namespace Runtime.Managers
 
         private void InitiliazedObject()
         {
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 50; i++)
             {
                 var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
                 obj.SetActive(true);
