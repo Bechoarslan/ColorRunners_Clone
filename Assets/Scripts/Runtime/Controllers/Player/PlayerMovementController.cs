@@ -6,6 +6,7 @@ using Runtime.Enums;
 using Runtime.Enums.MiniGame;
 using Runtime.Keys;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -29,7 +30,7 @@ namespace Runtime.Controllers.Player
         private float3 _inputValues;
         private float2 _clampValues;
         private GameStates _gameStates;
-        private float _colorAreaSpeed = 1;
+        [ShowInInspector]private float _colorAreaSpeed = 1;
         private MiniGameType _miniGameType;
         
         #endregion
@@ -85,6 +86,7 @@ namespace Runtime.Controllers.Player
 
         public void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
+            Debug.LogWarning(miniGameType);
             switch (miniGameType)
             {
                 case MiniGameType.Drone:

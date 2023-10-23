@@ -5,5 +5,6 @@ namespace Runtime.Enums.Collectable
         Idle,
         Run,
         HideWalk,
+        Died,
     }
 }

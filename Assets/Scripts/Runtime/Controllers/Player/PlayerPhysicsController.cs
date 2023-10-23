@@ -13,6 +13,7 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_minigameAreaTag))
             {
                 MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea?.Invoke(other.transform.parent.gameObject);
+                
             }
         }
 
@@ -21,6 +22,7 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_minigameAreaTag))
             {
                 MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea?.Invoke();
+                
             }
         }
     }

@@ -9,9 +9,12 @@ namespace Runtime.Commands.Stack
 {
     public class CollectableMoveToColorAreaHolderCommand
     {
-        
+        private List<GameObject> _collectableList;
+        public CollectableMoveToColorAreaHolderCommand(ref List<GameObject> collectableList)
+        {
+            _collectableList = collectableList;
+        }
 
-       
 
         public void Execute(GameObject collectableObj, Transform colorAreaObj)
         {
@@ -30,6 +33,8 @@ namespace Runtime.Commands.Stack
                     
                     }
                 );
+                
+            
             
         }
     }

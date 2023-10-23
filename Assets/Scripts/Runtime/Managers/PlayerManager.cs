@@ -57,7 +57,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onSetCollectableScore += playerMeshController.SetCollectableScore;
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
-            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onPlayerReadyToGo += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
 
 
         }
@@ -80,7 +80,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlay -= OnPlay;
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
-            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onPlayerReadyToGo -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
            
         }
 

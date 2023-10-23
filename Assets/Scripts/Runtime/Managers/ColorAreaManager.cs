@@ -1,6 +1,9 @@
 
+using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Runtime.Commands.ColorCheck;
+using Runtime.Commands.Stack;
 using Runtime.Controllers.ColorCheck;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
@@ -37,6 +40,8 @@ namespace Runtime.Managers
 
         private ColorCheckSetColorCommand _colorCheckSetColorCommand;
         private ColorAreaSetListOfCollectableCommand _colorAreaSetListOfCollectableCommand;
+        private ColorAreaSetStackManagerCommand _colorAreaSetStackManagerCommand;
+        private ColorAreaDestroyFalseCollectableCommand _colorAreaDestroyFalseCollectableCommand;
         private MiniGameType _miniGameType;
 
         #endregion
@@ -52,9 +57,9 @@ namespace Runtime.Managers
         private void Init()
         {
             _colorCheckSetColorCommand = new ColorCheckSetColorCommand(ref colorAreaRenderer, _colorData);
-            // _colorAreaSetListOfCollectableCommand =
-            //     new ColorAreaSetListOfCollectableCommand(ref correctColorList, ref falseColorList,ref correctCollectableHolder,ref falseCollectableHolder);
              _colorCheckSetColorCommand.Execute();
+             _colorAreaSetStackManagerCommand = new ColorAreaSetStackManagerCommand(ref correctColorList);
+             _colorAreaDestroyFalseCollectableCommand = new ColorAreaDestroyFalseCollectableCommand(ref falseColorList);
             
         }
         
@@ -66,26 +71,36 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-           
+           MiniGameSignals.Instance.onPlayMiniGameDroneArea += OnPlayMiniGameDroneArea;
         }
 
-      
+        private void OnPlayMiniGameDroneArea(List<GameObject> collectableList,Transform stackManagerTransform)
+        {
+            StartCoroutine(OnPlayDroneMiniGame(collectableList,stackManagerTransform));
 
-        
-        
-
+        }
         
 
 
         private void UnSubscribeEvents()
         {
-            
-           
+           MiniGameSignals.Instance.onPlayMiniGameDroneArea -= OnPlayMiniGameDroneArea;
         }
 
         private void OnDisable()
         {
             UnSubscribeEvents();
+        }
+
+        private IEnumerator OnPlayDroneMiniGame(List<GameObject> collectableList,Transform stackManagerTransform)
+        {
+            yield return new WaitForSeconds(4f);
+            _colorAreaDestroyFalseCollectableCommand.Execute();
+            yield return new WaitForSeconds(1f);
+            _colorAreaSetStackManagerCommand.Execute(collectableList,stackManagerTransform);
+            yield return new WaitForSeconds(0.001f);
+            MiniGameSignals.Instance.onCheckCollectableListIsEmpty?.Invoke();
+
         }
 
         internal ColorType SendColorType() => colorType;

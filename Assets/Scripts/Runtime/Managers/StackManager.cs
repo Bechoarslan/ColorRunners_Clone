@@ -40,9 +40,8 @@ namespace Runtime.Managers
         private CollectableChangeParentCommand _collectableChangeParentCommand;
         private CollectableMoveToColorAreaHolderCommand _collectableMoveToColorAreaHolderCommand;
         private CollectableSetVisibleUnVisibleCollectableCommand _collectableSetVisibleUnVisibleCollectableCommand;
-        private CollectableSetStackManagerCommand _collectableSetStackManagerCommand;
-        private CollectableDestroyCommand _collectableDestroyCommand;
         private CollectableCheckColorIsSameWithColorArea _collectableCheckColorIsSameWithColorArea;
+        private CollectableSetColliderEnable _collectableSetColliderEnable;
         [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
@@ -61,12 +60,11 @@ namespace Runtime.Managers
             _collectableAdderCommand = new CollectableAdderCommand(ref _stackData, ref _collectableList, this);
             _collectableLerpMovementCommand = new CollectableLerpMovementCommand(ref _stackData, ref _collectableList);
             _collectableSetAnimationOnPlayCommand = new CollectableSetAnimationOnPlayCommand();
-            _collectableChangeParentCommand = new CollectableChangeParentCommand(ref _collectableList);
-            _collectableMoveToColorAreaHolderCommand = new CollectableMoveToColorAreaHolderCommand();
-            _collectableSetStackManagerCommand = new CollectableSetStackManagerCommand(ref _collectableList, this.transform);
+            _collectableChangeParentCommand = new CollectableChangeParentCommand(ref _collectableList, this.transform);
+            _collectableMoveToColorAreaHolderCommand = new CollectableMoveToColorAreaHolderCommand(ref _collectableList); 
             _collectableSetVisibleUnVisibleCollectableCommand = new CollectableSetVisibleUnVisibleCollectableCommand(ref _collectableList, ref _stackData);
-            _collectableDestroyCommand = new CollectableDestroyCommand(ref _collectableList);
             _collectableCheckColorIsSameWithColorArea = new CollectableCheckColorIsSameWithColorArea();
+            _collectableSetColliderEnable = new CollectableSetColliderEnable(ref _collectableList);
 
 
 
@@ -89,11 +87,45 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners += OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onCollectableInteractWithCollectableArea +=
                 OnCollectableInteractWithCollectableArea;
-
-
+            MiniGameSignals.Instance.onCollectableExitInteractWithColorArea += OnCollectableExitInteractWithColorArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onCheckCollectableListIsEmpty += OnCheckIsNull;
+            
         }
 
-        private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType) =>  _miniGameType = miniGameType;
+        private void OnCheckIsNull()
+        {
+            if (_collectableList.Count <= 0)
+            {
+                CoreGameSignals.Instance.onLevelFailed?.Invoke();
+            }
+        }
+
+
+        private void OnPlayerExitInteractWithMiniGameArea()
+        {
+            if (_miniGameType != MiniGameType.Turret) return;
+            for (int i = 0; i < 10; i++)
+            {
+                var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
+                obj.SetActive(true);
+                _collectableAdderCommand.Execute(obj);
+            }
+        }
+
+        private void OnCollectableExitInteractWithColorArea(GameObject collectableObj)
+        {
+            CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObj,CollectableAnimationStates.Run);
+        }
+
+        private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
+        {
+            _miniGameType = miniGameType;
+            if (_miniGameType != MiniGameType.Turret) return;
+                _collectableSetColliderEnable.Execute();
+            
+            
+        }  
            
        
 
@@ -104,24 +136,18 @@ namespace Runtime.Managers
                 case MiniGameType.Drone:
                    var isColorsSame = _collectableCheckColorIsSameWithColorArea.Execute(collectableObj, colorAreaObj);
                     _collectableMoveToColorAreaHolderCommand.Execute(collectableObj,colorAreaObj);
-                    _collectableChangeParentCommand.Execute(collectableObj,colorAreaObj,isColorsSame);
-                   DOVirtual.DelayedCall(6f, () =>
-                   {
-                       _collectableSetStackManagerCommand.Execute(colorAreaObj);
-
-                   });
-                   
-                    
+                   _collectableChangeParentCommand.Execute(collectableObj,colorAreaObj,isColorsSame);
                     break;
-                
                 
                 case MiniGameType.Turret:
                     CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObj,CollectableAnimationStates.HideWalk);
+                    var isColorSame = _collectableCheckColorIsSameWithColorArea.Execute(collectableObj, colorAreaObj);
+                    MiniGameSignals.Instance.onTurretMiniGamePlay?.Invoke(_collectableList,isColorSame);
                     break;
                 
             }
         }
-
+        
 
         private void OnSendIsSameColorCondition(bool condition) => _isCollectableColorSame = condition;
 
@@ -145,6 +171,9 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -= OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onCollectableInteractWithCollectableArea -=
                 OnCollectableInteractWithCollectableArea;
+            MiniGameSignals.Instance.onCollectableExitInteractWithColorArea -= OnCollectableExitInteractWithColorArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onCheckCollectableListIsEmpty -= OnCheckIsNull;
            
            
 
@@ -165,7 +194,7 @@ namespace Runtime.Managers
 
         private void InitiliazedObject()
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
                 obj.SetActive(true);

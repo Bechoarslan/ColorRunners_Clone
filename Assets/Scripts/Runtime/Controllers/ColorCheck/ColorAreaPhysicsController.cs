@@ -29,8 +29,11 @@ namespace Runtime.Controllers.ColorCheck
 
         private void OnTriggerExit(Collider other)
         {
-            
-            
+
+            if (other.CompareTag(_collected))
+            {
+                MiniGameSignals.Instance.onCollectableExitInteractWithColorArea?.Invoke(other.transform.parent.gameObject);
+            }
             
         }
         

@@ -51,7 +51,6 @@ MonoBehaviour:
   falseColorList: []
   colorAreaRenderer: {fileID: 8974121101648598269}
   colorType: 0
-  holder: {fileID: 522612790181350881}
 --- !u!1 &2320318762440960857
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +177,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.2528198, y: 0.05, z: 6.8899994}
+  m_LocalScale: {x: 5, y: 0.05, z: 9.694038}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2975329517195063654}

@@ -9,9 +9,11 @@ namespace Runtime.Commands.Stack
     public class CollectableChangeParentCommand
     {
         private List<GameObject> _collectableList;
-        public CollectableChangeParentCommand(ref List<GameObject> collectableList)
+        private Transform _transform;
+        public CollectableChangeParentCommand(ref List<GameObject> collectableList, Transform transform)
         {
             _collectableList = collectableList;
+            _transform = transform;
         }
 
         public void Execute(GameObject collectableObject, Transform colorAreaObj, bool isColorsSame)
@@ -29,16 +31,14 @@ namespace Runtime.Commands.Stack
             }
             collectableObject.transform.parent = colorAreaObj;
             _collectableList.TrimExcess();
-            if (_collectableList.Count <= 1)
-            {
-                DOVirtual.DelayedCall(1f,() =>
-                { 
-                    miniGameManager.PlayDrone();
+            Debug.LogWarning(_collectableList.Count);
+            if (_collectableList.Count > 0) return;
+            MiniGameSignals.Instance.onPlayDroneAnimation?.Invoke();
+            MiniGameSignals.Instance.onPlayMiniGameDroneArea?.Invoke(_collectableList,_transform);
 
-                });
+              
                
                 
             }
         }
     }
-}
