@@ -121,8 +121,11 @@ namespace Runtime.Managers
         private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
             _miniGameType = miniGameType;
-            if (_miniGameType != MiniGameType.Turret) return;
+            if (_miniGameType is MiniGameType.Turret or MiniGameType.Drone)
+            {
                 _collectableSetColliderEnable.Execute();
+            }
+                
             
             
         }  

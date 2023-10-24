@@ -32,6 +32,7 @@ namespace Runtime.Managers
 
         [SerializeField] private Renderer colorAreaRenderer;
         [SerializeField] private ColorType colorType;
+        [SerializeField] private DOTweenAnimation dotTweenAnimation;
 
         #endregion
         
@@ -59,7 +60,7 @@ namespace Runtime.Managers
             _colorCheckSetColorCommand = new ColorCheckSetColorCommand(ref colorAreaRenderer, _colorData);
              _colorCheckSetColorCommand.Execute();
              _colorAreaSetStackManagerCommand = new ColorAreaSetStackManagerCommand(ref correctColorList);
-             _colorAreaDestroyFalseCollectableCommand = new ColorAreaDestroyFalseCollectableCommand(ref falseColorList);
+             _colorAreaDestroyFalseCollectableCommand = new ColorAreaDestroyFalseCollectableCommand(ref falseColorList, ref dotTweenAnimation);
             
         }
         

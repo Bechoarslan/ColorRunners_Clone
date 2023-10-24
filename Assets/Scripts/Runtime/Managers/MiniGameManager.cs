@@ -16,7 +16,8 @@ namespace Runtime.Managers
 
         [SerializeField] private MiniGameType miniGameType;
         [SerializeField] private GameObject dronePrefab;
-        [SerializeField] private DOTweenPath dronePath;
+        [SerializeField] private GameObject turretPrefab;
+        
 
         #endregion
 
@@ -32,7 +33,23 @@ namespace Runtime.Managers
         private void Awake()
         {
             Init();
-          
+            IsTurretOrDrone();
+
+        }
+
+        private void IsTurretOrDrone()
+        {
+            if (miniGameType == MiniGameType.Turret)
+            {
+                dronePrefab.SetActive(false);
+                turretPrefab.SetActive(true);
+            }
+            else
+            {
+                dronePrefab.SetActive(true);
+                turretPrefab.SetActive(false);
+            }
+                
         }
 
         private void Init()
@@ -82,9 +99,10 @@ namespace Runtime.Managers
             UnSubscribeEvents();
         }
 
-        private void PlayDrone()
+        private void PlayDrone(GameObject miniGameManager)
         {
-             _miniGamePlayDroneCommand.Execute();
+            if(miniGameManager.GetInstanceID() != gameObject.GetInstanceID()) return;
+            _miniGamePlayDroneCommand.Execute();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace Runtime.Signals
 
 
 
-        public UnityAction onPlayDroneAnimation = delegate {  };
+        public UnityAction<GameObject> onPlayDroneAnimation = delegate {  };
         
       
 

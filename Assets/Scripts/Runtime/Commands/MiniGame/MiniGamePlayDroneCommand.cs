@@ -14,18 +14,19 @@ namespace Runtime.Commands.MiniGame
 
         public void Execute()
         {
-            
-            var droneFirstPosition = new Vector3(6, 4, 9);
-            var droneSecondPosition = new Vector3(-5, 4, 9);
-            var droneThirdPosition = new Vector3(-5, -7, 9);
+            var dronePos = _dronePrefab.transform.position;
+            var droneFirstPosition = new Vector3(dronePos.x,dronePos.y,dronePos.z);
+            var droneSecondPosition = new Vector3(dronePos.x, dronePos.y + 3, dronePos.z);
+            var droneThirdPosition = new Vector3(dronePos.x - 13, droneSecondPosition.y, dronePos.z);
+            var droneFourthPosition = new Vector3(droneThirdPosition.x, droneFirstPosition.y, droneFirstPosition.z);
             _dronePrefab.transform.DOMove(droneFirstPosition, 1f).OnComplete((() =>
             {
                 _dronePrefab.transform.DOMove(droneSecondPosition, 1f).OnComplete((() =>
                 {
-                    _dronePrefab.transform.DOMove(droneThirdPosition, 3f).OnComplete((() =>
+                    _dronePrefab.transform.DOMove(droneThirdPosition, 2f).OnComplete((() =>
                     {
-                        
-                        
+
+                        _dronePrefab.transform.DOMove(droneFourthPosition, 1f);
 
                     }));
                 }));

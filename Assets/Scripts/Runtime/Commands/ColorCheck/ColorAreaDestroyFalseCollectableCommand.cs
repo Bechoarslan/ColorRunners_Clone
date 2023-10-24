@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Runtime.Enums.Collectable;
 using Runtime.Signals;
@@ -9,15 +10,20 @@ namespace Runtime.Commands.ColorCheck
     public class ColorAreaDestroyFalseCollectableCommand
     {
         private List<GameObject> _falseColorList;
-        public ColorAreaDestroyFalseCollectableCommand(ref List<GameObject> falseColorList)
+        private DOTweenAnimation _dotTweenAnimation;
+       
+        public ColorAreaDestroyFalseCollectableCommand(ref List<GameObject> falseColorList,
+            ref DOTweenAnimation dotTweenAnimation)
         {
             _falseColorList = falseColorList;
+            _dotTweenAnimation = dotTweenAnimation;
+            
+            
         }
 
         public void Execute()
         {
             if(_falseColorList.Count <= 0) return;
-            
             for (var i = _falseColorList.Count; i > 0  ; i--)
             {
                 var colObj = _falseColorList[i - 1];
@@ -31,6 +37,10 @@ namespace Runtime.Commands.ColorCheck
 
             }
             
+            _dotTweenAnimation.DOPlay();
+
+            
+
         }
     }
 }
