@@ -86,6 +86,7 @@ namespace Runtime.Managers
         private void OnLevelFailed()
         {
             OnOpenFailPanel();
+            
         }
 
         private void OnLevelSuccessful()

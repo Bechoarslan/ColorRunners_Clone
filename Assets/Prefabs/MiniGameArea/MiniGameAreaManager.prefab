@@ -51,6 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   miniGameType: 1
   dronePrefab: {fileID: 2524318513363781618}
+  turretPrefab: {fileID: 3295696075259682469}
+  turretController: {fileID: 3304481891818132420}
 --- !u!1 &4732634859431105481
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,11 +225,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 166aea25bf088544e8f1574f94fd4c09, type: 3}
+--- !u!1 &3295696075259682469 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3482177906619773974, guid: 166aea25bf088544e8f1574f94fd4c09, type: 3}
+  m_PrefabInstance: {fileID: 2157088179181087411}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3295696075259682491 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3482177906619773960, guid: 166aea25bf088544e8f1574f94fd4c09, type: 3}
   m_PrefabInstance: {fileID: 2157088179181087411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3304481891818132420 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3473511717786335607, guid: 166aea25bf088544e8f1574f94fd4c09, type: 3}
+  m_PrefabInstance: {fileID: 2157088179181087411}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295696075259682469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558c53ca1abe4eb297fc87500125010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2525951340858577338
 PrefabInstance:
   m_ObjectHideFlags: 0

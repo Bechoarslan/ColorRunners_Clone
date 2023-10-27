@@ -15,7 +15,6 @@ namespace Runtime.Commands.Stack
         {
             foreach (var col in _collectableLists)
             {
-                Debug.LogWarning(col.GetComponentInChildren<CapsuleCollider>().name);
                 col.GetComponentInChildren<CapsuleCollider>().enabled = true;
                 
             }

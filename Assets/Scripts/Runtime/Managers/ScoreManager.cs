@@ -25,7 +25,15 @@ namespace Runtime.Managers
 
         private void OnSetCollectableScore(short stackScore)
         {
-            _stackScore = stackScore;
+            if (stackScore <= 0)
+            {
+                CoreGameSignals.Instance.onLevelFailed?.Invoke();
+            }
+            else
+            {
+                _stackScore = stackScore;
+            }
+            
         }
 
         private void UnSubscribeEvents()

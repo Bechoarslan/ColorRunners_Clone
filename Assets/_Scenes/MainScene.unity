@@ -1311,6 +1311,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5608729131520315707, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
+      propertyPath: miniGameType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8323367799742874692, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: path.length
       value: 38.87341
@@ -1665,6 +1669,10 @@ PrefabInstance:
     - target: {fileID: 2674927069646443640, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_Name
       value: MiniGameAreaManager (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674927069646443640, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4046349223122833528, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_LocalPosition.x

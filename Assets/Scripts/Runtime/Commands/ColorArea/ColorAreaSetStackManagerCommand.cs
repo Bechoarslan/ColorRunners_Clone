@@ -30,6 +30,7 @@ namespace Runtime.Commands.ColorCheck
                 CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObject,CollectableAnimationStates.Run);
                 
             }
+            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)collectableList.Count);
             MiniGameSignals.Instance.onPlayerReadyToGo?.Invoke();
             
             

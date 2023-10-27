@@ -55,6 +55,7 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onSetCollectableScore += playerMeshController.SetCollectableScore;
+            CoreGameSignals.Instance.onLevelFailed += () =>  playerMovementController.IsReadyToPlay(false);
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo += playerMovementController.OnPlayerExitInteractWithMiniGameArea;

@@ -60,7 +60,7 @@ namespace Runtime.Managers
             _colorCheckSetColorCommand = new ColorCheckSetColorCommand(ref colorAreaRenderer, _colorData);
              _colorCheckSetColorCommand.Execute();
              _colorAreaSetStackManagerCommand = new ColorAreaSetStackManagerCommand(ref correctColorList);
-             _colorAreaDestroyFalseCollectableCommand = new ColorAreaDestroyFalseCollectableCommand(ref falseColorList, ref dotTweenAnimation);
+             _colorAreaDestroyFalseCollectableCommand = new ColorAreaDestroyFalseCollectableCommand(ref falseColorList, ref dotTweenAnimation,ref correctColorList);
             
         }
         
@@ -73,10 +73,15 @@ namespace Runtime.Managers
         private void SubscribeEvents()
         {
            MiniGameSignals.Instance.onPlayMiniGameDroneArea += OnPlayMiniGameDroneArea;
+           
         }
 
-        private void OnPlayMiniGameDroneArea(List<GameObject> collectableList,Transform stackManagerTransform)
+        
+        private void OnPlayMiniGameDroneArea(List<GameObject> collectableList,Transform stackManagerTransform,GameObject colorAreaManager)
         {
+            var miniGameManager = gameObject.GetComponentInParent<MiniGameManager>();
+            var miniGameManager2 = colorAreaManager.GetComponentInParent<MiniGameManager>();
+            if (miniGameManager.GetInstanceID() != miniGameManager2.GetInstanceID()) return;
             StartCoroutine(OnPlayDroneMiniGame(collectableList,stackManagerTransform));
 
         }

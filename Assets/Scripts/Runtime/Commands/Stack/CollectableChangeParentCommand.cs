@@ -31,10 +31,9 @@ namespace Runtime.Commands.Stack
             }
             collectableObject.transform.parent = colorAreaObj;
             _collectableList.TrimExcess();
-            Debug.LogWarning(_collectableList.Count);
             if (_collectableList.Count > 0) return;
             MiniGameSignals.Instance.onPlayDroneAnimation?.Invoke(miniGameManager.gameObject);
-            MiniGameSignals.Instance.onPlayMiniGameDroneArea?.Invoke(_collectableList,_transform);
+            MiniGameSignals.Instance.onPlayMiniGameDroneArea?.Invoke(_collectableList,_transform,colorAreaManager.gameObject);
 
               
                

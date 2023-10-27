@@ -1,9 +1,12 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Runtime.Commands.MiniGame;
+using Runtime.Controllers.Turret;
 using Runtime.Enums.MiniGame;
 using Runtime.Signals;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -17,6 +20,7 @@ namespace Runtime.Managers
         [SerializeField] private MiniGameType miniGameType;
         [SerializeField] private GameObject dronePrefab;
         [SerializeField] private GameObject turretPrefab;
+        [SerializeField] private TurretController turretController;
         
 
         #endregion
@@ -67,18 +71,41 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea += OnPlayerInteractWithMiniGameArea;
             MiniGameSignals.Instance.onPlayDroneAnimation += PlayDrone;
             MiniGameSignals.Instance.onTurretMiniGamePlay += OnTurretMiniGamePlay;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
             
         }
+
+        private void OnPlayerExitInteractWithMiniGameArea()
+        {
+            turretController.isPlayerTargeted = false;
+        }
+
 
         private void OnTurretMiniGamePlay(List<GameObject> collectableObj, bool condition)
         {
             if (condition) return;
-            var gameObj = collectableObj[^1].gameObject;
-            collectableObj.Remove(gameObj);
-            gameObj.SetActive(false);
-            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)collectableObj.Count);
+            turretController.SetTarget(collectableObj[0].transform);
+            turretController.isPlayerTargeted = true;
+            DOVirtual.DelayedCall(1.5f, () =>
+            {
+                if ((bool)MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame?.Invoke()) return;
+                turretController.Shoot();
+                var destroyedCollectableObject = collectableObj[^1].gameObject;
+                collectableObj.Remove(destroyedCollectableObject);
+                destroyedCollectableObject.SetActive(false);
+                var pool = FindObjectOfType<PoolManager>().GetComponentInChildren<Transform>();
+                destroyedCollectableObject.transform.parent = pool;
+                collectableObj.TrimExcess();
+                CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)collectableObj.Count);
+                
+
+            });
+           
+
+
 
         }
+        
 
 
         private void OnPlayerInteractWithMiniGameArea(GameObject miniGameAreaObject)
@@ -92,6 +119,7 @@ namespace Runtime.Managers
         {
             MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea -= OnPlayerInteractWithMiniGameArea;
             MiniGameSignals.Instance.onPlayDroneAnimation -= PlayDrone;
+            MiniGameSignals.Instance.onTurretMiniGamePlay -= OnTurretMiniGamePlay;
         }
 
         private void OnDisable()

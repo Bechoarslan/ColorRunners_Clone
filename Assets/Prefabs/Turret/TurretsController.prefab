@@ -6142,6 +6142,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3482177906619773960}
+  - component: {fileID: 3473511717786335607}
   m_Layer: 0
   m_Name: TurretsController
   m_TagString: Untagged
@@ -6167,6 +6168,32 @@ Transform:
   - {fileID: 1951404838722555544}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3473511717786335607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3482177906619773974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558c53ca1abe4eb297fc87500125010f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayerTargeted: 0
+  turretTransform: {fileID: 1951404838722555544}
+  turretParts:
+  - transform: {fileID: 8979702854570432216}
+  - transform: {fileID: 8979702852897019359}
+  - transform: {fileID: 8979702854577481684}
+  - transform: {fileID: 8979702853244046370}
+  - transform: {fileID: 3482177906251283537}
+  - transform: {fileID: 3482177906312272982}
+  - transform: {fileID: 3482177906104643165}
+  - transform: {fileID: 3482177905457366132}
+  particlePart:
+  - {fileID: 5894624981355300568}
+  - {fileID: 4501969994258450657}
 --- !u!1 &3482177906824713765
 GameObject:
   m_ObjectHideFlags: 0

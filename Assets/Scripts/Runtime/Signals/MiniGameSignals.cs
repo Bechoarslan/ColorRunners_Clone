@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Runtime.Enums.Color;
 using Runtime.Enums.MiniGame;
@@ -18,10 +19,13 @@ namespace Runtime.Signals
         public UnityAction<GameObject> onCollectableExitInteractWithColorArea = delegate {  };
         public UnityAction onPlayerExitInteractWithMiniGameArea = delegate {  };
         
-        public UnityAction<List<GameObject>,Transform> onPlayMiniGameDroneArea = delegate {  };
+        public UnityAction<List<GameObject>,Transform,GameObject> onPlayMiniGameDroneArea = delegate {  };
         public UnityAction onCheckCollectableListIsEmpty = delegate {  };
         
         public UnityAction<List<GameObject>,bool> onTurretMiniGamePlay = delegate {  };
+        public Func<bool> onCheckColorAgainForTurretMiniGame = delegate { return false; };
+        
+
 
 
 

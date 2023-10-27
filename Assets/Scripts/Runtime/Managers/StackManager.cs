@@ -11,6 +11,7 @@ using Runtime.Enums.MiniGame;
 using Runtime.Enums.Pool;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Runtime.Managers
@@ -42,6 +43,7 @@ namespace Runtime.Managers
         private CollectableSetVisibleUnVisibleCollectableCommand _collectableSetVisibleUnVisibleCollectableCommand;
         private CollectableCheckColorIsSameWithColorArea _collectableCheckColorIsSameWithColorArea;
         private CollectableSetColliderEnable _collectableSetColliderEnable;
+        private bool _isColorSame;
         [ShowInInspector] private bool _isCollectableColorSame;
 
         #endregion
@@ -90,7 +92,8 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onCollectableExitInteractWithColorArea += OnCollectableExitInteractWithColorArea;
             MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty += OnCheckIsNull;
-            
+            MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame += () => _isColorSame;
+
         }
 
         private void OnCheckIsNull()
@@ -125,8 +128,6 @@ namespace Runtime.Managers
             {
                 _collectableSetColliderEnable.Execute();
             }
-                
-            
             
         }  
            
@@ -144,12 +145,13 @@ namespace Runtime.Managers
                 
                 case MiniGameType.Turret:
                     CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObj,CollectableAnimationStates.HideWalk);
-                    var isColorSame = _collectableCheckColorIsSameWithColorArea.Execute(collectableObj, colorAreaObj);
-                    MiniGameSignals.Instance.onTurretMiniGamePlay?.Invoke(_collectableList,isColorSame);
+                    _isColorSame = _collectableCheckColorIsSameWithColorArea.Execute(collectableObj, colorAreaObj);
+                    MiniGameSignals.Instance.onTurretMiniGamePlay?.Invoke(_collectableList,_isColorSame);
                     break;
                 
             }
         }
+        
         
 
         private void OnSendIsSameColorCondition(bool condition) => _isCollectableColorSame = condition;
