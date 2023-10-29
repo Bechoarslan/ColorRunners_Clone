@@ -4,6 +4,7 @@ using Runtime.Controllers;
 using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
+using Runtime.Enums;
 using Runtime.Keys;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
@@ -20,6 +21,7 @@ namespace Runtime.Managers
 
         [SerializeField] private PlayerMovementController playerMovementController;
         [SerializeField] private PlayerMeshController playerMeshController;
+        [SerializeField] private float scaleValue = 0.1f;
 
         #endregion
 
@@ -50,6 +52,7 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
+            CoreGameSignals.Instance.onChangeGameStates += playerMovementController.ChangeGameState;
             InputSignals.Instance.onInputDragged += OnInputDragged;
             InputSignals.Instance.onInputReleased += playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
@@ -59,13 +62,39 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
+            CoreGameSignals.Instance.onSetPlayerScale += OnSetPlayerScale;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
 
 
+        }
+
+        private void OnSetPlayerScale()
+        {
+                var playerScale = transform.localScale;
+                playerScale = new Vector3(
+                    Mathf.Clamp((playerScale.x + scaleValue), 0.8f, 2f),
+                    Mathf.Clamp((playerScale.y + scaleValue), 0.8f, 2f),
+                    Mathf.Clamp((playerScale.z + scaleValue), 0.8f, 2f)
+                );
+                transform.localScale = playerScale;
+            
+        }
+
+        private void OnPlayerExitInteractWithEndArea()
+        {
+            CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Idle);
+        }
+
+        private void OnPlayerInteractWithEndArea()
+        {
+             playerMeshController.gameObject.SetActive(true);
         }
 
         private void OnPlay()
         {
             playerMovementController.IsReadyToPlay(true);
+            CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Run);
         }
 
         private void OnInputDragged(HorizontalInputParams inputParams)
@@ -75,13 +104,17 @@ namespace Runtime.Managers
 
         private void UnSubscribeEvents()
         {
+            CoreGameSignals.Instance.onChangeGameStates -= playerMovementController.ChangeGameState;
             InputSignals.Instance.onInputDragged -= OnInputDragged;
             InputSignals.Instance.onInputReleased -= playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken -= playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay -= OnPlay;
+            CoreGameSignals.Instance.onSetCollectableScore -= playerMeshController.SetCollectableScore;
+            CoreGameSignals.Instance.onLevelFailed -= () =>  playerMovementController.IsReadyToPlay(false);
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
            
         }
 

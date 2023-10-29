@@ -16,3 +16,4 @@ MonoBehaviour:
     MovementData:
       ForwardSpeed: 8
       SidewaysSpeed: 1.5
+      JoystickSpeed: 5

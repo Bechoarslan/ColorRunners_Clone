@@ -12,6 +12,7 @@ TagManager:
   - Character 1
   - Character 2
   - Building
+  - EndArea
   layers:
   - Default
   - TransparentFX

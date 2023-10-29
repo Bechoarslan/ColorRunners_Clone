@@ -120,6 +120,7 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea -= OnPlayerInteractWithMiniGameArea;
             MiniGameSignals.Instance.onPlayDroneAnimation -= PlayDrone;
             MiniGameSignals.Instance.onTurretMiniGamePlay -= OnTurretMiniGamePlay;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= OnPlayerExitInteractWithMiniGameArea;
         }
 
         private void OnDisable()

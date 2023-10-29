@@ -8,12 +8,18 @@ namespace Runtime.Controllers.Player
     public class PlayerPhysicsController : MonoBehaviour
     {
         private readonly string _minigameAreaTag = "MiniGameArea";
+        private readonly string _endAreaTag = "EndArea";
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(_minigameAreaTag))
             {
                 MiniGameSignals.Instance.onPlayerInteractWithMiniGameArea?.Invoke(other.transform.parent.gameObject);
                 
+            }
+
+            if (other.CompareTag(_endAreaTag))
+            {
+                CoreGameSignals.Instance.onPlayerInteractWithEndArea?.Invoke();
             }
         }
 
@@ -23,6 +29,12 @@ namespace Runtime.Controllers.Player
             {
                 MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea?.Invoke();
                 
+            }
+
+            if (other.CompareTag(_endAreaTag))
+            {
+                CoreGameSignals.Instance.onPlayerExitInteractWithEndArea?.Invoke();
+                other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
             }
         }
     }

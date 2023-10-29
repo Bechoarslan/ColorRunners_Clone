@@ -24,6 +24,9 @@ namespace Runtime.Signals
         
         
         public UnityAction<short> onSetCollectableScore = delegate {  };
+        public UnityAction onPlayerInteractWithEndArea = delegate {  };
+        public UnityAction onPlayerExitInteractWithEndArea = delegate {  };
+        public UnityAction onSetPlayerScale = delegate {  };
         
         public Func<short> onSendCollectableScore = delegate { return 0; };
         

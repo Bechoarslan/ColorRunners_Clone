@@ -26,10 +26,10 @@ namespace Runtime.Controllers.Player
 
         private PlayerMovementData _playerData;
         private HorizontalInputParams _inputParams;
-        private bool _isReadyToMove,_isReadyToPlay;
+        [ShowInInspector] private bool _isReadyToMove,_isReadyToPlay;
         private float3 _inputValues;
         private float2 _clampValues;
-        private GameStates _gameStates;
+       [ShowInInspector] private GameStates _gameStates;
         [ShowInInspector]private float _colorAreaSpeed = 1;
         private MiniGameType _miniGameType;
         
@@ -86,13 +86,13 @@ namespace Runtime.Controllers.Player
 
         public void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
-            Debug.LogWarning(miniGameType);
+            
             switch (miniGameType)
             {
                 case MiniGameType.Drone:
                     
                     CollectableSignals.Instance.onSetUnVisibleCollectableToVisible?.Invoke(true);
-                    DOVirtual.DelayedCall(0.08f, () =>
+                    DOVirtual.DelayedCall(0.2f, () =>
                     {
                         Stop();
                         _colorAreaSpeed = 0;
@@ -107,9 +107,16 @@ namespace Runtime.Controllers.Player
             }
         }
 
-        public void OnPlayerExitInteractWithMiniGameArea()
+        internal void OnPlayerExitInteractWithMiniGameArea()
         {
             _colorAreaSpeed = 1;
         }
+
+        internal void ChangeGameState(GameStates gameStates)
+        {
+           _gameStates = gameStates;
+        }
+
+        
     }
 }

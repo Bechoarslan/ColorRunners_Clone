@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: CD_MovementList
   m_EditorClassIdentifier: 
   MoveTypeList:
+  - {fileID: 11400000, guid: c2600cb104e474690b8b1fb522e2fdac, type: 2}
   - {fileID: 11400000, guid: dcdee4342d2b24fb3ae530bcab531774, type: 2}

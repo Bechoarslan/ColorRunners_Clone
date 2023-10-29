@@ -82,7 +82,10 @@ namespace Runtime.Managers
             var miniGameManager = gameObject.GetComponentInParent<MiniGameManager>();
             var miniGameManager2 = colorAreaManager.GetComponentInParent<MiniGameManager>();
             if (miniGameManager.GetInstanceID() != miniGameManager2.GetInstanceID()) return;
+            miniGameManager.GetComponentInChildren<ColorAreaManager>().GetComponentInChildren<BoxCollider>().enabled =
+                false;
             StartCoroutine(OnPlayDroneMiniGame(collectableList,stackManagerTransform));
+            
 
         }
         
@@ -106,6 +109,7 @@ namespace Runtime.Managers
             _colorAreaSetStackManagerCommand.Execute(collectableList,stackManagerTransform);
             yield return new WaitForSeconds(0.001f);
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty?.Invoke();
+            
 
         }
 

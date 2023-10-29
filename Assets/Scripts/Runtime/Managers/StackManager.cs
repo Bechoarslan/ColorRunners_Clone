@@ -13,6 +13,7 @@ using Runtime.Signals;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace Runtime.Managers
 {
@@ -83,6 +84,7 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
+            CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
             CollectableSignals.Instance.onCollectableInteractWithCollectable += OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition += OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible += _collectableSetVisibleUnVisibleCollectableCommand.Execute;
@@ -93,7 +95,34 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty += OnCheckIsNull;
             MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame += () => _isColorSame;
+            
 
+        }
+
+        
+
+        private void OnPlayerInteractWithEndArea()
+        {
+            for (var i = _collectableList.Count ; i > 0 ; i--)
+            {
+                Debug.LogWarning(i);
+                var pool = FindObjectOfType<PoolManager>().GetComponentInChildren<Transform>();
+                var collectableObj = _collectableList[i - 1];
+                _collectableList.Remove(collectableObj);
+                var playerPosition = _playerManagerTransform.position;
+                var goToPlayerPosition = new Vector3(playerPosition.x, collectableObj.transform.position.y,
+                    playerPosition.z);
+                collectableObj.transform.DOMove(goToPlayerPosition, 1.5f).OnComplete(() =>
+                {
+                    collectableObj.SetActive(false);
+                    collectableObj.transform.parent = pool;
+                    
+                });
+                CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)_collectableList.Count);
+
+            }
+            _collectableList.TrimExcess();
+            CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
         }
 
         private void OnCheckIsNull()
@@ -101,6 +130,10 @@ namespace Runtime.Managers
             if (_collectableList.Count <= 0)
             {
                 CoreGameSignals.Instance.onLevelFailed?.Invoke();
+            }
+            else
+            {
+                _collectableSetColliderEnable.Execute();
             }
         }
 
@@ -124,10 +157,10 @@ namespace Runtime.Managers
         private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
             _miniGameType = miniGameType;
-            if (_miniGameType is MiniGameType.Turret or MiniGameType.Drone)
-            {
-                _collectableSetColliderEnable.Execute();
-            }
+            // if (_miniGameType is MiniGameType.Turret or MiniGameType.Drone)
+            // {
+            //     _collectableSetColliderEnable.Execute();
+            // }
             
         }  
            
@@ -170,6 +203,7 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
+            CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
             CollectableSignals.Instance.onCollectableInteractWithCollectable -= OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition -= OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible -= _collectableSetVisibleUnVisibleCollectableCommand.Execute;
