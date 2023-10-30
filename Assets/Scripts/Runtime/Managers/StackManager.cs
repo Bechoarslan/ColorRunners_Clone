@@ -55,6 +55,7 @@ namespace Runtime.Managers
         {
             _stackData = GetStackData();
             Init();
+            DOTween.SetTweensCapacity(2000,50);
         }
 
 
@@ -84,7 +85,7 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay += OnPlay;
             CoreGameSignals.Instance.onReset += OnReset;
-            CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitWithEndArea;
             CollectableSignals.Instance.onCollectableInteractWithCollectable += OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition += OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible += _collectableSetVisibleUnVisibleCollectableCommand.Execute;
@@ -101,11 +102,10 @@ namespace Runtime.Managers
 
         
 
-        private void OnPlayerInteractWithEndArea()
+        private void OnPlayerExitWithEndArea()
         {
             for (var i = _collectableList.Count ; i > 0 ; i--)
             {
-                Debug.LogWarning(i);
                 var pool = FindObjectOfType<PoolManager>().GetComponentInChildren<Transform>();
                 var collectableObj = _collectableList[i - 1];
                 _collectableList.Remove(collectableObj);
@@ -118,11 +118,11 @@ namespace Runtime.Managers
                     collectableObj.transform.parent = pool;
                     
                 });
-                CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)_collectableList.Count);
-
+                CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
             }
             _collectableList.TrimExcess();
-            CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
+            
+            
         }
 
         private void OnCheckIsNull()
@@ -157,11 +157,6 @@ namespace Runtime.Managers
         private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType miniGameType)
         {
             _miniGameType = miniGameType;
-            // if (_miniGameType is MiniGameType.Turret or MiniGameType.Drone)
-            // {
-            //     _collectableSetColliderEnable.Execute();
-            // }
-            
         }  
            
        
@@ -203,7 +198,7 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onPlay -= OnPlay;
             CoreGameSignals.Instance.onReset -= OnReset;
-            CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitWithEndArea;
             CollectableSignals.Instance.onCollectableInteractWithCollectable -= OnCollectableInteractWithCollectable;
             CollectableSignals.Instance.onSendIsSameColorCondition -= OnSendIsSameColorCondition;
             CollectableSignals.Instance.onSetUnVisibleCollectableToVisible -= _collectableSetVisibleUnVisibleCollectableCommand.Execute;
@@ -213,6 +208,7 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onCollectableExitInteractWithColorArea -= OnCollectableExitInteractWithColorArea;
             MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= OnPlayerExitInteractWithMiniGameArea;
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty -= OnCheckIsNull;
+            MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame -= () => _isColorSame;
            
            
 

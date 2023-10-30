@@ -9,6 +9,7 @@ namespace Runtime.Controllers.Player
     {
         private readonly string _minigameAreaTag = "MiniGameArea";
         private readonly string _endAreaTag = "EndArea";
+        private readonly string _environmentTag = "Environment";
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(_minigameAreaTag))
@@ -20,6 +21,11 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_endAreaTag))
             {
                 CoreGameSignals.Instance.onPlayerInteractWithEndArea?.Invoke();
+            }
+
+            if (other.CompareTag(_environmentTag))
+            {
+                EnvironmentSignals.Instance.onPlayerInteractWithEnvironment?.Invoke(other.transform.parent.gameObject);
             }
         }
 
@@ -34,7 +40,22 @@ namespace Runtime.Controllers.Player
             if (other.CompareTag(_endAreaTag))
             {
                 CoreGameSignals.Instance.onPlayerExitInteractWithEndArea?.Invoke();
+                CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
                 other.gameObject.GetComponent<BoxCollider>().isTrigger = false;
+            }
+
+            if (other.CompareTag(_environmentTag))
+            {
+                EnvironmentSignals.Instance.onPlayerExitInteractWithEnvironment?.Invoke();
+            }
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.CompareTag(_environmentTag))
+            {
+                Debug.LogWarning("Executed ===> OnTriggerStay");
+                EnvironmentSignals.Instance.onPlayerStayInteractWithEnvironment?.Invoke(other.transform.parent.gameObject);
             }
         }
     }

@@ -13,6 +13,9 @@ TagManager:
   - Character 2
   - Building
   - EndArea
+  - Guitar
+  - Hospital
+  - Environment
   layers:
   - Default
   - TransparentFX

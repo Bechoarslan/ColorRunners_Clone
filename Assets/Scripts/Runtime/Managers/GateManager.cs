@@ -59,10 +59,8 @@ namespace Runtime.Managers
 
         private void OnCollectableInteractWithCollectable(GameObject gateObject)
         {
-            Debug.LogWarning("Nothing is working");
             if(gateObject.GetInstanceID() == gameObject.GetInstanceID())
             {
-                Debug.LogWarning("Is Working");
                 CollectableSignals.Instance.onSendGateColorType?.Invoke(colorType);
             }
                

@@ -1,5 +1,6 @@
 
 using System;
+using DG.Tweening;
 using Runtime.Controllers;
 using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
@@ -22,6 +23,7 @@ namespace Runtime.Managers
         [SerializeField] private PlayerMovementController playerMovementController;
         [SerializeField] private PlayerMeshController playerMeshController;
         [SerializeField] private float scaleValue = 0.1f;
+        [SerializeField] private ParticleSystem particle;
 
         #endregion
 
@@ -49,6 +51,7 @@ namespace Runtime.Managers
         {
             SubscribeEvents();
         }
+        
 
         private void SubscribeEvents()
         {
@@ -65,8 +68,20 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerScale += OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
+            EnvironmentSignals.Instance.onPlayerPaintEnvironment += OnPlayerPaintEnvironment;
 
 
+        }
+
+        private void OnPlayerPaintEnvironment(GameObject gmj)
+        {
+            var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
+            Debug.LogWarning(score);
+            score -= 1;
+            
+            particle.Play(); 
+            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)score);
+            
         }
 
         private void OnSetPlayerScale()
@@ -84,6 +99,7 @@ namespace Runtime.Managers
         private void OnPlayerExitInteractWithEndArea()
         {
             CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Idle);
+           
         }
 
         private void OnPlayerInteractWithEndArea()
@@ -115,6 +131,8 @@ namespace Runtime.Managers
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
             CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
+            CoreGameSignals.Instance.onSetPlayerScale -= OnSetPlayerScale;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitInteractWithEndArea;
            
         }
 

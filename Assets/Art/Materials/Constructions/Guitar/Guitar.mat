@@ -2,17 +2,30 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Guitar
   m_Shader: {fileID: 4800000, guid: 317e3d3b84bf0a741a3e867e27dfa7bb, type: 3}
-  m_ShaderKeywords: _METALLICSPECGLOSSMAP _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
-    _MK_COLOR_GRADING_ALBEDO _MK_EMISSION_MAP _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
-    _MK_NORMAL_MAP _MK_RECEIVE_SHADOWS _MK_SPECULAR_ISOTROPIC _MK_WRAPPED_DIFFUSE
-    _NORMALMAP _RECEIVESHADOWS_ON _WRAPPEDLIGHTING_ON
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MK_ALBEDO_MAP
+  - _MK_COLOR_GRADING_ALBEDO
+  m_InvalidKeywords:
+  - _METALLICSPECGLOSSMAP
+  - _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+  - _MK_EMISSION_MAP
+  - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
+  - _MK_NORMAL_MAP
+  - _MK_RECEIVE_SHADOWS
+  - _MK_SPECULAR_ISOTROPIC
+  - _MK_WRAPPED_DIFFUSE
+  - _NORMALMAP
+  - _RECEIVESHADOWS_ON
+  - _WRAPPEDLIGHTING_ON
   m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -21,6 +34,7 @@ Material:
     IGNOREPROJECTOR: False
     RenderType: Opaque
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -152,6 +166,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AdvancedTab: 1
     - _AlphaClip: 0
@@ -192,7 +207,7 @@ Material:
     - _HatchingMapScale: 1
     - _IndexOfRefraction: 0
     - _Initialized: 1
-    - _InputTab: 0
+    - _InputTab: 1
     - _Iridescence: 0
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
@@ -226,7 +241,7 @@ Material:
     - _RimSize: 1
     - _RimSmoothness: 0
     - _RimThresholdOffset: 0.25
-    - _Saturation: 0.08571429
+    - _Saturation: 0
     - _SketchMapScale: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
