@@ -68,19 +68,21 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerScale += OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
+            CoreGameSignals.Instance.onSetPlayerAnimation += playerMeshController.SetPlayerAnimation;
             EnvironmentSignals.Instance.onPlayerPaintEnvironment += OnPlayerPaintEnvironment;
 
 
         }
 
-        private void OnPlayerPaintEnvironment(GameObject gmj)
+        [Button]
+        private void OnPlayerPaintEnvironment()
         {
-            var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
-            Debug.LogWarning(score);
-            score -= 1;
+            particle.Play();
             
-            particle.Play(); 
+            var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
+            score -= 1;
             CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)score);
+            
             
         }
 
@@ -133,7 +135,9 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerScale -= OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitInteractWithEndArea;
-           
+            CoreGameSignals.Instance.onSetPlayerAnimation -= playerMeshController.SetPlayerAnimation;
+            EnvironmentSignals.Instance.onPlayerPaintEnvironment -= OnPlayerPaintEnvironment;
+
         }
 
         private void OnDisable()

@@ -16,8 +16,8 @@ namespace Runtime.Managers
 
         [SerializeField] private MeshRenderer[] _objMeshRenderer;
         [ShowInInspector] private float _rateTime;
-        [ShowInInspector] private float _interval = 0.5f;
-        
+        [SerializeField] private float _interval = 0.1f;
+        private static readonly int Saturation = Shader.PropertyToID("_Saturation");
 
         #endregion
 
@@ -47,25 +47,26 @@ namespace Runtime.Managers
 
         private void OnPlayerStayInteractWithEnvironment(GameObject buildingObj)
         {
-            
-          
-            for (var i = 0; i <  _objMeshRenderer.Length - 1; i++)
-            {  
-                if (Time.time - _rateTime <= _interval) continue;
+
+
+            for (var i = 0; i < _objMeshRenderer.Length - 1; i++)
+            {
+                if (!(Time.time - _rateTime >= _interval)) continue;
                 var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
-                var satFloat = _objMeshRenderer[i].material.GetFloat("_Saturation");
-                if (score <= 0 || satFloat >= 1) continue;
-                Debug.LogWarning("Executed");
-                EnvironmentSignals.Instance.onPlayerPaintEnvironment?.Invoke(_objMeshRenderer[i].gameObject);
-                _objMeshRenderer[i].material.DOFloat(satFloat + 0.10f, "_Saturation", 1);
+                if (score <= 0) return;
+                var satFloat = _objMeshRenderer[i].material.GetFloat(Saturation);
+
+                if (satFloat >= 1)
+                {
+                    continue;
+                }
+                
+                EnvironmentSignals.Instance.onPlayerPaintEnvironment?.Invoke();
+                _objMeshRenderer[i].material.DOFloat(satFloat + 0.10f, "_Saturation", 0);
                 _rateTime = Time.time;
-               
-                
-                
-              
+
             }
 
-            
 
 
         }

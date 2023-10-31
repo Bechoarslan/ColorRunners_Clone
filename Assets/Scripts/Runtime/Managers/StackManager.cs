@@ -229,7 +229,7 @@ namespace Runtime.Managers
 
         private void InitiliazedObject()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 60; i++)
             {
                 var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
                 obj.SetActive(true);

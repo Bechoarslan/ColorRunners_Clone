@@ -54,7 +54,7 @@ namespace Runtime.Controllers.Player
         {
             if (other.CompareTag(_environmentTag))
             {
-                Debug.LogWarning("Executed ===> OnTriggerStay");
+                
                 EnvironmentSignals.Instance.onPlayerStayInteractWithEnvironment?.Invoke(other.transform.parent.gameObject);
             }
         }

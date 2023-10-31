@@ -1774,6 +1774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objMeshRenderer: []
+  _interval: 0.1
 --- !u!1 &1429220769
 GameObject:
   m_ObjectHideFlags: 3
@@ -3012,7 +3013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5390235565457180588, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.09
       objectReference: {fileID: 0}
     - target: {fileID: 5390235565457180588, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3045,22 +3046,6 @@ PrefabInstance:
     - target: {fileID: 6860169697402465379, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
       propertyPath: m_Name
       value: PlayerManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 7072230117475522141, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7072230117475522141, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8433782418968510783, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8463470116776566031, guid: d48a0d5c8dbcb488da52c3d95cd491e0, type: 3}
-      propertyPath: playOnAwake
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

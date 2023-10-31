@@ -9,7 +9,7 @@ namespace Runtime.Signals
         public UnityAction<GameObject> onPlayerInteractWithEnvironment = delegate {  };
         public UnityAction<GameObject> onPlayerStayInteractWithEnvironment = delegate{  };
         public UnityAction onPlayerExitInteractWithEnvironment = delegate {  };
-        public UnityAction<GameObject> onPlayerPaintEnvironment = delegate {  };
+        public UnityAction onPlayerPaintEnvironment = delegate {  };
         
     }
 }

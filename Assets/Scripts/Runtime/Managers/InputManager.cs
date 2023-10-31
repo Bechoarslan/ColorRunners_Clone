@@ -3,6 +3,7 @@ using Runtime.Commands.Input;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
+using Runtime.Enums.Collectable;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -117,6 +118,7 @@ namespace Runtime.Managers
             {
                 _isTouching = false;
                 _inputDraggedOverCommand.Execute();
+                CoreGameSignals.Instance.onSetPlayerAnimation?.Invoke(false);
                 
             }
 
@@ -133,6 +135,7 @@ namespace Runtime.Managers
                     if (_isJoystick)
                     {
                         _inputJoystickDraggingCommand.Execute();
+                        CoreGameSignals.Instance.onSetPlayerAnimation?.Invoke(true);
                     }
                     else
                     {

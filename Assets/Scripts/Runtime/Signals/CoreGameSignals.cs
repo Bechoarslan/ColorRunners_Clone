@@ -1,5 +1,6 @@
 using System;
 using Runtime.Enums;
+using Runtime.Enums.Collectable;
 using Runtime.Extentions;
 using Runtime.Keys;
 using Runtime.Managers;
@@ -29,6 +30,9 @@ namespace Runtime.Signals
         public UnityAction onSetPlayerScale = delegate {  };
         
         public Func<short> onSendCollectableScore = delegate { return 0; };
+        
+        
+        public UnityAction<bool> onSetPlayerAnimation = delegate {  };
         
         
       

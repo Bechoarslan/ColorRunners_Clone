@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using Runtime.Enums.Collectable;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -13,14 +14,20 @@ namespace Runtime.Controllers.Player
         #region Serialized Variables
 
         [SerializeField] private TextMeshPro scoreText;
+        [SerializeField] private Animator playerAnimator;
         #endregion
 
         #endregion
         
 
-        public void SetCollectableScore(short score)
+        internal void SetCollectableScore(short score)
         {
             scoreText.text = score.ToString();
+        }
+        
+        internal void SetPlayerAnimation(bool condition)
+        {
+            playerAnimator.SetBool("Run",condition);
         }
 
         
