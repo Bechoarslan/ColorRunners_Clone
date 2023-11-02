@@ -6,6 +6,7 @@ using Runtime.Commands.MiniGame;
 using Runtime.Controllers.Turret;
 using Runtime.Enums.MiniGame;
 using Runtime.Signals;
+using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,6 +29,8 @@ namespace Runtime.Managers
         #region Private Variables
 
         private MiniGamePlayDroneCommand _miniGamePlayDroneCommand;
+        [ShowInInspector] private bool _isPlayerExited;
+        private MiniGamePlayTurretCommand _miniGamePlayTurretCommand;
 
         #endregion
         
@@ -59,6 +62,7 @@ namespace Runtime.Managers
         private void Init()
         {
             _miniGamePlayDroneCommand = new MiniGamePlayDroneCommand(ref dronePrefab);
+            _miniGamePlayTurretCommand = new MiniGamePlayTurretCommand(ref turretController);
         }
 
         private void OnEnable()
@@ -78,31 +82,13 @@ namespace Runtime.Managers
         private void OnPlayerExitInteractWithMiniGameArea()
         {
             turretController.isPlayerTargeted = false;
+            _isPlayerExited = true;
         }
 
 
         private void OnTurretMiniGamePlay(List<GameObject> collectableObj, bool condition)
         {
-            if (condition) return;
-            turretController.SetTarget(collectableObj[0].transform);
-            turretController.isPlayerTargeted = true;
-            DOVirtual.DelayedCall(1.5f, () =>
-            {
-                if ((bool)MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame?.Invoke()) return;
-                turretController.Shoot();
-                var destroyedCollectableObject = collectableObj[^1].gameObject;
-                collectableObj.Remove(destroyedCollectableObject);
-                destroyedCollectableObject.SetActive(false);
-                var pool = FindObjectOfType<PoolManager>().GetComponentInChildren<Transform>();
-                destroyedCollectableObject.transform.parent = pool;
-                collectableObj.TrimExcess();
-                CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)collectableObj.Count);
-                
-
-            });
-           
-
-
+            _miniGamePlayTurretCommand.Execute(_isPlayerExited, condition, collectableObj);
 
         }
         
@@ -112,6 +98,7 @@ namespace Runtime.Managers
         {
             if (miniGameAreaObject.GetInstanceID() != gameObject.GetInstanceID()) return;
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners?.Invoke(miniGameType);
+            _isPlayerExited = false;
         }
 
 

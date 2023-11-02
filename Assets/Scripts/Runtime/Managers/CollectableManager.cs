@@ -82,9 +82,9 @@ namespace Runtime.Managers
            
             
         }
-        
-        
-        internal void OnSetCollectableAnimation(GameObject collectableObject,CollectableAnimationStates animState)
+
+
+        private void OnSetCollectableAnimation(GameObject collectableObject,CollectableAnimationStates animState)
         {
             if(collectableObject.GetInstanceID() != gameObject.GetInstanceID()) return;
             _collectableSetAnimationCommand.Execute(animState);
@@ -95,6 +95,7 @@ namespace Runtime.Managers
         {
             if (gateColorType == colorType) return;
             SendColorDataToController(_collectableColorData.collectableColor[(int)gateColorType]);
+            colorType = gateColorType;
         }
 
         private void OnCheckCollectablesColors(GameObject collectableObj, GameObject collectableManager)

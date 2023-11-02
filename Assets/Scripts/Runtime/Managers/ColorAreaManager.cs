@@ -82,11 +82,13 @@ namespace Runtime.Managers
             var miniGameManager = gameObject.GetComponentInParent<MiniGameManager>();
             var miniGameManager2 = colorAreaManager.GetComponentInParent<MiniGameManager>();
             if (miniGameManager.GetInstanceID() != miniGameManager2.GetInstanceID()) return;
-            miniGameManager.GetComponentInChildren<ColorAreaManager>().GetComponentInChildren<BoxCollider>().enabled =
-                false;
+            var boxCollider =miniGameManager.GetComponentsInChildren<BoxCollider>();
+            foreach (var collider in boxCollider)
+            {
+                collider.enabled = false;
+            }
             StartCoroutine(OnPlayDroneMiniGame(collectableList,stackManagerTransform));
             
-
         }
         
 

@@ -9,6 +9,7 @@ namespace Runtime.Commands.Stack
         {
             var collectableColorType = collectableObj.GetComponent<CollectableManager>().SendColorType();
             var colorAreaColorType = colorAreaObj.GetComponentInParent<ColorAreaManager>().SendColorType();
+            Debug.LogWarning("CollectableColorType: " + collectableColorType + " ColorAreaColorType:" + colorAreaColorType);
 
             return collectableColorType == colorAreaColorType;
         }

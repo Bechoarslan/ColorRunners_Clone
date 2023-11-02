@@ -92,7 +92,7 @@ namespace Runtime.Controllers.Player
                 case MiniGameType.Drone:
                     
                     CollectableSignals.Instance.onSetUnVisibleCollectableToVisible?.Invoke(true);
-                    DOVirtual.DelayedCall(0.2f, () =>
+                    DOVirtual.DelayedCall(0.1f, () =>
                     {
                         Stop();
                         _colorAreaSpeed = 0;
@@ -110,6 +110,7 @@ namespace Runtime.Controllers.Player
         internal void OnPlayerExitInteractWithMiniGameArea()
         {
             _colorAreaSpeed = 1;
+            Debug.LogWarning("Executed");
         }
 
         internal void ChangeGameState(GameStates gameStates)

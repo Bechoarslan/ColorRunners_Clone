@@ -44,6 +44,7 @@ namespace Runtime.Managers
         private CollectableSetVisibleUnVisibleCollectableCommand _collectableSetVisibleUnVisibleCollectableCommand;
         private CollectableCheckColorIsSameWithColorArea _collectableCheckColorIsSameWithColorArea;
         private CollectableSetColliderEnable _collectableSetColliderEnable;
+        private CollectableMoveToPlayerCommand _collectableMoveToPlayerCommand;
         private bool _isColorSame;
         [ShowInInspector] private bool _isCollectableColorSame;
 
@@ -69,6 +70,7 @@ namespace Runtime.Managers
             _collectableSetVisibleUnVisibleCollectableCommand = new CollectableSetVisibleUnVisibleCollectableCommand(ref _collectableList, ref _stackData);
             _collectableCheckColorIsSameWithColorArea = new CollectableCheckColorIsSameWithColorArea();
             _collectableSetColliderEnable = new CollectableSetColliderEnable(ref _collectableList);
+            _collectableMoveToPlayerCommand = new CollectableMoveToPlayerCommand(ref _collectableList);
 
 
 
@@ -104,25 +106,7 @@ namespace Runtime.Managers
 
         private void OnPlayerExitWithEndArea()
         {
-            for (var i = _collectableList.Count ; i > 0 ; i--)
-            {
-                var pool = FindObjectOfType<PoolManager>().GetComponentInChildren<Transform>();
-                var collectableObj = _collectableList[i - 1];
-                _collectableList.Remove(collectableObj);
-                var playerPosition = _playerManagerTransform.position;
-                var goToPlayerPosition = new Vector3(playerPosition.x, collectableObj.transform.position.y,
-                    playerPosition.z);
-                collectableObj.transform.DOMove(goToPlayerPosition, 1.5f).OnComplete(() =>
-                {
-                    collectableObj.SetActive(false);
-                    collectableObj.transform.parent = pool;
-                    
-                });
-                CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
-            }
-            _collectableList.TrimExcess();
-            
-            
+            _collectableMoveToPlayerCommand.Execute(_playerManagerTransform);
         }
 
         private void OnCheckIsNull()

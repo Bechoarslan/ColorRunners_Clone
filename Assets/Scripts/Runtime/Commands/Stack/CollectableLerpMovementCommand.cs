@@ -21,7 +21,7 @@ namespace Runtime.Commands.Collectable
             {
                 var directX = Mathf.Lerp(_collectableList[0].transform.localPosition.x, playerManager.position.x,
                     _stackData.StackLerpXDelay);
-                var directY = Mathf.Lerp(_collectableList[0].transform.localPosition.y, _collectableList[0].transform.localPosition.y, 1);
+                var directY = Mathf.Lerp(_collectableList[0].transform.localPosition.y, playerManager.position.y - 0.6f, 1);
                 var directZ = Mathf.Lerp(_collectableList[0].transform.localPosition.z,
                     playerManager.position.z - _stackData.StackOffset, _stackData.StackLerpZDelay);
                 _collectableList[0].transform.localPosition = new Vector3(directX, directY, directZ);

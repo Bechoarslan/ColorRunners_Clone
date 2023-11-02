@@ -65,7 +65,7 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
-            CoreGameSignals.Instance.onPlayerInteractWithEndArea += OnPlayerInteractWithEndArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
             CoreGameSignals.Instance.onSetPlayerScale += OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerAnimation += playerMeshController.SetPlayerAnimation;
@@ -101,13 +101,11 @@ namespace Runtime.Managers
         private void OnPlayerExitInteractWithEndArea()
         {
             CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Idle);
+            playerMeshController.gameObject.SetActive(true);
            
         }
 
-        private void OnPlayerInteractWithEndArea()
-        {
-             playerMeshController.gameObject.SetActive(true);
-        }
+       
 
         private void OnPlay()
         {
@@ -132,7 +130,7 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -=
                 playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
             MiniGameSignals.Instance.onPlayerReadyToGo -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
-            CoreGameSignals.Instance.onPlayerInteractWithEndArea -= OnPlayerInteractWithEndArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
             CoreGameSignals.Instance.onSetPlayerScale -= OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerAnimation -= playerMeshController.SetPlayerAnimation;
