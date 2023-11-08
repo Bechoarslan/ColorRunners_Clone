@@ -22,10 +22,7 @@ namespace Runtime.Managers
         #region Self Variables
 
         #region Serialized Variables
-
-        [SerializeField] private GameObject collectableGameObject;
-
-        [SerializeField] private int collectableStackNumber;
+        [SerializeField] private int stackInitCount;
 
         #endregion
 
@@ -208,16 +205,17 @@ namespace Runtime.Managers
 
         private void Start()
         {
-            InitiliazedObject();
+            InitCollectableObject();
         }
 
-        private void InitiliazedObject()
+        private void InitCollectableObject()
         {
-            for (int i = 0; i < 60; i++)
+            for (var i = 0; i < stackInitCount; i++)
             {
-                var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
-                obj.SetActive(true);
-                _collectableAdderCommand.Execute(obj);
+                var collectableObj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
+                if (collectableObj == null) continue;
+                collectableObj.SetActive(true);
+                _collectableAdderCommand.Execute(collectableObj);
             }
         }
 
@@ -240,7 +238,8 @@ namespace Runtime.Managers
 
         private void OnReset()
         {
-            throw new NotImplementedException();
+            _collectableList.Clear();
+            _collectableList.TrimExcess();
         }
     }
 }

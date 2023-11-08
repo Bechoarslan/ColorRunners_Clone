@@ -8,6 +8,6 @@ namespace Runtime.Signals
     {
         public UnityAction onUpdateThrowableCount = delegate { };
         public UnityAction onUpdateLeftEnemyCount = delegate { };
-        public UnityAction<int> onSetNewLevelValue = delegate { };
+        public UnityAction onSetNewLevelValue = delegate { };
     }
 }

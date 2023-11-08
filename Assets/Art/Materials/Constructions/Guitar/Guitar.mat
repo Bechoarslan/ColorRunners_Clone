@@ -207,7 +207,7 @@ Material:
     - _HatchingMapScale: 1
     - _IndexOfRefraction: 0
     - _Initialized: 1
-    - _InputTab: 1
+    - _InputTab: 0
     - _Iridescence: 0
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
@@ -241,7 +241,7 @@ Material:
     - _RimSize: 1
     - _RimSmoothness: 0
     - _RimThresholdOffset: 0.25
-    - _Saturation: 0
+    - _Saturation: 2
     - _SketchMapScale: 1
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0

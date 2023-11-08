@@ -1,27 +1,60 @@
+
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
+using Runtime.Data.UnityObject;
+using Runtime.Data.ValueObject;
+using Runtime.Enums.Environemnt;
+using Runtime.Keys;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
+
 
 namespace Runtime.Managers
 {
     public class EnvironmentManager : MonoBehaviour
     {
+
         #region Self Variables
 
+        #region Serialized Variables
+
+        [SerializeField] private GameObject cityHolder;
+
+
+
+        #endregion
+
+
         #region Private Variables
+        
+        [ShowInInspector] private Dictionary<int,AreaData> _areaDic = new Dictionary<int, AreaData>();
+        private int _cityLevel;
+        private CD_IdleData _idleData;
+        private int _completedArea;
+        private bool _isLevelPlayable;
+        private int _score;
 
-        [SerializeField] private MeshRenderer[] _objMeshRenderer;
-        [ShowInInspector] private float _rateTime;
-        [SerializeField] private float _interval = 0.1f;
-        private static readonly int Saturation = Shader.PropertyToID("_Saturation");
 
         #endregion
 
         #endregion
+
+        private void Awake()
+        {
+            GetReferences();
+        }
+
+        private void GetReferences()
+        {
+            _idleData = GetIdleData();
+        }
+
+        private CD_IdleData GetIdleData()
+        {
+            return Resources.Load<CD_IdleData>("Data/CD_IdleData");
+        }
+
         private void OnEnable()
         {
             SubscribeEvents();
@@ -29,58 +62,130 @@ namespace Runtime.Managers
 
         private void SubscribeEvents()
         {
-            EnvironmentSignals.Instance.onPlayerStayInteractWithEnvironment += OnPlayerStayInteractWithEnvironment;
-            EnvironmentSignals.Instance.onPlayerInteractWithEnvironment += OnPlayerInteractWithEnvironment;
-            EnvironmentSignals.Instance.onPlayerExitInteractWithEnvironment += OnPlayerExitInteractWithEnvironment;
+            EnvironmentSignals.Instance.onEnvironmentCompleted += OnEnvironmentCompleted;
+            EnvironmentSignals.Instance.onSetAreaData += OnSetAreaData;
+            EnvironmentSignals.Instance.onGetAreaData += OnGetAreaData;
+            CoreGameSignals.Instance.onNextLevel += OnNextLevel;
+            CoreGameSignals.Instance.onPlay += OnPlay;
+            CoreGameSignals.Instance.onSendCollectableScore += OnSendCollectableScore;
+            CoreGameSignals.Instance.onSetCollectableScore += OnSetCollectableScore;
+            SaveSignals.Instance.onGetEnvironmetDatas += OnGetEnvironmetDatas;
+            SaveSignals.Instance.onLoadEnvironmentDatas += OnLoadEnvironmentDatas;
         }
 
-        private void OnPlayerExitInteractWithEnvironment()
+        private void OnLoadEnvironmentDatas(EnvironmentDataParams dataParams)
         {
-            _objMeshRenderer = null;
+            _areaDic = dataParams.BuildDatas;
+            _cityLevel = dataParams.CityLevel;
+            _score = dataParams.Score;
+            _completedArea = dataParams.CompletedArea;
         }
 
-        private void OnPlayerInteractWithEnvironment(GameObject buildingObj)
+        private EnvironmentDataParams OnGetEnvironmetDatas()
         {
-            _objMeshRenderer = buildingObj.GetComponentsInChildren<MeshRenderer>();
+            return new EnvironmentDataParams
+            {
+                BuildDatas = _areaDic,
+                CityLevel = _cityLevel,
+                Score = _score,
+                CompletedArea = _completedArea
+            };
+
+        }
+
+        private short OnSendCollectableScore()
+        {
+            return (short)_score;
+        }
+
+        private void OnSetCollectableScore(short score)
+        {
+            _score = score;
             
         }
 
-        private void OnPlayerStayInteractWithEnvironment(GameObject buildingObj)
+
+        private void OnNextLevel()
         {
-
-
-            for (var i = 0; i < _objMeshRenderer.Length - 1; i++)
+            if (_isLevelPlayable)
             {
-                if (!(Time.time - _rateTime >= _interval)) continue;
-                var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
-                if (score <= 0) return;
-                var satFloat = _objMeshRenderer[i].material.GetFloat(Saturation);
-
-                if (satFloat >= 1)
-                {
-                    continue;
-                }
-                
-                EnvironmentSignals.Instance.onPlayerPaintEnvironment?.Invoke();
-                _objMeshRenderer[i].material.DOFloat(satFloat + 0.10f, "_Saturation", 0);
-                _rateTime = Time.time;
-
+                _areaDic.Clear();
+                Destroy(cityHolder.transform.GetChild(0).gameObject);
+                OnInitializeLevel();
+                EnvironmentSignals.Instance.onCityComplete?.Invoke();
+                _isLevelPlayable = false;
             }
-
-
-
+            else
+            {
+                EnvironmentSignals.Instance.onPrepareEnvironmentWithSave?.Invoke();
+            }
         }
 
-        private void UnSubscribeEvents()
+        private void OnSetAreaData(int id, AreaData areaData)
         {
-            EnvironmentSignals.Instance.onPlayerStayInteractWithEnvironment -= OnPlayerStayInteractWithEnvironment;
-            EnvironmentSignals.Instance.onPlayerInteractWithEnvironment -= OnPlayerInteractWithEnvironment;
-            EnvironmentSignals.Instance.onPlayerExitInteractWithEnvironment -= OnPlayerExitInteractWithEnvironment;
+            if (_areaDic.ContainsKey(id))
+                _areaDic[id] = areaData;
+            else
+                _areaDic.Add(id, areaData);
+            SaveSignals.Instance.onSaveData?.Invoke();
         }
+
+        private AreaData OnGetAreaData(int id)
+        {
+            return _areaDic.ContainsKey(id) ? _areaDic[id] : new AreaData();
+
+        }
+
+        private void OnEnvironmentCompleted()
+        {
+            _completedArea++;
+            CityCompleteCheck();
+
+        }
+
+        private void CityCompleteCheck()
+        {
+            if (_completedArea == _idleData.IdleDataList[_cityLevel].BuildCount)
+            {
+                _cityLevel++;
+                _isLevelPlayable = true;
+                _completedArea = 0;
+            }
+                
+        }
+
 
         private void OnDisable()
         {
             UnSubscribeEvents();
+        }
+
+        private void UnSubscribeEvents()
+        {
+            EnvironmentSignals.Instance.onEnvironmentCompleted -= OnEnvironmentCompleted;
+            EnvironmentSignals.Instance.onGetAreaData -= OnGetAreaData;
+            EnvironmentSignals.Instance.onSetAreaData -= OnSetAreaData;
+            CoreGameSignals.Instance.onNextLevel -= OnNextLevel;
+            CoreGameSignals.Instance.onPlay -= OnPlay;
+            CoreGameSignals.Instance.onSendCollectableScore -= OnSendCollectableScore;
+            CoreGameSignals.Instance.onSetCollectableScore -= OnSetCollectableScore;
+            SaveSignals.Instance.onGetEnvironmetDatas -= OnGetEnvironmetDatas;
+            SaveSignals.Instance.onLoadEnvironmentDatas -= OnLoadEnvironmentDatas;
+        }
+
+        private void Start()
+        {
+            OnInitializeLevel();
+        }
+
+        private void OnInitializeLevel()
+        {
+            Instantiate(Resources.Load<GameObject>("Prefabs/CityPrefabs/City 1"), cityHolder.transform);
+        }
+        
+        private void OnPlay()
+        {
+            EnvironmentSignals.Instance.onRefreshEnvironmentData?.Invoke();
         }
     }
 }

@@ -6,16 +6,15 @@ namespace Runtime.Commands.Level
 {
     public class LevelDestroyerCommand : ICommand
     {
-        private LevelManager _levelManager;
-
-        public LevelDestroyerCommand(LevelManager levelManager)
+        private GameObject _levelHolder;
+        public LevelDestroyerCommand(ref GameObject levelHolder)
         {
-            _levelManager = levelManager;
+            _levelHolder = levelHolder;
         }
 
         public void Execute()
         {
-            Object.Destroy(_levelManager.levelHolder.transform.GetChild(0).gameObject);
+            Object.Destroy(_levelHolder.transform.GetChild(0).gameObject);
         }
     }
 }

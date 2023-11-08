@@ -37,9 +37,9 @@ namespace Runtime.Controllers.UI
             UnsubscribeEvents();
         }
 
-        public void OnSetNewLevelValue(int levelValue)
+        public void OnSetNewLevelValue()
         {
-            levelText.text = "LEVEL " + ++levelValue;
+            levelText.text = "LEVEL " + (CoreGameSignals.Instance.onGetLevelID() + 1);
         }
     }
 }

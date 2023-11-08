@@ -25,6 +25,8 @@ namespace Runtime.Managers
         [SerializeField] private float scaleValue = 0.1f;
         [SerializeField] private ParticleSystem particle;
 
+        [SerializeField] private int _playerScore;
+
         #endregion
 
         #region Private Variables
@@ -102,7 +104,8 @@ namespace Runtime.Managers
         {
             CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Idle);
             playerMeshController.gameObject.SetActive(true);
-           
+            _playerScore += 5;
+            
         }
 
        
@@ -111,6 +114,8 @@ namespace Runtime.Managers
         {
             playerMovementController.IsReadyToPlay(true);
             CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Run);
+            if (!ES3.KeyExists("playerScore")) return;
+            
         }
 
         private void OnInputDragged(HorizontalInputParams inputParams)

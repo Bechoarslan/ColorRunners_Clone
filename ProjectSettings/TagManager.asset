@@ -11,10 +11,7 @@ TagManager:
   - MiniGameArea
   - Character 1
   - Character 2
-  - Building
   - EndArea
-  - Guitar
-  - Hospital
   - Environment
   layers:
   - Default

@@ -46,10 +46,10 @@ namespace Runtime.Managers
         }
 
 
-        private void OnLevelInitialize(int levelValue)
+        private void OnLevelInitialize()
         {
             CoreUISignals.Instance.onOpenPanel?.Invoke(UIPanelTypes.Level, 0);
-            UISignals.Instance.onSetNewLevelValue?.Invoke((int)levelValue);
+            UISignals.Instance.onSetNewLevelValue?.Invoke();
           
         }
 

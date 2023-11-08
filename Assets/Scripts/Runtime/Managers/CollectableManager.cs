@@ -21,7 +21,6 @@ namespace Runtime.Managers
 
         [SerializeField] private ColorType colorType;
         [SerializeField] private CollectableMeshController collectableMeshController;
-        [SerializeField] private CollectablePhysicsController collectablePhysicsController;
         [SerializeField] private Animator collectableAnimator;
 
         #endregion
