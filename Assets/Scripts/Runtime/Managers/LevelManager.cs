@@ -93,8 +93,6 @@ namespace Runtime.Managers
         {
             var newLevelData = GetLevelCount();
                 _levelLoader.Execute(newLevelData);
-                Debug.LogWarning("Executed");
-            
         }
 
         private void OnLoadLevelData(LevelDataParams levelData)

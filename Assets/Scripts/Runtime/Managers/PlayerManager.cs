@@ -6,9 +6,11 @@ using Runtime.Controllers.Player;
 using Runtime.Data.UnityObject;
 using Runtime.Data.ValueObject;
 using Runtime.Enums;
+using Runtime.Enums.MiniGame;
 using Runtime.Keys;
 using Runtime.Signals;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -24,6 +26,8 @@ namespace Runtime.Managers
         [SerializeField] private PlayerMeshController playerMeshController;
         [SerializeField] private float scaleValue = 0.1f;
         [SerializeField] private ParticleSystem particle;
+        [SerializeField] private TextMeshPro scoreText;
+        
 
         [SerializeField] private int _playerScore;
 
@@ -62,18 +66,38 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased += playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken += playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay += OnPlay;
-            CoreGameSignals.Instance.onSetCollectableScore += playerMeshController.SetCollectableScore;
+            CoreGameSignals.Instance.onSetCollectableScore += OnSetCollectableScore;
             CoreGameSignals.Instance.onLevelFailed += () =>  playerMovementController.IsReadyToPlay(false);
-            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners +=
-                playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners += OnMiniGameAreaSendToMiniGameTypeToListeners
+                ;
             MiniGameSignals.Instance.onPlayerReadyToGo += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
-            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
             CoreGameSignals.Instance.onSetPlayerScale += OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerAnimation += playerMeshController.SetPlayerAnimation;
             EnvironmentSignals.Instance.onPlayerPaintEnvironment += OnPlayerPaintEnvironment;
 
 
+        }
+
+        private void OnPlayerExitInteractWithMiniGameArea()
+        {
+            playerMovementController.OnPlayerExitInteractWithMiniGameArea();
+        }
+
+        private void OnMiniGameAreaSendToMiniGameTypeToListeners(MiniGameType type)
+        {
+            playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners(type);
+            if (type == MiniGameType.Drone)
+            {
+                scoreText.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnSetCollectableScore(short scoreValue)
+        {
+            scoreText.text = scoreValue.ToString();
+          
         }
 
         [Button]
@@ -112,10 +136,9 @@ namespace Runtime.Managers
 
         private void OnPlay()
         {
+            scoreText.gameObject.SetActive(true);
             playerMovementController.IsReadyToPlay(true);
             CoreGameSignals.Instance.onChangeGameStates?.Invoke(GameStates.Run);
-            if (!ES3.KeyExists("playerScore")) return;
-            
         }
 
         private void OnInputDragged(HorizontalInputParams inputParams)
@@ -130,12 +153,12 @@ namespace Runtime.Managers
             InputSignals.Instance.onInputReleased -= playerMovementController.OnInputReleased;
             InputSignals.Instance.onInputTaken -= playerMovementController.OnInputTaken;
             CoreGameSignals.Instance.onPlay -= OnPlay;
-            CoreGameSignals.Instance.onSetCollectableScore -= playerMeshController.SetCollectableScore;
+            CoreGameSignals.Instance.onSetCollectableScore -= OnSetCollectableScore;
             CoreGameSignals.Instance.onLevelFailed -= () =>  playerMovementController.IsReadyToPlay(false);
-            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -=
-                playerMovementController.OnMiniGameAreaSendToMiniGameTypeToListeners;
+            MiniGameSignals.Instance.onMiniGameAreaSendToMiniGameTypeToListeners -= OnMiniGameAreaSendToMiniGameTypeToListeners
+                ;
             MiniGameSignals.Instance.onPlayerReadyToGo -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
-            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= playerMovementController.OnPlayerExitInteractWithMiniGameArea;
+            MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= OnPlayerExitInteractWithMiniGameArea;
             CoreGameSignals.Instance.onSetPlayerScale -= OnSetPlayerScale;
             CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitInteractWithEndArea;
             CoreGameSignals.Instance.onSetPlayerAnimation -= playerMeshController.SetPlayerAnimation;

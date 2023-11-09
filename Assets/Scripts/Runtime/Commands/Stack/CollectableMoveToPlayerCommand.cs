@@ -33,6 +33,7 @@ namespace Runtime.Commands.Stack
                 });
                 CoreGameSignals.Instance.onSetPlayerScale?.Invoke();
             }
+            _collectableList.Clear();
             _collectableList.TrimExcess();
         }
     }

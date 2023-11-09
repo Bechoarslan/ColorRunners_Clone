@@ -110,7 +110,6 @@ namespace Runtime.Controllers.Player
         internal void OnPlayerExitInteractWithMiniGameArea()
         {
             _colorAreaSpeed = 1;
-            Debug.LogWarning("Executed");
         }
 
         internal void ChangeGameState(GameStates gameStates)

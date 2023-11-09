@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8847843475781472998}
   m_Layer: 0
-  m_Name: level 2
+  m_Name: level 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -270,7 +270,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2674927069646443640, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4046349223122833528, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -282,7 +282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4046349223122833528, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 34.04885
+      value: -5.8
       objectReference: {fileID: 0}
     - target: {fileID: 4046349223122833528, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -314,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5608729131520315707, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: miniGameType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8323367799742874692, guid: b96085ab5c3cf4e3ba73278065e33be6, type: 3}
       propertyPath: path.length

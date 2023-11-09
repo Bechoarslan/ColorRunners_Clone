@@ -26,12 +26,11 @@ namespace Runtime.Commands.Stack
             collectableGameObject.transform.parent = _stackManager.transform;
             _collectableList.Add(collectableGameObject);
             if (_collectableList.Count > _stackData.StackLimit) { collectableGameObject.SetActive(false);}
-            
             var newCollectablePos = _collectableList[^1].transform.position;
             
             collectableGameObject.transform.localPosition = new Vector3(newCollectablePos.x
                 ,newCollectablePos.y,newCollectablePos.z - _stackData.StackOffset * _collectableList.Count * 2);
-            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)_collectableList.Count);
+            CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)_collectableList.Count); 
             
         }
     }

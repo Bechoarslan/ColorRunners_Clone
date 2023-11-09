@@ -100,12 +100,18 @@ namespace Runtime.Managers
             switch (_areaData.EnvironmentStageType)
             {
                 case StageType.Build:
+                    var score = CoreGameSignals.Instance.onSendCollectableScore?.Invoke();
+                    if(score <=0) return;
+                    EnvironmentSignals.Instance.onPlayerPaintEnvironment?.Invoke();
+                    score--;
                     _areaData.BuildValue++;
+                    CoreGameSignals.Instance.onSetCollectableScore?.Invoke((short)score);
                     SetTexts();
                     SetMaterials();
                     if (_buildData.EnvironmentBuildCost == _areaData.BuildValue) ChangeState();
                     break;
                 case StageType.Garden:
+                    EnvironmentSignals.Instance.onPlayerPaintEnvironment?.Invoke();
                     _areaData.GardenValue++;
                     SetTexts();
                     SetMaterials();

@@ -32,7 +32,7 @@ namespace Runtime.Managers
         [ShowInInspector] private List<GameObject> _collectableList = new List<GameObject>();
         [ShowInInspector] private StackData _stackData;
         private readonly string _stackDataPath = "Data/CD_Stack";
-        private Transform _playerManagerTransform;
+        [ShowInInspector]private Transform _playerManagerTransform;
         private CollectableAdderCommand _collectableAdderCommand;
         private CollectableLerpMovementCommand _collectableLerpMovementCommand;
         private CollectableSetAnimationOnPlayCommand _collectableSetAnimationOnPlayCommand;
@@ -44,6 +44,7 @@ namespace Runtime.Managers
         private CollectableMoveToPlayerCommand _collectableMoveToPlayerCommand;
         private bool _isColorSame;
         [ShowInInspector] private bool _isCollectableColorSame;
+       
 
         #endregion
 
@@ -238,8 +239,14 @@ namespace Runtime.Managers
 
         private void OnReset()
         {
-            _collectableList.Clear();
-            _collectableList.TrimExcess();
+            DOVirtual.DelayedCall(0.01f, () =>
+            {
+                InitCollectableObject();
+
+            });
+            
+            
+
         }
     }
 }

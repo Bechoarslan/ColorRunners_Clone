@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6802556807974302894
 RectTransform:
   m_ObjectHideFlags: 0
@@ -320,6 +320,8 @@ MonoBehaviour:
   playerMeshController: {fileID: 4232905757759082718}
   scaleValue: 0.025
   particle: {fileID: 7072230117475522141}
+  scoreText: {fileID: 7886095914554842935}
+  _playerScore: 0
 --- !u!114 &5815433510804750762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fd1382285d34c4a9d084d37370bb1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 7886095914554842935}
   playerAnimator: {fileID: 6216310142763101728}
 --- !u!95 &6216310142763101728
 Animator:

@@ -69,6 +69,7 @@ namespace Runtime.Managers
         private void OnReset()
         {
             transform.position = _initialPosition;
+            OnSetCinemachineTarget();
             
         }
 

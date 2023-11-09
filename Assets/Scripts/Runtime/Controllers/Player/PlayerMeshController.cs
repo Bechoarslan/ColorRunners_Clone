@@ -12,18 +12,12 @@ namespace Runtime.Controllers.Player
         #region Self Variables
 
         #region Serialized Variables
-
-        [SerializeField] private TextMeshPro scoreText;
+        
         [SerializeField] private Animator playerAnimator;
         #endregion
 
         #endregion
         
-
-        internal void SetCollectableScore(short score)
-        {
-            scoreText.text = score.ToString();
-        }
         
         internal void SetPlayerAnimation(bool condition)
         {

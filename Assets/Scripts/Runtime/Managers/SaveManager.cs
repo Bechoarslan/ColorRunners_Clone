@@ -80,7 +80,6 @@ namespace Runtime.Managers
             if (environmentData.Score != null)
             {
                 ES3.Save("Score",environmentData.Score);
-                Debug.LogWarning(environmentData.Score);
                 
             }
 
