@@ -55,7 +55,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 8f30236401d1b38458de578a60389b81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,7 +221,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorType: 0
   collectableMeshController: {fileID: 682683911067032846}
-  collectablePhysicsController: {fileID: 9162679510494592839}
   collectableAnimator: {fileID: 1706192240246987045}
 --- !u!1 &7246286816439705044
 GameObject:

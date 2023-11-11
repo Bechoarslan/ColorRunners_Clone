@@ -42,6 +42,7 @@ namespace Runtime.Managers
         private CollectableCheckColorIsSameWithColorArea _collectableCheckColorIsSameWithColorArea;
         private CollectableSetColliderEnable _collectableSetColliderEnable;
         private CollectableMoveToPlayerCommand _collectableMoveToPlayerCommand;
+        private CollectableDestroyCommand _collectableDestroyCommand;
         private bool _isColorSame;
         [ShowInInspector] private bool _isCollectableColorSame;
        
@@ -69,6 +70,7 @@ namespace Runtime.Managers
             _collectableCheckColorIsSameWithColorArea = new CollectableCheckColorIsSameWithColorArea();
             _collectableSetColliderEnable = new CollectableSetColliderEnable(ref _collectableList);
             _collectableMoveToPlayerCommand = new CollectableMoveToPlayerCommand(ref _collectableList);
+            _collectableDestroyCommand = new CollectableDestroyCommand(ref _collectableList);
 
 
 
@@ -96,11 +98,16 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea += OnPlayerExitInteractWithMiniGameArea;
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty += OnCheckIsNull;
             MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame += () => _isColorSame;
-            
+            CollectableSignals.Instance.onCollectableInteractWithObstacle += OnCollectableInteractWithObstacle;
+
 
         }
 
-        
+        private void OnCollectableInteractWithObstacle(GameObject colObj)
+        {
+            _collectableDestroyCommand.Execute(colObj);
+        }
+
 
         private void OnPlayerExitWithEndArea()
         {
@@ -126,6 +133,9 @@ namespace Runtime.Managers
             for (int i = 0; i < 10; i++)
             {
                 var obj = PoolSignals.Instance.onGetPoolObject?.Invoke(PoolType.Collectable);
+                var getColorType = _collectableList[0].GetComponent<CollectableManager>().SendColorType();
+                obj.GetComponent<CollectableManager>().ChangePoolObjectColor(getColorType);
+                obj.GetComponent<CollectableManager>().colorType = getColorType;
                 obj.SetActive(true);
                 _collectableAdderCommand.Execute(obj);
             }
@@ -174,6 +184,10 @@ namespace Runtime.Managers
                 CollectableSignals.Instance.onSetCollectableAnimation?.Invoke(collectableObject,
                     CollectableAnimationStates.Run);
             }
+            else
+            {
+                _collectableDestroyCommand.Execute(collectableObject);
+            }
         }
 
         private void UnSubscribeEvents()
@@ -191,6 +205,7 @@ namespace Runtime.Managers
             MiniGameSignals.Instance.onPlayerExitInteractWithMiniGameArea -= OnPlayerExitInteractWithMiniGameArea;
             MiniGameSignals.Instance.onCheckCollectableListIsEmpty -= OnCheckIsNull;
             MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame -= () => _isColorSame;
+            CollectableSignals.Instance.onCollectableInteractWithObstacle -= OnCollectableInteractWithObstacle;
            
            
 

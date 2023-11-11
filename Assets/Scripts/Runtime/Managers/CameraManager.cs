@@ -41,6 +41,12 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset += OnReset;    
             CameraSignals.Instance.onSetCinemachineTarget += OnSetCinemachineTarget;
             CameraSignals.Instance.onChangeCameraState += OnChangeCameraState;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea += OnPlayerExitInteractWithEndArea;
+        }
+
+        private void OnPlayerExitInteractWithEndArea()
+        {
+            OnChangeCameraState(CameraStates.MiniGame);
         }
 
         private void OnChangeCameraState(CameraStates state)
@@ -64,6 +70,7 @@ namespace Runtime.Managers
             CoreGameSignals.Instance.onReset -= OnReset;
              CameraSignals.Instance.onSetCinemachineTarget -= OnSetCinemachineTarget;
             CameraSignals.Instance.onChangeCameraState -= OnChangeCameraState;
+            CoreGameSignals.Instance.onPlayerExitInteractWithEndArea -= OnPlayerExitInteractWithEndArea;
         }
 
         private void OnReset()

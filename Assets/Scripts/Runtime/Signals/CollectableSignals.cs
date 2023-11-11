@@ -17,6 +17,9 @@ namespace Runtime.Signals
         public UnityAction<bool> onSetUnVisibleCollectableToVisible = delegate {  };
         
         
+        public UnityAction<GameObject> onCollectableInteractWithObstacle = delegate {  };
+        
+        
         
         
         

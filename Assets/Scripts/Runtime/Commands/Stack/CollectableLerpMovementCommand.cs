@@ -23,7 +23,7 @@ namespace Runtime.Commands.Collectable
                     _stackData.StackLerpXDelay);
                 var directY = Mathf.Lerp(_collectableList[0].transform.localPosition.y, playerManager.position.y - 0.6f, 1);
                 var directZ = Mathf.Lerp(_collectableList[0].transform.localPosition.z,
-                    playerManager.position.z - _stackData.StackOffset, _stackData.StackLerpZDelay);
+                    playerManager.position.z + 23, _stackData.StackLerpZDelay);
                 _collectableList[0].transform.localPosition = new Vector3(directX, directY, directZ);
 
                 _collectableList[0]

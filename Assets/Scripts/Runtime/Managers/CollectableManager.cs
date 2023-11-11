@@ -19,7 +19,7 @@ namespace Runtime.Managers
 
         #region Serialized Variables
 
-        [SerializeField] private ColorType colorType;
+        [SerializeField] public ColorType colorType;
         [SerializeField] private CollectableMeshController collectableMeshController;
         [SerializeField] private Animator collectableAnimator;
 
@@ -53,6 +53,11 @@ namespace Runtime.Managers
         private void SendColorDataToController(ColorData collectableColor)
         {
            collectableMeshController.GetColorDataFromManager(collectableColor);
+        }
+
+        public void ChangePoolObjectColor(ColorType colorType)
+        {
+            SendColorDataToController(_collectableColorData.collectableColor[(int)colorType]);
         }
 
         private void Init()
@@ -93,8 +98,10 @@ namespace Runtime.Managers
         private void OnSendGateColorType(ColorType gateColorType)
         {
             if (gateColorType == colorType) return;
+            if (!gameObject.CompareTag("Collected")) return;
             SendColorDataToController(_collectableColorData.collectableColor[(int)gateColorType]);
             colorType = gateColorType;
+
         }
 
         private void OnCheckCollectablesColors(GameObject collectableObj, GameObject collectableManager)

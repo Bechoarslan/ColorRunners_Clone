@@ -17,12 +17,14 @@ namespace Runtime.Commands.MiniGame
 
         public void Execute(bool isPlayerExited, bool condition, List<GameObject> collectableObj)
         {
+           
             if (isPlayerExited) return;
             if (condition) return;
             _turretController.SetTarget(collectableObj[0].transform);
             _turretController.isPlayerTargeted = true;
             DOVirtual.DelayedCall(0.2f, () =>
             {
+               
                 if (MiniGameSignals.Instance.onCheckColorAgainForTurretMiniGame?.Invoke() == true) return;
                 _turretController.Shoot();
                 var destroyedCollectableObject = collectableObj[^1].gameObject;

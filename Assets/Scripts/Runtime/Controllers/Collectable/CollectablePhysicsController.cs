@@ -14,6 +14,7 @@ namespace Runtime.Controllers.Collectable
         private readonly string _collected = "Collected";
         private readonly string _miniGameArea = "MiniGameArea";
         private readonly string _colorArea = "ColorCheckArea";
+        private readonly string _obstacle = "Obstacle";
 
         #endregion
         private void OnTriggerEnter(Collider other)
@@ -32,6 +33,11 @@ namespace Runtime.Controllers.Collectable
             {
                 CollectableSignals.Instance.onCollectableInteractWithGate?.Invoke(other.transform.parent.gameObject);
                 
+            }
+
+            if (other.CompareTag(_obstacle))
+            {
+                CollectableSignals.Instance.onCollectableInteractWithObstacle?.Invoke(transform.parent.gameObject);
             }
             
 
